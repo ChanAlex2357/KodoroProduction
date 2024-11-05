@@ -2,10 +2,13 @@ package mg.kodoro.bloc;
 
 import java.util.Date;
 
+import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
+import utilitaire.UtilDB;
 import utils.TimeUtils;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.ParseException;
 
 public class Bloc extends MaClassMAPTable{
@@ -127,4 +130,22 @@ public class Bloc extends MaClassMAPTable{
         this.preparePk("BLC", "GET_BLOC_SEQ");
         this.setIdBloc( makePK(c) );
     }
+
+    static public Bloc[] getAllBlocs(){
+        Bloc[] blocs = new Bloc[0];
+        Connection conn = new UtilDB().GetConn();
+        try {
+            blocs = (Bloc[]) CGenUtil.rechercher(new Bloc() , null , null , conn , "");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
+        finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return blocs;
+    } 
 }
