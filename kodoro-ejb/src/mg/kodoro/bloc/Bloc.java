@@ -4,6 +4,7 @@ import java.util.Date;
 
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.utils.ValidationUtils;
 import utilitaire.UtilDB;
 import utils.TimeUtils;
 
@@ -36,7 +37,7 @@ public class Bloc extends MaClassMAPTable{
     }
 
     public void setLongueur(String longueur) {
-        this.longueur = validatePositiveDouble(longueur);
+        this.longueur = ValidationUtils.validatePositiveDouble(longueur);
     }
 
     public double getLargeur() {
@@ -44,7 +45,7 @@ public class Bloc extends MaClassMAPTable{
     }
 
     public void setLargeur(String largeur) {
-        this.largeur = validatePositiveDouble(largeur);
+        this.largeur = ValidationUtils.validatePositiveDouble(largeur);
         if (this.longueur <= this.largeur) {
             throw new IllegalArgumentException("La longueur doit être supérieure à la largeur.");
         }
@@ -55,7 +56,7 @@ public class Bloc extends MaClassMAPTable{
     }
 
     public void setEpaisseur(String epaisseur) {
-        this.epaisseur = validatePositiveDouble(epaisseur);
+        this.epaisseur = ValidationUtils.validatePositiveDouble(epaisseur);
     }
 
     public Date getDateFabrication() {
@@ -74,7 +75,7 @@ public class Bloc extends MaClassMAPTable{
     }
 
     public void setPrixFabrication(String prixFabrication) {
-        this.prixFabrication = validatePositiveDouble(prixFabrication);
+        this.prixFabrication = ValidationUtils.validatePositiveDouble(prixFabrication);
     }
 
     public String getOriginalSource() {
@@ -91,15 +92,6 @@ public class Bloc extends MaClassMAPTable{
 
     public void setParentSource(String parentSource) {
         this.parentSource = parentSource;
-    }
-
-    // Helper to validate positive double values
-    private double validatePositiveDouble(String value) {
-        double val = Double.parseDouble(value);
-        if (val <= 0) {
-            throw new IllegalArgumentException("La valeur doit être supérieure à zéro.");
-        }
-        return val;
     }
 
     // Calculate volume
