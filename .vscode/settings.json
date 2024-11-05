@@ -1,0 +1,7 @@
+{
+    "java.project.sourcePaths": ["kodoro-ejb/src","kodoro-war/src"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "build-file/lib/**/*.jar"
+    ]
+}

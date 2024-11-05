@@ -1,46 +1,141 @@
-<project name="ejb-project" basedir="." default="deploy">
-    <!-- Set paths -->
-    <property name="src.dir" value="src" />
-    <property name="build.dir" value="build" />
-    <property name="dist.dir" value="dist" />
-    <property name="lib.dir" value="lib" />
-    <property name="resources.dir" value="src/resources" />
-    <!-- Set WildFly home directory -->
-    <property name="wildfly.home" value="D:\Softwares\wildfly-10.0.0.Final\standalone\deployments" />
-    <property name="wildfly.deploy.dir" value="${wildfly.home}\standalone\deployments" />
+<project name="deploy-ejb-kodoro" default="deploy" basedir="./build-file">
+    <property environment="env"/>
 
-    <!-- Task to compile the EJB classes -->
-    <target name="compile" depends="clean">
-        <mkdir dir="${build.dir}" />
-        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false">
-            <classpath>
-                <fileset dir="${lib.dir}" includes="*.jar" />
-            </classpath>
-        </javac>
-        <copy todir="${build.dir}">
-            <fileset dir="${resources.dir}" />
+    <property name="deploy.dir" value="D:\Softwares\wildfly-10.0.0.Final\standalone\deployments"/>
+
+    <property name="kodoro-warname" value="kodoro.war"/>
+    <property name="kodoro-jarname" value="kodoro-ejb.jar"/>
+    <property name="kodoro-earname" value="kodoro.ear"/>
+    <property name="srcejb-dir" value="./kodoro-ejb/src"/>
+    <property name="srcwar-dir" value="./kodoro-war/src"/>
+    
+    <property name="build-kodoro-war_war" value="${basedir}/kodoro_war" />
+    <property name="build-kodoro-ejb_jar" value="${basedir}/kodoro_jar" />
+    <property name="build-kodoro-lib" value="${basedir}/lib" />
+    
+    <property name="buildEar.dir" value="${basedir}/ear"/>
+    <property name="webcontent.dir" value="../kodoro-war/web"/>
+    
+    <property name="srcproperties.dir" value="../kodoro-ejb/src/resources"/>
+
+    <path id="classpath">
+        <fileset dir="${basedir}\lib">
+            <include name="**/*.jar" />
+        </fileset>
+    </path>
+
+    <target name="clean" >
+        <echo> 
+            ---- Compilation kodoro ----------------
+        </echo>
+        <echo>JDK ${ant.java.version}  ${ant.version}  </echo>
+        <echo> clean </echo>
+        
+        <delete file="${build-kodoro-ejb_jar}" />
+        <delete file="${build-kodoro-war_war}" />
+        <delete file="${build-kodoro-lib}" />
+        <delete file="${basedir}/${kodoro-earname}" />
+        <delete file="${buildEar.dir}/${kodoro-earname}" />
+		
+        <echo> clean done </echo>
+    </target>
+	
+    <tstamp>
+        <format property="dateDuJour" pattern="dd/MM/yyyy hh:mm aa" />
+    </tstamp>
+	
+    <target name="init" depends="clean">
+        <echo> initialisation ${dateDuJour} </echo>
+        
+        <mkdir dir="${build-kodoro-war_war}"/>
+        <mkdir dir="${build-kodoro-war_war}/WEB-INF"/>
+        <mkdir dir="${build-kodoro-war_war}/WEB-INF/lib"/>
+        <mkdir dir="${build-kodoro-war_war}/WEB-INF/classes"/>
+        <mkdir dir="${build-kodoro-war_war}/META-INF"/>
+        <mkdir dir="${build-kodoro-war_war}/WEB-INF/classes/META-INF"/>
+        
+        <mkdir dir="${build-kodoro-ejb_jar}"/>
+		
+		
+        <echo file="${webcontent.dir}/dateBuild.txt" append="false" message="${dateDuJour}" />
+        
+        <copy todir="${build-kodoro-war_war}/">
+            <fileset dir="${webcontent.dir}" excludes="META-INF/**"/>
+        </copy>
+        <copy todir="${build-kodoro-war_war}/META-INF">
+            <fileset dir="${webcontent.dir}/WEB-INF/META-INF" />
+        </copy>
+        <copy todir="${build-kodoro-war_war}/WEB-INF/lib/">
+            <fileset dir="${basedir}\lib" />
+        </copy>
+
+        <copy file="../kodoro-ejb/src/project.properties" tofile="${build-kodoro-ejb_jar}/project.properties" />
+		<copy file="../kodoro-ejb/src/apj.properties" tofile="${build-kodoro-ejb_jar}/apj.properties" />
+		<copy file="../kodoro-ejb/src/resources/text.properties" tofile="${build-kodoro-ejb_jar}/resources/text.properties" />
+		<copy file="../kodoro-ejb/src/resources/text_zh.properties" tofile="${build-kodoro-ejb_jar}/resources/text_zh.properties" />
+        <echo>  initialisation done </echo>
+        <copy todir="${build-kodoro-war_war}/WEB-INF">
+            <fileset dir="./../kodoro-war/web/WEB-INF" includes="**/*.xml" />
         </copy>
     </target>
+	
+    <target name="compile" depends="init">
+        <echo> compilation </echo>	
+        <javac srcdir="../kodoro-ejb/src" destdir="${build-kodoro-ejb_jar}" nowarn="true" debug="on" deprecation="off" classpathref="classpath" includeantruntime="false" encoding="iso-8859-1">
+            <classpath>
+                <pathelement location="${buildEar.dir}/${station-jarname}" />
+            </classpath>
+        </javac>
 
-    <!-- Task to create the EJB JAR file -->
-    <target name="jar" depends="compile">
-        <mkdir dir="${dist.dir}" />
-        <jar destfile="${dist.dir}/kodoro.jar" basedir="${build.dir}" />
-        <!-- Include external libraries into the JAR -->
-<!--        <jar destfile="${dist.dir}/kodoro-with-dependencies.jar" basedir="${build.dir}">-->
-<!--            <fileset dir="${lib.dir}" includes="*.jar" />-->
-<!--        </jar>-->
+        <echo> compilation done </echo>	
+    </target>
+    
+    <target name="buildEjbJar" depends="compile">
+        <echo>Build EJB JAR</echo>
+        <jar basedir="${build-kodoro-ejb_jar}" destfile="${buildEar.dir}/${kodoro-jarname}" />
+        <copy file="${buildEar.dir}/${kodoro-jarname}" todir="${build-kodoro-war_war}/WEB-INF/lib/">
+        </copy>
+        <echo>End Build EJB JAR</echo>
     </target>
 
-    <!-- Task to deploy the JAR file to WildFly -->
-    <target name="deploy" depends="jar">
-        <copy file="${dist.dir}/kodoro.jar" todir="${wildfly.deploy.dir}" />
-        <echo message="Deployed kodoro.jar to WildFly." />
+    <target name="compileWar" depends="buildEjbJar">
+        <echo> compilation </echo>
+        <javac srcdir="../kodoro-war/src" destdir="${build-kodoro-war_war}/WEB-INF/classes/" nowarn="true" debug="on" deprecation="off" classpathref="classpath" includeantruntime="false" encoding="iso-8859-1">
+            <classpath>
+                <pathelement location="${buildEar.dir}/${kodoro-jarname}" />
+            </classpath>
+        </javac>
+        <echo> compilation done</echo>
     </target>
 
-    <!-- Clean the build directories -->
-    <target name="clean">
-        <delete dir="${build.dir}" />
-        <delete dir="${dist.dir}" />
+
+    <target name="copieProperties" depends="compileWar">
+        <echo> Copie des properties</echo>
+        <copy file="${srcproperties.dir}/text.properties" todir="${build-kodoro-war_war}/WEB-INF/classes">
+        </copy>
+        <copy file="${srcproperties.dir}/text_zh.properties" todir="${build-kodoro-war_war}/WEB-INF/classes">
+        </copy>
+        <echo> Fin de la copie </echo>
+    </target>
+	
+	
+    <target name="deploy" depends="copieProperties">	
+        <echo>${env.JBOSS_HOME}</echo>
+        <!--<echo> deployement ear </echo>-->
+        <!--                <copy todir="${deploy.dir}">
+            <fileset dir="${build.dir}" >
+                <include name="${ketrika-earname}"/>
+            </fileset>	
+        </copy>-->
+        <copy todir="${deploy.dir}/kodoro.war">
+            <fileset dir="${build-kodoro-war_war}" >
+                <include name="**/*"/>
+            </fileset>	
+        </copy>
+        <touch file="${deploy.dir}/kodoro.war.dodeploy"/>
+        <echo> deployement exploded war done </echo>	
+        <echo> 
+            Compilation kodoro GENIUS_ART_C [DONE]----------------
+        </echo>
     </target>
 </project>
