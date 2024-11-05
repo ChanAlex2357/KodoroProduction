@@ -22,8 +22,52 @@ public class Bloc extends MaClassMAPTable{
     private double prixFabrication;
     private String originalSource;
     private String parentSource;
-    
+    public Bloc(){}
+
+    public Bloc (String longueur , String largeur ,String epasseur , String dateFab , String prixFab) throws ParseException{
+        setLongueur(longueur);
+        setLargeur(largeur);
+        setEpaisseur(epasseur);
+        setDateFabrication(dateFab);
+        setPrixFabrication(prixFab);
+    }
+    public Bloc(double longueur , double largeur , double epaisseur , Date dateFab , double prixFab){
+        setLongueur(longueur);
+        setLargeur(largeur);
+        setEpaisseur(epaisseur);
+        setDateFabrication(dateFab);
+        setPrixFabrication(prixFab);
+    }
     // Getters and Setters
+    
+    
+        public void setLongueur(double longueur) {
+            longueur = ValidationUtils.validatePositiveDouble(longueur);
+            this.longueur = longueur;
+        }
+        
+        
+        public void setLargeur(double largeur) {
+            largeur = ValidationUtils.validatePositiveDouble(largeur);
+            this.largeur = largeur;
+        }
+    
+    
+        public void setEpaisseur(double epaisseur) {
+            epaisseur = ValidationUtils.validatePositiveDouble(epaisseur);
+            this.epaisseur = epaisseur;
+        }
+    
+    
+        public void setDateFabrication(Date dateFabrication) {
+            this.dateFabrication = dateFabrication;
+        }
+    
+    
+        public void setPrixFabrication(double prixFabrication) {
+            prixFabrication = ValidationUtils.validatePositiveDouble(prixFabrication);
+            this.prixFabrication = prixFabrication;
+        } 
     public String getIdBloc() {
         return idBloc;
     }
@@ -37,7 +81,10 @@ public class Bloc extends MaClassMAPTable{
     }
 
     public void setLongueur(String longueur) {
-        this.longueur = ValidationUtils.validatePositiveDouble(longueur);
+        if (longueur == null) {
+            throw new IllegalArgumentException("Veuillez saisir une valeur de longueur valide");
+        }
+        this.setLongueur(ValidationUtils.validatePositiveStringDouble(longueur));
     }
 
     public double getLargeur() {
@@ -45,10 +92,10 @@ public class Bloc extends MaClassMAPTable{
     }
 
     public void setLargeur(String largeur) {
-        this.largeur = ValidationUtils.validatePositiveDouble(largeur);
-        if (this.longueur <= this.largeur) {
-            throw new IllegalArgumentException("La longueur doit être supérieure à la largeur.");
+        if (largeur == null) {
+            throw new IllegalArgumentException("Veuillez saisir une valeur de largeur valide");
         }
+        this.setLargeur(ValidationUtils.validatePositiveStringDouble(largeur));
     }
 
     public double getEpaisseur() {
@@ -56,7 +103,10 @@ public class Bloc extends MaClassMAPTable{
     }
 
     public void setEpaisseur(String epaisseur) {
-        this.epaisseur = ValidationUtils.validatePositiveDouble(epaisseur);
+        if (epaisseur == null){
+            throw new IllegalArgumentException("Veuillez saisir une valeur d'eppaisseur valide");
+        }
+        setEpaisseur(ValidationUtils.validatePositiveStringDouble(epaisseur));
     }
 
     public Date getDateFabrication() {
@@ -67,7 +117,7 @@ public class Bloc extends MaClassMAPTable{
         if (dateFabrication == null) {
             throw new IllegalArgumentException ("Veuillez saisir une date valide");
         }
-        this.dateFabrication = TimeUtils.convertToSqlDate(dateFabrication,"eng");
+        setDateFabrication(TimeUtils.convertToSqlDate(dateFabrication,"eng"));
     }
 
     public double getPrixFabrication() {
@@ -75,7 +125,7 @@ public class Bloc extends MaClassMAPTable{
     }
 
     public void setPrixFabrication(String prixFabrication) {
-        this.prixFabrication = ValidationUtils.validatePositiveDouble(prixFabrication);
+        this.prixFabrication = ValidationUtils.validatePositiveStringDouble(prixFabrication);
     }
 
     public String getOriginalSource() {
@@ -99,10 +149,12 @@ public class Bloc extends MaClassMAPTable{
         return longueur * largeur * epaisseur;
     }
 
+
+
     @Override
     public MaClassMAPTable createObject(Connection localconn, Connection remoteconn) throws Exception {
         this.createObject(localconn);
-        /// Generer le mouvement de stock dans la base distante
+        //! Generer le mouvement de stock dans la base distante
         return this;
     }
 
@@ -122,6 +174,18 @@ public class Bloc extends MaClassMAPTable{
         this.preparePk("BLC", "GET_BLOC_SEQ");
         this.setIdBloc( makePK(c) );
     }
+    @Override
+    public MaClassMAPTable createObject(Connection c) throws Exception {
+        controlerTaille(); 
+        return super.createObject(c);
+    }
+
+    public void controlerTaille() throws Exception{
+        if (this.getLongueur() <= this.getLargeur() ) {
+            throw new Exception("La taille du bloc est invalide ; La longueur doit être supérieure à la largeur.");
+        }
+    }
+    
 
     static public Bloc[] getAllBlocs(){
         Bloc[] blocs = new Bloc[0];
@@ -139,5 +203,5 @@ public class Bloc extends MaClassMAPTable{
             }
         }
         return blocs;
-    } 
+    }
 }
