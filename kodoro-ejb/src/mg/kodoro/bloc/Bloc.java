@@ -1,6 +1,6 @@
 package mg.kodoro.bloc;
 
-import java.util.Date;
+import java.sql.Date;
 
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
@@ -11,27 +11,51 @@ import utils.TimeUtils;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class Bloc extends MaClassMAPTable{
     private String idBloc;
-    
+    private String desce;
     private double longueur;
     private double largeur;
     private double epaisseur;
     private Date dateFabrication;
     private double prixFabrication;
-    private String originalSource;
-    private String parentSource;
-    public Bloc(){}
+    private String idOriginalSource;
+    private String idParentSource;
+    @Override
+public String toString() {
+    return "Bloc{" +
+            "idBloc='" + idBloc + '\'' +
+            ", description='" + desce + '\'' +
+            ", longueur=" + longueur +
+            ", largeur=" + largeur +
+            ", epaisseur=" + epaisseur +
+            ", dateFabrication=" + (dateFabrication != null ? new SimpleDateFormat("yyyy-MM-dd").format(dateFabrication) : "null") +
+            ", prixFabrication=" + prixFabrication +
+            ", idOriginalSource='" + idOriginalSource + '\'' +
+            ", idParentSource='" + idParentSource + '\'' +
+            '}';
+}
 
+    public Bloc(){
+        setNomTable("BLOC");
+    }
+    
     public Bloc (String longueur , String largeur ,String epasseur , String dateFab , String prixFab) throws ParseException{
+        setNomTable("BLOC");
+
         setLongueur(longueur);
         setLargeur(largeur);
         setEpaisseur(epasseur);
         setDateFabrication(dateFab);
         setPrixFabrication(prixFab);
+        setIdOriginalSource(null);
+        setIdParentSource(null);
     }
     public Bloc(double longueur , double largeur , double epaisseur , Date dateFab , double prixFab){
+        setNomTable("BLOC");
+        
         setLongueur(longueur);
         setLargeur(largeur);
         setEpaisseur(epaisseur);
@@ -39,35 +63,43 @@ public class Bloc extends MaClassMAPTable{
         setPrixFabrication(prixFab);
     }
     // Getters and Setters
+    public String getDesce() {
+        return desce;
+    }
+
+    public void setDesce(String desce) {
+        this.desce = desce;
+    }
     
+    public void setLongueur(double longueur) {
+        longueur = ValidationUtils.validatePositiveDouble(longueur);
+        this.longueur = longueur;
+    }
     
-        public void setLongueur(double longueur) {
-            longueur = ValidationUtils.validatePositiveDouble(longueur);
-            this.longueur = longueur;
+    public void setLargeur(double largeur) {
+        largeur = ValidationUtils.validatePositiveDouble(largeur);
+        this.largeur = largeur;
+    }
+
+
+    public void setEpaisseur(double epaisseur) {
+        epaisseur = ValidationUtils.validatePositiveDouble(epaisseur);
+        this.epaisseur = epaisseur;
+    }
+
+
+    public void setDateFabrication(Date dateFabrication) {
+        if (dateFabrication == null) {
+            throw new IllegalArgumentException("La date de fabrication ne peut pas etre null");
         }
-        
-        
-        public void setLargeur(double largeur) {
-            largeur = ValidationUtils.validatePositiveDouble(largeur);
-            this.largeur = largeur;
-        }
-    
-    
-        public void setEpaisseur(double epaisseur) {
-            epaisseur = ValidationUtils.validatePositiveDouble(epaisseur);
-            this.epaisseur = epaisseur;
-        }
-    
-    
-        public void setDateFabrication(Date dateFabrication) {
-            this.dateFabrication = dateFabrication;
-        }
-    
-    
-        public void setPrixFabrication(double prixFabrication) {
-            prixFabrication = ValidationUtils.validatePositiveDouble(prixFabrication);
-            this.prixFabrication = prixFabrication;
-        } 
+        this.dateFabrication = dateFabrication;
+    }
+
+
+    public void setPrixFabrication(double prixFabrication) {
+        prixFabrication = ValidationUtils.validatePositiveDouble(prixFabrication);
+        this.prixFabrication = prixFabrication;
+    } 
     public String getIdBloc() {
         return idBloc;
     }
@@ -110,13 +142,14 @@ public class Bloc extends MaClassMAPTable{
     }
 
     public Date getDateFabrication() {
-        return dateFabrication;
+        return this.dateFabrication;
     }
 
     public void setDateFabrication(String dateFabrication) throws ParseException {
         if (dateFabrication == null) {
             throw new IllegalArgumentException ("Veuillez saisir une date valide");
         }
+        System.out.println("DATE FABRICATION : "+dateFabrication);
         setDateFabrication(TimeUtils.convertToSqlDate(dateFabrication,"eng"));
     }
 
@@ -128,20 +161,20 @@ public class Bloc extends MaClassMAPTable{
         this.prixFabrication = ValidationUtils.validatePositiveStringDouble(prixFabrication);
     }
 
-    public String getOriginalSource() {
-        return originalSource;
+    public String getIdOriginalSource() {
+        return idOriginalSource;
     }
 
-    public void setOriginalSource(String originalSource) {
-        this.originalSource = originalSource;
+    public void setIdOriginalSource(String originalSource) {
+        this.idOriginalSource = originalSource;
     }
 
-    public String getParentSource() {
-        return parentSource;
+    public String getIdParentSource() {
+        return idParentSource;
     }
 
-    public void setParentSource(String parentSource) {
-        this.parentSource = parentSource;
+    public void setIdParentSource(String parentSource) {
+        this.idParentSource = parentSource;
     }
 
     // Calculate volume
@@ -176,7 +209,15 @@ public class Bloc extends MaClassMAPTable{
     }
     @Override
     public MaClassMAPTable createObject(Connection c) throws Exception {
-        controlerTaille(); 
+        controlerTaille();
+        if (this.getTuppleID() == null || this.getTuppleID().compareToIgnoreCase("") == 0 || this.getTuppleID().compareToIgnoreCase("0") == 0) {
+            this.construirePK(c);
+        } 
+        if (desce == null) {
+            this.setDesce( "Fabrication du bloc "+this.getIdBloc());
+        }
+
+        System.out.println(this);
         return super.createObject(c);
     }
 
