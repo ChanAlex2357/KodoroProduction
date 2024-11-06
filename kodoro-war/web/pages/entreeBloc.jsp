@@ -7,7 +7,7 @@
 
 <div class="container mt-5">
     <h2 class="text-center mb-4" style="color: #FFC107;">Insertion de Bloc</h2>
-    <form action="insererBlocAction.jsp" method="post" class="needs-validation" novalidate>
+    <form action="entreebloc" method="post" class="needs-validation" novalidate>
         <div class="form-group">
             <label for="longueur" style="color: #FFC107;">Longueur (m)</label>
             <input type="number" step="0.01" class="form-control" id="longueur" name="longueur" required>
@@ -46,6 +46,7 @@
 <table class="table table-striped mt-3">
     <thead class="thead-dark">
         <tr>
+            <th scope="col">Id</th>
             <th scope="col">Longueur (m)</th>
             <th scope="col">Largeur (m)</th>
             <th scope="col">Épaisseur (m)</th>
@@ -59,11 +60,12 @@
                 for (Bloc bloc : blocList) {
         %>
                     <tr>
+                        <td><%= bloc.getIdBloc() %></td>
                         <td><%= bloc.getLongueur() %></td>
                         <td><%= bloc.getLargeur() %></td>
                         <td><%= bloc.getEpaisseur() %></td>
                         <td><%= bloc.getPrixFabrication() %></td>
-                        <td><%= bloc.getDaty() %></td>
+                        <td><%= bloc.getDateFabrication() %></td>
                     </tr>
         <%
                 }
