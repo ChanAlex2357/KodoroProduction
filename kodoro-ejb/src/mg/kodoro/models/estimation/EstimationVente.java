@@ -10,15 +10,22 @@ public class EstimationVente {
     private Bloc[] blocRestantes;
     private Transformation[] transformation;
     private TransformationFille[] detailsTransformation;
-    private double estimationVente = 30987;
+    private double estimationVente = -1;
     private double estimationResteRapportVolumePrix = 1234;
     private double estimationResteVolumeMinimal = 5678;
     private Bloc bloc;
-    
+
     public EstimationVente(Bloc bloc){
         setBloc(bloc);
     }
-    public double getEstimationVente() {
+    public double getEstimationVente(){
+        return this.estimationVente;
+    }
+    public double getEstimationVente(Connection conn) throws Exception {
+        if (this.estimationVente < 0) {
+            return this.estimationVente;
+        }
+        setEstimationVente(getBloc().getEstimationVente(conn));
         return estimationVente;
     }
     public double getEstimationResteRapportVolumePrix() {

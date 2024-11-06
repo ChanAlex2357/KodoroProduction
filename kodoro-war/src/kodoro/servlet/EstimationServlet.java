@@ -20,6 +20,7 @@ import utilitaire.UtilDB;
             Connection conn = new UtilDB().GetConn();
             try {
                 AdminEstimation adminEstimation = AdminEstimation.getEstimations(conn);
+                
                 req.setAttribute("adminestimation", adminEstimation);
             } catch (Exception e) {
                 e.printStackTrace();

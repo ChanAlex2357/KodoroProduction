@@ -17,11 +17,14 @@ public class AdminEstimation {
     public void setEstimations(List<EstimationVente> estimations) {
         this.estimations = estimations;
     }
-    public static AdminEstimation getEstimations(Connection conn){
+    public static AdminEstimation getEstimations(Connection conn) throws Exception{
         Bloc[] blocs = Bloc.getAllBlocs();
         AdminEstimation adminEstimation =  new AdminEstimation();
         for (Bloc bloc : blocs) {
-            adminEstimation.getEstimations().add( new EstimationVente(bloc));
+            EstimationVente estimationVente =  new EstimationVente(bloc);
+            estimationVente.getEstimationVente(conn);
+            adminEstimation.getEstimations().add(estimationVente);
+
         }
         return adminEstimation;
     }

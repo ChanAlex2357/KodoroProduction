@@ -35,7 +35,7 @@
                         double volumeRestante = 0; // Exemple de calcul pour le volume restante
             %>
                         <tr>
-                            <td><%= estimation.getIdBloc() %></td>
+                            <td><%= estimation.getBloc().getIdBloc() %></td>
                             <td><%= estimation.getBloc().getVolume() %> m³</td>
                             <td><%= volumeRestante %> m³</td>
                             <!-- Collapse trigger for Estimations -->
