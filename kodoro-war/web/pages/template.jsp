@@ -17,7 +17,7 @@
             <ul>
                 <li><a href="entreebloc">Entrée Bloc</a></li>
                 <li><a href="transformation">Transformation</a></li>
-                <li><a href="etatstock">État de Stock</a></li>
+                <li><a href="estimation">État de Stock</a></li>
             </ul>
         </nav>
     </header>

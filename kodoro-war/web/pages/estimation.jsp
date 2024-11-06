@@ -1,9 +1,19 @@
 <%@ page import="mg.kodoro.models.estimation.EstimationVente" %>
+<%@ page import="mg.kodoro.models.estimation.AdminEstimation" %>
 <%@ page import="java.util.List" %>
 
 <%
     // Supposons que nous avons une liste d'objets EstimationVente pour remplir le tableau
-    List<EstimationVente> estimations = (List<EstimationVente>) request.getAttribute("estimations");
+    Object obj = request,getAttribute("adminestimation");
+
+    if( obj == null) { 
+%>
+        <h1>Aucune estimation possible</h1>
+<% }
+    else {
+
+    AdminEstimation adminEstimation = (AdminEstimation) 
+    List<EstimationVente> estimations = adminEstimation.getEstimations();
 %>
 
 <div class="container mt-5">
@@ -74,3 +84,5 @@
 <!-- JavaScript pour activer le collapse (nécessite jQuery et Bootstrap JS) -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<%    }
+%>

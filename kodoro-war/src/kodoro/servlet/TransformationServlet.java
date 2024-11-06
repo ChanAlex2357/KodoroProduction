@@ -45,6 +45,8 @@ public class TransformationServlet extends HttpServlet {
                 TransformationCPL trasCPL = new TransformationCPL(idBloc, margePourcentage,dateTransformation, idDimensions,prixVente, quantites, prixRevient, longueurs, largeurs, epaisseurs);
                 trasCPL.validerTransformation(conn);
                 conn.commit();
+
+                resp.sendRedirect("transformation");
             } catch (Exception e) {
                 e.printStackTrace();
                 try {
