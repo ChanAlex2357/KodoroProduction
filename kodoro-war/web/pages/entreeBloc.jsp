@@ -1,4 +1,4 @@
-<%@ page import="mg.kodoro.bloc.Bloc" %>
+<%@ page import="mg.kodoro.models.Bloc" %>
 
 <%
     // Retrieve the list of blocs directly in JSP

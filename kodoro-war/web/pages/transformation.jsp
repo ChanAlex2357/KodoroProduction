@@ -1,3 +1,12 @@
+<%@ page import="mg.kodoro.models.Bloc" %>
+<%@ page import="mg.kodoro.models.DimensionUsuels" %>
+
+<%
+    // Récupérer la liste des blocs et des dimensions usuelles
+    Bloc[] blocList = Bloc.getAllBlocs();
+    DimensionUsuels[] dimensionUsuelsList = DimensionUsuels.getAllDimensionsUsuelles();
+%>
+
 <div class="container mt-5">
     <h2 class="text-center mb-4" style="color: #FFC107;">Insertion de Transformation</h2>
     <form action="insererTransformationAction.jsp" method="post" class="needs-validation" novalidate>
@@ -7,38 +16,72 @@
             <label for="blocSelect" style="color: #FFC107;">Sélectionnez le Bloc</label>
             <select class="form-control" id="blocSelect" name="idBloc" required>
                 <option value="" disabled selected>Choisissez un bloc</option>
-                <!-- Boucle pour afficher les blocs -->
-                <c:forEach var="bloc" items="${blocs}">
-                    <option value="${bloc.idBloc}">${bloc.idBloc} - ${bloc.desce}</option>
-                </c:forEach>
+                <%
+                    if (blocList != null && blocList.length > 0) {
+                        for (Bloc bloc : blocList) {
+                %>
+                            <option value="<%= bloc.getIdBloc() %>"><%= bloc.getIdBloc() %> - <%= bloc.getDesce() %></option>
+                <%
+                        }
+                    } else {
+                %>
+                        <option value="" disabled>Aucun bloc trouvé</option>
+                <%
+                    }
+                %>
             </select>
             <div class="invalid-feedback">Veuillez sélectionner un bloc.</div>
         </div>
+        
+        <!-- Champ pour marge en pourcentage -->
+        <div class="form-group">
+            <label for="margePourcentage" style="color: #FFC107;">Marge en Pourcentage</label>
+            <input type="number" name="margePourcentage" id="margePourcentage" class="form-control" min="0" max="100" step="0.01" required>
+            <div class="invalid-feedback">Veuillez entrer une marge valide (entre 0 et 100).</div>
+        </div>
 
-        <!-- Tableau des dimensions usuelles -->
         <h4 class="mt-4" style="color: #FFC107;">Dimensions Usuelles</h4>
         <table class="table table-bordered mt-3">
             <thead class="thead-light">
                 <tr>
                     <th>Produit</th>
                     <th>Quantité</th>
+                    <th>Prix de revient</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="dimension" items="${dimensionsUsuelles}">
-                    <tr>
-                        <td>
-                            <input type="hidden" name="idDimensionUsuel[]" value="${dimension.idDimensionUsuels}">
-                            ${dimension.longueur} x ${dimension.largeur} x ${dimension.epaisseur} (Prix : ${dimension.prixVente} Ar)
-                        </td>
-                        <td>
-                            <input type="number" name="quantite[]" class="form-control" min="0" step="1" required>
-                            <div class="invalid-feedback">Entrez une quantité valide pour ce produit.</div>
-                        </td>
-                    </tr>
-                </c:forEach>
+                <%
+                    if (dimensionUsuelsList != null && dimensionUsuelsList.length > 0) {
+                        for (DimensionUsuels dimension : dimensionUsuelsList) {
+                %>
+                            <tr>
+                                <td>
+                                    <input type="hidden" name="idDimensionUsuel[]" value="<%= dimension.getIdDimensionUsuels() %>">
+                                    <%= dimension.getDesce() %>( 
+                                    <%= dimension.getLongueur() %> x <%= dimension.getLargeur() %> x <%= dimension.getEpaisseur() %> )
+                                </td>
+                                <td>
+                                    <input type="number" name="quantite[]" class="form-control" min="0" step="1" required>
+                                    <div class="invalid-feedback">Entrez une quantité valide pour ce produit.</div>
+                                </td>
+                                <td>
+                                    <input type="number" name="prixRevient[]" class="form-control" min="0" step="0.1" required>
+                                    <div class="invalid-feedback">Entrez un prix valide.</div>
+                                </td>
+                            </tr>
+                <%
+                        }
+                    } else {
+                %>
+                        <tr>
+                            <td colspan="2" class="text-center">Aucune dimension usuelle trouvée</td>
+                        </tr>
+                <%
+                    }
+                %>
             </tbody>
         </table>
+        
 
         <!-- Tableau pour ajouter des blocs restants manuellement -->
         <h4 class="mt-4" style="color: #FFC107;">Ajouter des Blocs Restants</h4>
@@ -76,7 +119,6 @@
             <td><input type="number" name="longueurBlocRestant[]" step="0.01" class="form-control" required></td>
             <td><input type="number" name="largeurBlocRestant[]" step="0.01" class="form-control" required></td>
             <td><input type="number" name="epaisseurBlocRestant[]" step="0.01" class="form-control" required></td>
-            <td><input type="number" name="prixFabricationBlocRestant[]" step="0.01" class="form-control" required></td>
             <td><button type="button" class="btn btn-danger btn-sm" onclick="supprimerLigne(this)">Supprimer</button></td>
         `;
     }
