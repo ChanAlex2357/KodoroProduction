@@ -1,20 +1,67 @@
 package kodoro.servlet;
 
 import java.io.IOException;
+import java.sql.Connection;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import kodoro.utils.DispatcherUtils;
+import mg.kodoro.models.transformation.TransformationCPL;
+import utilitaire.UtilDB;
 
-
-@WebServlet(name = "TransformationServlet" , urlPatterns = "/transformation")
+@WebServlet(name = "TransformationServlet", urlPatterns = "/transformation")
 public class TransformationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         DispatcherUtils.dispatchToTemplate("transformation.jsp", resp, req);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // Récupération des données de transformation
+        String idBloc = req.getParameter("idBloc");
+        String margePourcentage = req.getParameter("margePourcentage");
+        String dateTransformation = req.getParameter("dateTransformation");
+
+        // Récupération des détails de transformation (idDimensionUsuel, quantités, prixRevient)
+        String[] idDimensions = req.getParameterValues("idDimensionUsuel[]");
+        String[] quantites = req.getParameterValues("quantite[]");
+        String[] prixRevient = req.getParameterValues("prixRevient[]");
+
+        // Récupération des blocs restants (longueurs, largeurs, épaisseurs)
+        String[] longueurs = req.getParameterValues("longueurBlocRestant[]");
+        String[] largeurs = req.getParameterValues("largeurBlocRestant[]");
+        String[] epaisseurs = req.getParameterValues("epaisseurBlocRestant[]");
+
+        // Gestion des données et validation si nécessaire
+        if (idBloc != null && margePourcentage != null) {
+            Connection conn = new UtilDB().GetConn();
+            try {
+                conn.setAutoCommit(false);
+                TransformationCPL trasCPL = new TransformationCPL(idBloc, margePourcentage,dateTransformation, idDimensions, quantites, prixRevient, longueurs, largeurs, epaisseurs);
+                trasCPL.validerTransformation(conn);
+                conn.commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+                try {
+                    conn.rollback();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Les détails de transformation sont incomplets.");
+            }
+            finally {
+                try {
+                    conn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Les données de transformation sont incomplètes.");
+        }
     }
 }

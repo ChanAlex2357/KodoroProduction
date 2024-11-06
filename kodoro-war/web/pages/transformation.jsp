@@ -9,7 +9,7 @@
 
 <div class="container mt-5">
     <h2 class="text-center mb-4" style="color: #FFC107;">Insertion de Transformation</h2>
-    <form action="insererTransformationAction.jsp" method="post" class="needs-validation" novalidate>
+    <form action="transformation" method="post" class="needs-validation" novalidate>
         
         <!-- Sélection du bloc -->
         <div class="form-group">
@@ -39,6 +39,11 @@
             <input type="number" name="margePourcentage" id="margePourcentage" class="form-control" min="0" max="100" step="0.01" required>
             <div class="invalid-feedback">Veuillez entrer une marge valide (entre 0 et 100).</div>
         </div>
+        <!-- Champ pour date de transformation -->
+        <div class="form-group">
+            <label for="dateTransformation" style="color: #FFC107;">Date de transformation</label>
+            <input type="date" name="dateTransformation" id="dateTransformation" class="form-control" required>
+        </div>
 
         <h4 class="mt-4" style="color: #FFC107;">Dimensions Usuelles</h4>
         <table class="table table-bordered mt-3">
@@ -61,11 +66,11 @@
                                     <%= dimension.getLongueur() %> x <%= dimension.getLargeur() %> x <%= dimension.getEpaisseur() %> )
                                 </td>
                                 <td>
-                                    <input type="number" name="quantite[]" class="form-control" min="0" step="1" required>
+                                    <input type="number" name="quantite[]" class="form-control" min="0" step="1" value="0" required>
                                     <div class="invalid-feedback">Entrez une quantité valide pour ce produit.</div>
                                 </td>
                                 <td>
-                                    <input type="number" name="prixRevient[]" class="form-control" min="0" step="0.1" required>
+                                    <input type="number" name="prixRevient[]" class="form-control" min="0" step="0.1" value="0" required>
                                     <div class="invalid-feedback">Entrez un prix valide.</div>
                                 </td>
                             </tr>
@@ -116,9 +121,9 @@
 
         // Ajouter des cellules pour longueur, largeur, épaisseur, prix de fabrication, et une action pour supprimer la ligne
         newRow.innerHTML = `
-            <td><input type="number" name="longueurBlocRestant[]" step="0.01" class="form-control" required></td>
-            <td><input type="number" name="largeurBlocRestant[]" step="0.01" class="form-control" required></td>
-            <td><input type="number" name="epaisseurBlocRestant[]" step="0.01" class="form-control" required></td>
+            <td><input type="number" name="longueurBlocRestant[]" step="0.01" class="form-control" value="0" required></td>
+            <td><input type="number" name="largeurBlocRestant[]" step="0.01" class="form-control" value="0" required></td>
+            <td><input type="number" name="epaisseurBlocRestant[]" step="0.01" class="form-control" value="0" required></td>
             <td><button type="button" class="btn btn-danger btn-sm" onclick="supprimerLigne(this)">Supprimer</button></td>
         `;
     }
@@ -127,4 +132,5 @@
         const row = button.parentNode.parentNode;
         row.parentNode.removeChild(row);
     }
+    ajouterBlocRestant();
 </script>

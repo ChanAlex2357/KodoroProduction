@@ -80,6 +80,10 @@ public class TransformationFille extends MaClassMAPTable {
         this.prixDeRevient = ValidationUtils.validatePositiveStringDouble(prixDeRevient);
     }
 
+    public double getMontantVente(Connection conn) throws Exception{
+        DimensionUsuels dim = getDimensionUsuels(conn);
+        return dim.getPrixVente() * this.getQuantite();
+    }
     @Override
     public String toString() {
         return "TransformationFille{" +
@@ -130,7 +134,11 @@ public class TransformationFille extends MaClassMAPTable {
     public static double getSommeVolume(TransformationFille[] filles , Connection conn) throws Exception{
         double somme = 0;
         for(TransformationFille fille : filles){
-            somme += fille.getDimensionUsuels(conn).getVolume();
+            DimensionUsuels dim = fille.getDimensionUsuels(conn);
+            System.out.println(dim); 
+            double v = dim.getVolume() * fille.getQuantite();
+            System.out.println(v);
+            somme += v;
         }
         return somme;
     }

@@ -158,6 +158,7 @@ public String toString() {
     public static Bloc getById(String idBloc,Connection conn) throws Exception{
         Bloc b = new Bloc();
         b.setIdBloc(idBloc);
+        System.out.println("---- GETTING BLOC : "+idBloc+" ----------");
         Bloc[] blocs =  (Bloc[])CGenUtil.rechercher(b,null,null,conn,"");
         if (blocs.length <=0 ) {
             return null;
@@ -259,8 +260,30 @@ public String toString() {
         }
         return blocs;
     }
+    static public Bloc[] getAllBlocTransformable(){
+        Bloc[] blocs = new Bloc[0];
+        Connection conn = new UtilDB().GetConn();
+        try {
+            blocs = (Bloc[]) CGenUtil.rechercher(new Bloc() , null , null , conn , "");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
+        finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return blocs;
+    }
     public double getPrixUnitaireVolume(){
-        return this.getPrixFabrication() / getVolume();
+        System.out.println(this);
+        double prix = this.getPrixFabrication();
+        double v = this.getVolume();
+        System.out.println("PF : "+prix);
+        System.out.println("VV : "+v);
+        return prix / v;
     }
 
 
@@ -273,18 +296,26 @@ public String toString() {
     }
 
     public void estimatePrixFabrication(Bloc blocSource , Connection conn) throws Exception{
+        if (blocSource != null) {
+            System.out.println("BLOC SOURCE ESTIMATION : "+blocSource.getIdBloc());
+        }
         if (blocSource == null || !blocSource.getIdBloc().equals(this.getIdParentSource())) {
             blocSource = getBlocParentSource(conn);
+            System.out.println("RECUPERATION SOURCE VRAIE : "+blocSource.getIdBloc());
         }
 
         double puv = blocSource.getPrixUnitaireVolume();
         double volume = this.getVolume();
 
+        System.out.println("PUV : "+puv);
+        System.out.println("VOLUME RESTE : "+volume);
+
         double prixFab =  puv * volume;
 
-        if (this.getPrixFabrication() < prixFab) {
+        if (blocSource.getPrixFabrication() < prixFab) {
             throw new Exception("Le prix de fabrication d'un bloc estimer ne peut pas surpasser son prix de fabrication de base. ");
         }
+        System.out.println("PRIX FAB : "+prixFab);
         this.setPrixFabrication(prixFab);
     }
 

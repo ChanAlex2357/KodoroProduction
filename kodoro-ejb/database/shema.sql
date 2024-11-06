@@ -49,3 +49,10 @@ CREATE TABLE TransformationFille(
    FOREIGN KEY(idDimensionUsuels) REFERENCES DimensionUsuels(idDimensionUsuels),
    FOREIGN KEY(idTransformation) REFERENCES Transformation(idTransformation)
 );
+
+
+create or REPLACE view v_blocorigine as
+
+SELECT *
+from Bloc
+where 
