@@ -1,4 +1,4 @@
-package mg.kodoro.bloc;
+package mg.kodoro.models;
 
 import java.sql.Date;
 
@@ -244,5 +244,8 @@ public String toString() {
             }
         }
         return blocs;
+    }
+    public double getPrixUnitaireVolume(){
+        return this.getPrixFabrication() / getVolume();
     }
 }

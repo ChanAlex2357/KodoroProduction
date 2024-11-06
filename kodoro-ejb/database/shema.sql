@@ -22,12 +22,14 @@ CREATE TABLE Bloc(
 
 CREATE TABLE DimensionUsuels(
    idDimensionUsuels VARCHAR2(255) ,
+   desce VARCHAR2(255) ,
    longueur NUMBER(15,2)   NOT NULL,
    largeur NUMBER(15,2)   NOT NULL,
    epaisseur NUMBER(15,2)   NOT NULL,
    prixVente NUMBER(15,2)   NOT NULL,
    PRIMARY KEY(idDimensionUsuels)
 );
+
 
 CREATE TABLE Transformation(
    idTransformation VARCHAR2(255) ,
