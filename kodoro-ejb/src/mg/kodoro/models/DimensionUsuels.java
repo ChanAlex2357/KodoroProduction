@@ -1,8 +1,12 @@
 package mg.kodoro.models;
 
 import java.sql.Connection;
+import java.sql.SQLException;
+
+import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
 import mg.kodoro.utils.ValidationUtils;
+import utilitaire.UtilDB;
 
 public class DimensionUsuels extends MaClassMAPTable {
     private String idDimensionUsuels;
@@ -13,7 +17,9 @@ public class DimensionUsuels extends MaClassMAPTable {
     private String desce;
 
     // Constructeur par défaut
-    public DimensionUsuels() {}
+    public DimensionUsuels() {
+        setNomTable("DIMENSIONUSUELS");
+    }
 
     // Constructeur avec paramètres double
     public DimensionUsuels(double L, double l, double e, double prixVente, String desce) {
@@ -128,13 +134,13 @@ public class DimensionUsuels extends MaClassMAPTable {
 
     @Override
     public MaClassMAPTable createObject(Connection c) throws Exception {
+        System.out.println("-/-/-/-/-//-/-/-");
         setNomTable("DIMENSIONUSUELS");
-        controlerTaille();
         if (this.getTuppleID() == null || this.getTuppleID().isEmpty() || this.getTuppleID().equals("0")) {
             this.construirePK(c);
         }
-
-        System.out.println(this);
+        System.out.println("--- DETAILS ---");
+        System.out.println(this.toString());
         return super.createObject(c);
     }
 
@@ -154,9 +160,21 @@ public class DimensionUsuels extends MaClassMAPTable {
         this.setIdDimensionUsuels(makePK(c));
     }
 
-    public void controlerTaille() throws Exception {
-        if (this.getLongueur() <= this.getLargeur()) {
-            throw new Exception("La taille du bloc est invalide ; La longueur doit être supérieure à la largeur.");
+    public static DimensionUsuels[] getAllDimensionsUsuelles(){
+        DimensionUsuels[] dimensions = new DimensionUsuels[0];
+        Connection conn = new UtilDB().GetConn();
+        try {
+            dimensions = (DimensionUsuels[]) CGenUtil.rechercher(new DimensionUsuels() , null , null , conn , "");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } 
+        finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        return dimensions;
     }
 }

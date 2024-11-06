@@ -70,7 +70,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
         }
     }
     System.out.println(" ------ MESSAGE ------ \n"+message+"\n ----------------------");
-    response.sendRedirect("/entreebloc");
+    response.sendRedirect("entreebloc");
 }
 
 }

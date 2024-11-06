@@ -3,6 +3,7 @@ package mg.kodoro.models;
 import java.sql.Date;
 
 import bean.CGenUtil;
+import bean.ClassMAPTable;
 import mg.kodoro.bean.MaClassMAPTable;
 import mg.kodoro.utils.ValidationUtils;
 import utilitaire.UtilDB;
@@ -152,9 +153,18 @@ public String toString() {
         System.out.println("DATE FABRICATION : "+dateFabrication);
         setDateFabrication(TimeUtils.convertToSqlDate(dateFabrication,"eng"));
     }
-
     public double getPrixFabrication() {
         return prixFabrication;
+    }
+
+    public static Bloc getById(String idBloc,Connection conn) throws Exception{
+        Bloc b = new Bloc();
+        b.setIdBloc(idBloc);
+        Bloc[] blocs =  (Bloc[])CGenUtil.rechercher(b,null,null,conn,"");
+        if (blocs.length <=0 ) {
+            return null;
+        }
+        return blocs[0];
     }
 
     public void setPrixFabrication(String prixFabrication) {
