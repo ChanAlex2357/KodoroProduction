@@ -73,7 +73,7 @@ public class TransformationCPL {
         }
         for (Bloc bloc : this.getRestes()) {
             bloc.setIdParentSource(this.getIdBloc());
-            bloc.setIdOriginalSource(bloc);
+            bloc.setIdOriginalSource(b);
             bloc.estimatePrixFabrication(b, conn); // estimer le prix de fabrication
             bloc.construirePK(conn);
             bloc.setDesce("Bloc "+bloc.getIdBloc()+" reste de transformation "+trans.getIdTransformation()+" Bloc "+trans.getIdBloc());

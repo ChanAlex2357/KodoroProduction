@@ -51,8 +51,3 @@ CREATE TABLE TransformationFille(
 );
 
 
-create or REPLACE view v_blocorigine as
-
-SELECT *
-from Bloc
-where 
