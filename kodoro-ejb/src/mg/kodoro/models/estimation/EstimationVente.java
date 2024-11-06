@@ -7,7 +7,6 @@ import mg.kodoro.models.transformation.Transformation;
 import mg.kodoro.models.transformation.TransformationFille;
 
 public class EstimationVente {
-    private String idBloc;
     private Bloc[] blocRestantes;
     private Transformation[] transformation;
     private TransformationFille[] detailsTransformation;
@@ -16,13 +15,8 @@ public class EstimationVente {
     private double estimationResteVolumeMinimal = 5678;
     private Bloc bloc;
     
-    public EstimationVente(String idBloc){
-        setIdBloc(idBloc);
-    }
     public EstimationVente(Bloc bloc){
-        setBloc(bloc);  
-        setIdBloc(bloc.getIdBloc());
-
+        setBloc(bloc);
     }
     public double getEstimationVente() {
         return estimationVente;
@@ -37,14 +31,6 @@ public class EstimationVente {
     public void setBloc(Bloc bloc) {
         this.bloc = bloc;
     }
-    public String getIdBloc() {
-        return idBloc;
-    }
-
-    public void setIdBloc(String idBloc) {
-        this.idBloc = idBloc;
-    }
-
     public Bloc[] getBlocRestantes() {
         return blocRestantes;
     }
@@ -83,11 +69,9 @@ public class EstimationVente {
         this.estimationResteVolumeMinimal = estimationResteVolumeMinimal;
     }
 
-    public Bloc getBloc(Connection conn) throws Exception {
-        if (this.bloc == null) {
-            this.bloc = Bloc.getById(getIdBloc(), conn);
-        }
-        return bloc;
+    
+    public Bloc getBloc(){
+        return this.bloc;
     }
 }
 

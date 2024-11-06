@@ -3,17 +3,16 @@
 <%@ page import="java.util.List" %>
 
 <%
-    // Supposons que nous avons une liste d'objets EstimationVente pour remplir le tableau
-    Object obj = request,getAttribute("adminestimation");
+    // Obtenir l'objet adminEstimation depuis la requête
+    Object obj = request.getAttribute("adminestimation");
 
-    if( obj == null) { 
+    if (obj == null) { 
 %>
         <h1>Aucune estimation possible</h1>
-<% }
-    else {
-
-    AdminEstimation adminEstimation = (AdminEstimation) 
-    List<EstimationVente> estimations = adminEstimation.getEstimations();
+<% 
+    } else {
+        AdminEstimation adminEstimation = (AdminEstimation) obj;
+        List<EstimationVente> estimations = adminEstimation.getEstimations();
 %>
 
 <div class="container mt-5">
@@ -32,14 +31,12 @@
             <%
                 if (estimations != null && !estimations.isEmpty()) {
                     for (EstimationVente estimation : estimations) {
-                        double volume = estimation.getBlocRestantes() != null 
-                                        ? estimation.getBlocRestantes().length // Exemple de calcul de volume
-                                        : 0;
-                        double volumeRestante = estimation.getEstimationResteOptimiste(); // Exemple de calcul pour le volume restante
+                        double volume = 0;
+                        double volumeRestante = 0; // Exemple de calcul pour le volume restante
             %>
                         <tr>
                             <td><%= estimation.getIdBloc() %></td>
-                            <td><%= volume %> m³</td>
+                            <td><%= estimation.getBloc().getVolume() %> m³</td>
                             <td><%= volumeRestante %> m³</td>
                             <!-- Collapse trigger for Estimations -->
                             <td>
@@ -48,23 +45,26 @@
                                 </button>
                                 <div class="collapse" id="estimations-<%= estimation.getIdBloc() %>">
                                     <div class="card card-body">
-                                        P1: <%= estimation.getEstimationVente() %><br>
-                                        P2: <%= estimation.getEstimationResteOptimiste() %><br>
-                                        P3: <%= estimation.getEstimationRestePessimiste() %>
+                                        <strong>P1:</strong> <%= estimation.getEstimationVente() %> m³<br>
+                                        <strong>P2:</strong> <%= estimation.getEstimationResteRapportVolumePrix() %> m³<br>
+                                        <strong>P3:</strong> <%= estimation.getEstimationResteVolumeMinimal() %> m³
                                     </div>
                                 </div>
                             </td>
                             <!-- Collapse trigger for Details -->
                             <td>
-                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#details-<%= estimation.getIdBloc() %>" aria-expanded="false" aria-controls="details-<%= estimation.getIdBloc() %>">
+                                <!-- <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#details-<%= estimation.getIdBloc() %>" aria-expanded="false" aria-controls="details-<%= estimation.getIdBloc() %>">
                                     [Détails Restes, Détails Fabrication]
                                 </button>
                                 <div class="collapse" id="details-<%= estimation.getIdBloc() %>">
                                     <div class="card card-body">
-                                        <strong>Détails Restes:</strong> Informations sur les restes...<br>
-                                        <strong>Détails Fabrication:</strong> Informations sur la fabrication...
+                                        <strong>Détails Restes:</strong><br>
+                                            Aucune information sur les blocs restants.
+                                        <strong>Détails Fabrication:</strong><br>
+                                            Aucune information de transformation disponible.
+                                      
                                     </div>
-                                </div>
+                                </div> -->
                             </td>
                         </tr>
             <%
@@ -84,5 +84,6 @@
 <!-- JavaScript pour activer le collapse (nécessite jQuery et Bootstrap JS) -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-<%    }
+<%    
+    } 
 %>
