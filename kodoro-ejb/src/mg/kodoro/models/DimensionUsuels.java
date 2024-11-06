@@ -177,4 +177,8 @@ public class DimensionUsuels extends MaClassMAPTable {
         }
         return dimensions;
     }
+
+    public double getMontantVente(int qte){
+        return this.getPrixVente() * qte;
+    }
 }

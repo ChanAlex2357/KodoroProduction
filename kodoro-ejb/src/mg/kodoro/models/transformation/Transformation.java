@@ -15,6 +15,8 @@ public class Transformation extends MaClassMAPTable{
     private double  marge;
     private Date    dateTransformation;
 
+    protected TransformationFille[] detailsTransformation;
+
     public Transformation(String idBloc, double marge, Date dateTransformation) {
         this.idBloc = idBloc;
         this.marge = marge;
@@ -93,16 +95,19 @@ public class Transformation extends MaClassMAPTable{
     }
 
 
-    public TransformationFille[] getTransformationFille(Connection conn) throws Exception{
-        TransformationFille[] transF = new TransformationFille[1];
-        transF[0] = new TransformationFille();
-        transF[0].setIdTransformation(this.getIdTransformation());
-
-        transF = (TransformationFille[]) CGenUtil.rechercher( transF[0],null,null,conn,"");
-        if (transF.length <= 0) {
-            return new TransformationFille[0];
+    public TransformationFille[] getDetailsTransformation(Connection conn) throws Exception{
+        if (this.detailsTransformation == null) {
+            TransformationFille[] transF = new TransformationFille[1];
+            transF[0] = new TransformationFille();
+            transF[0].setIdTransformation(this.getIdTransformation());
+    
+            transF = (TransformationFille[]) CGenUtil.rechercher( transF[0],null,null,conn,"");
+            if (transF.length <= 0) {
+                return new TransformationFille[0];
+            }
+            this.detailsTransformation = transF; 
         }
-        return transF;
+        return this.detailsTransformation;
     }
 
 

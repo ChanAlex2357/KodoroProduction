@@ -12,6 +12,8 @@ public class TransformationFille extends MaClassMAPTable {
     private String idDimensionUsuels;
     private int quantite;
     private double prixDeRevient;
+
+    protected Transformation transformation;
     
     // Constructeur par défaut
     public TransformationFille() {
@@ -82,7 +84,7 @@ public class TransformationFille extends MaClassMAPTable {
 
     public double getMontantVente(Connection conn) throws Exception{
         DimensionUsuels dim = getDimensionUsuels(conn);
-        return dim.getPrixVente() * this.getQuantite();
+        return dim.getMontantVente(this.getQuantite());
     }
     @Override
     public String toString() {

@@ -3,8 +3,8 @@ package mg.kodoro.models;
 import java.sql.Date;
 
 import bean.CGenUtil;
-import bean.ClassMAPTable;
 import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.models.transformation.Transformation;
 import mg.kodoro.utils.ValidationUtils;
 import utilitaire.UtilDB;
 import utils.TimeUtils;
@@ -24,6 +24,11 @@ public class Bloc extends MaClassMAPTable{
     private double prixFabrication;
     private String idOriginalSource;
     private String idParentSource;
+
+    protected Bloc originalSource;
+    protected Bloc parentSource;
+    protected Transformation[] transformations;
+    
     @Override
 public String toString() {
     return "Bloc{" +
@@ -288,11 +293,17 @@ public String toString() {
 
 
     public Bloc getBlocParentSource(Connection conn) throws Exception{
-        return Bloc.getById(this.getIdParentSource(), conn);
+        if (this.parentSource == null) {
+            this.parentSource = Bloc.getById(this.getIdParentSource(), conn);
+        }
+        return this.parentSource;
     }
 
     public Bloc getBlocOriginalSource(Connection conn) throws Exception{
-        return Bloc.getById(this.getIdOriginalSource(), conn);
+        if (this.originalSource == null) {
+            this.originalSource = Bloc.getById(this.getIdOriginalSource(), conn);
+        }
+        return this.originalSource;
     }
 
     public void estimatePrixFabrication(Bloc blocSource , Connection conn) throws Exception{
