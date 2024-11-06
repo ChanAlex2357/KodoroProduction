@@ -9,7 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import mg.kodoro.bloc.Bloc;
+
+import mg.kodoro.models.Bloc;
 import mg.kodoro.utils.DbUtils;
 import utilitaire.UtilDB;
 

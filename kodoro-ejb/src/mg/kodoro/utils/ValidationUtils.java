@@ -14,5 +14,15 @@ public class ValidationUtils {
         return d;
     }
 
+    public static int validatePositiveStringInt(String quantite) {
+        int val  = Integer.parseInt(quantite);
+        return validatePositiveStringInt(val);
+    }
+        
+    public static int validatePositiveStringInt(int val) {
+        validatePositiveDouble(val);
+        return val;    
+    }
+
     
 }
