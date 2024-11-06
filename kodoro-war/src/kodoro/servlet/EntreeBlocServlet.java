@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kodoro.utils.DispatcherUtils;
 import mg.kodoro.models.Bloc;
 import mg.kodoro.utils.DbUtils;
 import utilitaire.UtilDB;
@@ -19,8 +20,7 @@ import utilitaire.UtilDB;
 public class EntreeBlocServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("but", "entreeBloc.jsp");
-        req.getRequestDispatcher( "pages/template.jsp").forward(req, resp);
+        DispatcherUtils.dispatchToTemplate("entreeBloc.jsp", resp, req);
     }
 
     @Override
