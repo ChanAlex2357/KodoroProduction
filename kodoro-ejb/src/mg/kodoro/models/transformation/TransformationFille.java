@@ -1,38 +1,53 @@
 package mg.kodoro.models.transformation;
 import java.sql.Connection;
+
+import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.models.DimensionUsuels;
 import mg.kodoro.utils.ValidationUtils;
 
 public class TransformationFille extends MaClassMAPTable {
     private String idTransformationFille;
+    private String idTransformation;
     private String idDimensionUsuels;
     private int quantite;
     private double prixDeRevient;
-
+    
     // Constructeur par défaut
-    public TransformationFille() {}
-
+    public TransformationFille() {
+        setNomTable("TRANSFORMATIONFILLE");
+    }
+    
     // Constructeur avec paramètres double
-    public TransformationFille( int quantite, double prixDeRevient) {
+    public TransformationFille( String idDimension,int quantite, double prixDeRevient) {
+        setIdDimensionUsuels(idDimension);
         setQuantite(quantite);
         setPrixDeRevient(prixDeRevient);
     }
 
     // Constructeur avec paramètres String
-    public TransformationFille( String quantite, String prixDeRevient) {
+    public TransformationFille(String idDimension,String quantite,String prixDeRevient) {
+        setIdDimensionUsuels(idDimension);
         setQuantite(quantite);
         setPrixDeRevient(prixDeRevient);
     }
-
+    
     // Getters et Setters
     public String getIdTransformationFille() {
         return idTransformationFille;
     }
-
+    
     public void setIdTransformationFille(String idTransformationFille) {
         this.idTransformationFille = idTransformationFille;
     }
+    public String getIdTransformation() {
+        return idTransformation;
+    }
 
+    public void setIdTransformation(String idTransformation) {
+        this.idTransformation = idTransformation;
+    }
+    
     public String getIdDimensionUsuels() {
         return idDimensionUsuels;
     }
@@ -75,6 +90,12 @@ public class TransformationFille extends MaClassMAPTable {
                 '}';
     }
 
+    public void controllerTransformation() throws Exception{
+        if (this.getIdTransformation() == null || this.getIdTransformation().equals("0")) {
+            throw new Exception("La transformation fille ["+this.getIdTransformationFille()+"] doit posseder un transformation mere ");
+        }
+    }
+
     @Override
     public MaClassMAPTable createObject(Connection localconn, Connection remoteconn) throws Exception {
         this.createObject(localconn);
@@ -84,10 +105,8 @@ public class TransformationFille extends MaClassMAPTable {
     @Override
     public MaClassMAPTable createObject(Connection c) throws Exception {
         setNomTable("TRANSFORMATIONFILLE");
-        if (this.getTuppleID() == null || this.getTuppleID().isEmpty() || this.getTuppleID().equals("0")) {
-            this.construirePK(c);
-        }
-        
+        // Controller la validiter de la transformation mere
+        controllerTransformation();
         System.out.println(this);
         return super.createObject(c);
     }
@@ -104,7 +123,28 @@ public class TransformationFille extends MaClassMAPTable {
 
     @Override
     public void construirePK(Connection c) throws Exception {
-        preparePk("TRANSFILLE", "GET_TRANSFILLE_SEQ");
+        preparePk("TRANSF", "GET_TRANSF_SEQ");
         this.setIdTransformationFille(makePK(c));
+    }
+
+    public static double getSommeVolume(TransformationFille[] filles , Connection conn) throws Exception{
+        double somme = 0;
+        for(TransformationFille fille : filles){
+            somme += fille.getDimensionUsuels(conn).getVolume();
+        }
+        return somme;
+    }
+            
+    public DimensionUsuels getDimensionUsuels(Connection conn) throws Exception {
+        DimensionUsuels[] dimensions = new DimensionUsuels[1];
+        dimensions[0] = new DimensionUsuels();
+        dimensions[0].setIdDimensionUsuels(this.getIdDimensionUsuels());
+
+        dimensions = (DimensionUsuels[]) CGenUtil.rechercher(dimensions[0],null,null,conn,"");
+
+        if (dimensions.length > 0) {
+            return dimensions[0];
+        }
+        return null;
     }
 }
