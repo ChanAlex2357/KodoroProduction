@@ -11,6 +11,9 @@ public class TransformationLib extends Transformation {
     private String desce;
     private String idOriginalSource;
     private String idParentSource;
+    public TransformationLib( ){
+        setNomTable("Transformation_Lib");
+    }
 
     // Getters et Setters pour les nouveaux attributs
 
@@ -98,5 +101,5 @@ public class TransformationLib extends Transformation {
     }
 
 
-    
+
 }

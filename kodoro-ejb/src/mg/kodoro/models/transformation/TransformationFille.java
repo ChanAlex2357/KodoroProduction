@@ -12,6 +12,7 @@ public class TransformationFille extends MaClassMAPTable {
     private String idDimensionUsuels;
     private int quantite;
     private double prixDeRevient;
+    private double prixVente;
 
     protected Transformation transformation;
     
@@ -28,8 +29,9 @@ public class TransformationFille extends MaClassMAPTable {
     }
 
     // Constructeur avec paramètres String
-    public TransformationFille(String idDimension,String quantite,String prixDeRevient) {
+    public TransformationFille(String idDimension,String prixVente,String quantite,String prixDeRevient) {
         setIdDimensionUsuels(idDimension);
+        setPrixVente(prixVente);
         setQuantite(quantite);
         setPrixDeRevient(prixDeRevient);
     }
@@ -81,10 +83,20 @@ public class TransformationFille extends MaClassMAPTable {
     public void setPrixDeRevient(String prixDeRevient) {
         this.prixDeRevient = ValidationUtils.validatePositiveStringDouble(prixDeRevient);
     }
+    public void setPrixVente(String prixDeRevient) {
+        this.prixVente = ValidationUtils.validatePositiveStringDouble(prixDeRevient);
+    }
 
-    public double getMontantVente(Connection conn) throws Exception{
-        DimensionUsuels dim = getDimensionUsuels(conn);
-        return dim.getMontantVente(this.getQuantite());
+    public double getMontantVente() throws Exception{
+        return this.getPrixVente() * this.getQuantite();
+    }
+
+    public double getPrixVente() {
+        return prixVente;
+    }
+
+    public void setPrixVente(double prixVente) {
+        this.prixVente = prixVente;
     }
     @Override
     public String toString() {
@@ -156,5 +168,13 @@ public class TransformationFille extends MaClassMAPTable {
             return dimensions[0];
         }
         return null;
+    }
+
+    public static double getSommeMontantVente(TransformationFille[] details , Connection conn) throws Exception {
+        double somme = 0;
+        for (TransformationFille transformationFille : details) {
+            somme += transformationFille.getMontantVente(); 
+        }
+        return somme;
     }
 }

@@ -4,7 +4,8 @@ import java.sql.Date;
 
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
-import mg.kodoro.models.transformation.Transformation;
+import mg.kodoro.models.transformation.TransformationFille;
+import mg.kodoro.models.transformation.TransformationLib;
 import mg.kodoro.utils.ValidationUtils;
 import utilitaire.UtilDB;
 import utils.TimeUtils;
@@ -27,7 +28,7 @@ public class Bloc extends MaClassMAPTable{
 
     protected Bloc originalSource;
     protected Bloc parentSource;
-    protected Transformation[] transformations;
+    protected TransformationLib[] transformations;
     
     @Override
 public String toString() {
@@ -184,9 +185,11 @@ public String toString() {
     }
     public void setIdOriginalSource(Bloc bloc) {
         if (bloc.getIdOriginalSource() != null) {
+            System.out.println("Orignal Existe : "+bloc.getIdOriginalSource());
             setIdOriginalSource(bloc.getIdOriginalSource());
             return ;
         }
+        System.out.println("BLOC ORIGINAL");
         setIdOriginalSource(bloc.getIdBloc());
     }
 
@@ -336,5 +339,54 @@ public String toString() {
             somme += bloc.getVolume();
         }
         return somme;
+    }
+
+    public Bloc getRestes(Connection conn){
+        return null;
+    }
+    public TransformationLib[] geTransformations(Connection conn) throws Exception{
+        if (this.transformations != null) {
+            return this.transformations;
+        }
+
+        TransformationLib[] tLib = (TransformationLib[]) CGenUtil.rechercher(new TransformationLib(),null,null,conn," AND (idBbloc = '"+this.getIdBloc()+"' OR idOriginalSource = '"+this.getIdBloc()+"'");
+
+        if (tLib.length <= 0 ) {
+            return new TransformationLib[0];
+        }
+        setTransformations(tLib);
+        return this.transformations;
+    }
+    public double getEstimationVente(Connection conn)throws Exception{
+        double sommeVente = 0;
+        TransformationLib[] transformations = getTransformations();
+        for (TransformationLib trans : transformations) {
+            sommeVente += trans.getMontantTransformation(conn);
+        }
+        return sommeVente;
+    }
+
+    public Bloc getOriginalSource() {
+        return originalSource;
+    }
+
+    public void setOriginalSource(Bloc originalSource) {
+        this.originalSource = originalSource;
+    }
+
+    public Bloc getParentSource() {
+        return parentSource;
+    }
+
+    public void setParentSource(Bloc parentSource) {
+        this.parentSource = parentSource;
+    }
+
+    public TransformationLib[] getTransformations() {
+        return transformations;
+    }
+
+    private void setTransformations(TransformationLib[] transformations) {
+        this.transformations = transformations;
     }
 }

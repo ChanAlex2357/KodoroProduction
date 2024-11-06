@@ -30,6 +30,7 @@ public class TransformationServlet extends HttpServlet {
         String[] idDimensions = req.getParameterValues("idDimensionUsuel[]");
         String[] quantites = req.getParameterValues("quantite[]");
         String[] prixRevient = req.getParameterValues("prixRevient[]");
+        String[] prixVente = req.getParameterValues("prixVente[]");
 
         // Récupération des blocs restants (longueurs, largeurs, épaisseurs)
         String[] longueurs = req.getParameterValues("longueurBlocRestant[]");
@@ -41,7 +42,7 @@ public class TransformationServlet extends HttpServlet {
             Connection conn = new UtilDB().GetConn();
             try {
                 conn.setAutoCommit(false);
-                TransformationCPL trasCPL = new TransformationCPL(idBloc, margePourcentage,dateTransformation, idDimensions, quantites, prixRevient, longueurs, largeurs, epaisseurs);
+                TransformationCPL trasCPL = new TransformationCPL(idBloc, margePourcentage,dateTransformation, idDimensions,prixVente, quantites, prixRevient, longueurs, largeurs, epaisseurs);
                 trasCPL.validerTransformation(conn);
                 conn.commit();
             } catch (Exception e) {

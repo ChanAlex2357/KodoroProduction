@@ -23,17 +23,18 @@ public class TransformationCPL {
         String margePourcentage ,
         String dateTrans ,
         String[] idDimensions ,
+        String[] prixVente,
         String[] qunatite , 
         String[] prixRevient , 
         String[] longueurs , 
         String[] largeurs , 
-        String[] epaisseurs 
+        String[] epaisseurs
     ) throws ParseException
     {
         setIdBloc(idBloc);
         setMarge(margePourcentage);
         setDateTransformation(dateTrans);
-        setTransformationFille(idDimensions, qunatite , prixRevient );
+        setTransformationFille(idDimensions,prixVente, qunatite , prixRevient );
         setRestes(longueurs, largeurs, epaisseurs , dateTrans);
     }
 
@@ -43,14 +44,11 @@ public class TransformationCPL {
         this.genererBlocRestante(trans,conn);
     }
     
-    public void setTransformationFille(String[] idDimensions , String[] quantite , String[] prixRevient){
-        System.out.println(idDimensions);
-        System.out.println(quantite);
-        System.out.println(prixRevient);
+    public void setTransformationFille(String[] idDimensions, String[] prixVente , String[] quantite , String[] prixRevient){
         List<TransformationFille> transF = new ArrayList<>();
         for (int i = 0; i < idDimensions.length; i++) {
             try {
-                transF.add(new TransformationFille(idDimensions[i],quantite[i],prixRevient[i]));
+                transF.add(new TransformationFille(idDimensions[i],prixVente[i],quantite[i],prixRevient[i]));
             } catch ( IllegalArgumentException e) {
                 System.out.println("Inutile d'inserer une valeur de 0 .NEXT!");
             }

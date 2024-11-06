@@ -62,6 +62,7 @@
                             <tr>
                                 <td>
                                     <input type="hidden" name="idDimensionUsuel[]" value="<%= dimension.getIdDimensionUsuels() %>">
+                                    <input type="hidden" name="prixVente[]" value="<%= dimension.getPrixVente() %>">
                                     <%= dimension.getDesce() %>( 
                                     <%= dimension.getLongueur() %> x <%= dimension.getLargeur() %> x <%= dimension.getEpaisseur() %> )
                                 </td>

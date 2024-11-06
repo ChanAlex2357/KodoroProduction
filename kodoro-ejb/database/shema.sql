@@ -43,6 +43,7 @@ CREATE TABLE TransformationFille(
    idTransformationFille VARCHAR2(255) ,
    quantite VARCHAR2(255)  NOT NULL,
    prixDeRevient NUMBER(15,2)   NOT NULL,
+   prixVente NUMBER(15,2)   NOT NULL,
    idDimensionUsuels VARCHAR2(255)  NOT NULL,
    idTransformation VARCHAR2(255)  NOT NULL,
    PRIMARY KEY(idTransformationFille),

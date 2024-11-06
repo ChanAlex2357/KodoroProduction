@@ -111,7 +111,10 @@ public class Transformation extends MaClassMAPTable{
     }
 
 
-
+    public double getMontantTransformation(Connection conn) throws Exception{
+        TransformationFille[] details = this.getDetailsTransformation(conn);
+        return TransformationFille.getSommeMontantVente(details,conn);
+    }
     
 
 }
