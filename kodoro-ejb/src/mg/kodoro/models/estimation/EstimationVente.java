@@ -1,5 +1,7 @@
 package mg.kodoro.models.estimation;
 
+import java.sql.Connection;
+
 import mg.kodoro.models.Bloc;
 import mg.kodoro.models.transformation.Transformation;
 import mg.kodoro.models.transformation.TransformationFille;
@@ -9,11 +11,19 @@ public class EstimationVente {
     private Bloc[] blocRestantes;
     private Transformation[] transformation;
     private TransformationFille[] detailsTransformation;
-    private double estimationVente;
-    private double estimationResteRapportVolumePrix;
-    private double estimationResteVolumeMinimal;
+    private double estimationVente = 30987;
+    private double estimationResteRapportVolumePrix = 1234;
+    private double estimationResteVolumeMinimal = 5678;
+    private Bloc bloc;
     
-    
+    public EstimationVente(String idBloc){
+        setIdBloc(idBloc);
+    }
+    public EstimationVente(Bloc bloc){
+        setBloc(bloc);  
+        setIdBloc(bloc.getIdBloc());
+
+    }
     public double getEstimationVente() {
         return estimationVente;
     }
@@ -24,6 +34,9 @@ public class EstimationVente {
         return estimationResteVolumeMinimal;
     }
     
+    public void setBloc(Bloc bloc) {
+        this.bloc = bloc;
+    }
     public String getIdBloc() {
         return idBloc;
     }
@@ -68,6 +81,13 @@ public class EstimationVente {
     
     public void setestimationResteVolumeMinimal(double estimationResteVolumeMinimal) {
         this.estimationResteVolumeMinimal = estimationResteVolumeMinimal;
+    }
+
+    public Bloc getBloc(Connection conn) throws Exception {
+        if (this.bloc == null) {
+            this.bloc = Bloc.getById(getIdBloc(), conn);
+        }
+        return bloc;
     }
 }
 
