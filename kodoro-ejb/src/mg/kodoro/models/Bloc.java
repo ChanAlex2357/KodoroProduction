@@ -51,8 +51,6 @@ public String toString() {
         setEpaisseur(epasseur);
         setDateFabrication(dateFab);
         setPrixFabrication(prixFab);
-        setIdOriginalSource(null);
-        setIdParentSource(null);
     }
     public Bloc(double longueur , double largeur , double epaisseur , Date dateFab , double prixFab){
         setNomTable("BLOC");
@@ -178,6 +176,13 @@ public String toString() {
     public void setIdOriginalSource(String originalSource) {
         this.idOriginalSource = originalSource;
     }
+    public void setIdOriginalSource(Bloc bloc) {
+        if (bloc.getIdOriginalSource() != null) {
+            setIdOriginalSource(bloc.getIdOriginalSource());
+            return ;
+        }
+        setIdOriginalSource(bloc.getIdBloc());
+    }
 
     public String getIdParentSource() {
         return idParentSource;
@@ -224,9 +229,8 @@ public String toString() {
             this.construirePK(c);
         } 
         if (desce == null) {
-            this.setDesce( "Fabrication du bloc "+this.getIdBloc());
+            this.setDesce( "Fabrication du bloc "+this.getIdBloc()+"["+this.getLongueur()+" x "+this.getLargeur()+" x "+this.getEpaisseur()+"]");
         }
-
         System.out.println(this);
         return super.createObject(c);
     }
@@ -257,5 +261,38 @@ public String toString() {
     }
     public double getPrixUnitaireVolume(){
         return this.getPrixFabrication() / getVolume();
+    }
+
+
+    public Bloc getBlocParentSource(Connection conn) throws Exception{
+        return Bloc.getById(this.getIdParentSource(), conn);
+    }
+
+    public Bloc getBlocOriginalSource(Connection conn) throws Exception{
+        return Bloc.getById(this.getIdOriginalSource(), conn);
+    }
+
+    public void estimatePrixFabrication(Bloc blocSource , Connection conn) throws Exception{
+        if (blocSource == null || !blocSource.getIdBloc().equals(this.getIdParentSource())) {
+            blocSource = getBlocParentSource(conn);
+        }
+
+        double puv = blocSource.getPrixUnitaireVolume();
+        double volume = this.getVolume();
+
+        double prixFab =  puv * volume;
+
+        if (this.getPrixFabrication() < prixFab) {
+            throw new Exception("Le prix de fabrication d'un bloc estimer ne peut pas surpasser son prix de fabrication de base. ");
+        }
+        this.setPrixFabrication(prixFab);
+    }
+
+    public static double getSommeVolume(Bloc[] blocs){
+        double somme = 0;
+        for(Bloc bloc : blocs){
+            somme += bloc.getVolume();
+        }
+        return somme;
     }
 }
