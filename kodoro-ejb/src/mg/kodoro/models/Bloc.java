@@ -4,7 +4,6 @@ import java.sql.Date;
 
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
-import mg.kodoro.models.transformation.TransformationFille;
 import mg.kodoro.models.transformation.TransformationLib;
 import mg.kodoro.utils.ValidationUtils;
 import utilitaire.UtilDB;
@@ -344,7 +343,7 @@ public String toString() {
     public Bloc getRestes(Connection conn){
         return null;
     }
-    public TransformationLib[] geTransformations(Connection conn) throws Exception{
+    public TransformationLib[] getTransformations(Connection conn) throws Exception{
         if (this.transformations != null) {
             return this.transformations;
         }
@@ -359,7 +358,7 @@ public String toString() {
     }
     public double getEstimationVente(Connection conn)throws Exception{
         double sommeVente = 0;
-        TransformationLib[] transformations = getTransformations();
+        TransformationLib[] transformations = getTransformations(conn);
         for (TransformationLib trans : transformations) {
             sommeVente += trans.getMontantTransformation(conn);
         }

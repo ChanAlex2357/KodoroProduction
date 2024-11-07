@@ -181,4 +181,10 @@ public class DimensionUsuels extends MaClassMAPTable {
     public double getMontantVente(int qte){
         return this.getPrixVente() * qte;
     }
+
+    public double getEstimationQte(Bloc bloc) {
+        double qte = 0;
+        qte =  bloc.getVolume() / this.getVolume();
+        return qte;
+    }
 }
