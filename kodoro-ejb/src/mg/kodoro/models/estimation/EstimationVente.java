@@ -35,26 +35,31 @@ public class EstimationVente {
     public double getEstimationResteRapportVolumePrix(Connection conn) {
         if (this.getEstimationResteRapportVolumePrix() < 0 ) {
             // Recuperation des reste
-            Bloc[] restes = this.getBloc().getRestes(conn);          
-
+            Bloc[] restes = this.getBlocRestantes(conn);
+            
         }
         return this.getEstimationResteRapportVolumePrix();
     }
     public double getEstimationResteVolumeMinimal() {
         return estimationResteVolumeMinimal;
     }
+    public double getEstimationResteVolumeMinimal(Connection conn) {
+        if (this.getEstimationResteVolumeMinimal() < 0) {
+            Bloc[] restes = this.getBlocRestantes(conn);
+        }
+        return this.getEstimationResteVolumeMinimal();
+    }
     
     public void setBloc(Bloc bloc) {
         this.bloc = bloc;
     }
-    public Bloc[] getBlocRestantes() {
+    public Bloc[] getBlocRestantes(Connection conn) {
+        if (this.blocRestantes == null || this.blocRestantes.length <= 0) {
+            this.blocRestantes = this.getBloc().getRestes(conn);          
+        }
         return blocRestantes;
     }
-
-    public void setBlocRestantes(Bloc[] blocRestantes) {
-        this.blocRestantes = blocRestantes;
-    }
-
+    
     public Transformation[] getTransformation() {
         return transformation;
     }

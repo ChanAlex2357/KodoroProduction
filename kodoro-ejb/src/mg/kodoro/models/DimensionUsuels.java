@@ -109,8 +109,8 @@ public class DimensionUsuels extends MaClassMAPTable {
 
     // Calcul du volume
     public double getVolume() {
-        if (this.volume <=  0) {
-            this.volume = getLongueur() * getLargeur() * getEpaisseur();
+        if (this.volume <= 0) {
+            setVolume(getLongueur() * getLargeur() * getEpaisseur());
         }
         return this.volume;
     }
@@ -118,7 +118,7 @@ public class DimensionUsuels extends MaClassMAPTable {
     // Calcul du rapport volume/prix
     public double getRapportVolumePrix() {
         if (this.rapportVolumePrix == 0) {
-            this.rapportVolumePrix = prixVente != 0 ? getVolume() / prixVente : 0;
+            setRapportVolumePrix(prixVente != 0 ? getVolume() / prixVente : 0);
         }
         return this.rapportVolumePrix;
     }
@@ -148,7 +148,7 @@ public class DimensionUsuels extends MaClassMAPTable {
         System.out.println("-/-/-/-/-//-/-/-");
         setNomTable("DIMENSIONUSUELS");
         controlerVolume();
-        getRapportVolumePrix();
+        controlerRapportVolumePrix();
         if (this.getTuppleID() == null || this.getTuppleID().isEmpty() || this.getTuppleID().equals("0")) {
             this.construirePK(c);
         }
@@ -160,6 +160,17 @@ public class DimensionUsuels extends MaClassMAPTable {
         if (this.volume <= 0 ) {
             this.getVolume();
         }
+    }
+    private void controlerRapportVolumePrix() {
+        if (this.rapportVolumePrix <= 0 ) {
+            this.getRapportVolumePrix();
+        }
+    }
+    public void setVolume(double volume) {
+        this.volume = volume;
+    }
+    public void setRapportVolumePrix(double rapportVolumePrix) {
+        this.rapportVolumePrix = rapportVolumePrix;
     }
 
     @Override
@@ -204,5 +215,21 @@ public class DimensionUsuels extends MaClassMAPTable {
         double qte = 0;
         qte =  bloc.getVolume() / this.getVolume();
         return qte;
+    }
+
+    public static DimensionUsuels getDimensionUsuelsWithMinimalVolume(Connection conn) throws Exception{
+        DimensionUsuels[] dimensionUsuels = (DimensionUsuels[]) CGenUtil.rechercher(new DimensionUsuels() , null , null , conn , " order by volume" );
+        if (dimensionUsuels.length > 0 ) {
+            return dimensionUsuels[0];
+        }
+        return null; 
+    }
+
+    public static DimensionUsuels getDimensinoUsuelsWithMaxRapportVolumePrix(Connection conn)throws Exception{
+        DimensionUsuels[] dimensionUsuels = (DimensionUsuels[]) CGenUtil.rechercher(new DimensionUsuels() , null , null , conn , " order by volume" );
+        if (dimensionUsuels.length > 0 ) {
+            return dimensionUsuels[0];
+        }
+        return null;
     }
 }

@@ -13,7 +13,7 @@ CREATE TABLE Bloc(
    dateFabrication DATE NOT NULL,
    desce VARCHAR2(255) ,
    largeur NUMBER(15,2)   NOT NULL,
-   volume  NUMBER(15,2),
+   volume  NUMBER(15,8),
    idOriginalSource VARCHAR2(255) ,
    idParentSource VARCHAR2(255) ,
    PRIMARY KEY(idBloc),
@@ -27,8 +27,8 @@ CREATE TABLE DimensionUsuels(
    longueur NUMBER(15,2)   NOT NULL,
    largeur NUMBER(15,2)   NOT NULL,
    epaisseur NUMBER(15,2)   NOT NULL,
-   volume  NUMBER(15,2),
-   rapportvolumeprix  NUMBER(15,2),
+   volume  NUMBER(15,8),
+   rapportvolumeprix  NUMBER(15,8),
    prixVente NUMBER(15,2)   NOT NULL,
    PRIMARY KEY(idDimensionUsuels)
 );

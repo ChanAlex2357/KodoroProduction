@@ -119,6 +119,10 @@ public String toString() {
         return longueur;
     }
 
+    public void setVolume(double volume) {
+        this.volume = volume;
+    }
+
     public void setLongueur(String longueur) {
         if (longueur == null) {
             throw new IllegalArgumentException("Veuillez saisir une valeur de longueur valide");
@@ -206,7 +210,7 @@ public String toString() {
     // Calculate volume
     public double getVolume() {
         if (this.volume <= 0) {
-            this.volume = getLongueur() * getLargeur() * getEpaisseur();
+            setVolume(getLongueur() * getLargeur() * getEpaisseur());
         }
         return this.volume;
     }
