@@ -207,7 +207,7 @@ public class DimensionUsuels extends MaClassMAPTable {
         return dimensions;
     }
 
-    public double getMontantVente(int qte){
+    public double getMontantVente(double qte){
         return this.getPrixVente() * qte;
     }
 
@@ -218,7 +218,7 @@ public class DimensionUsuels extends MaClassMAPTable {
     }
 
     public static DimensionUsuels getDimensionUsuelsWithMinimalVolume(Connection conn) throws Exception{
-        DimensionUsuels[] dimensionUsuels = (DimensionUsuels[]) CGenUtil.rechercher(new DimensionUsuels() , null , null , conn , " order by volume" );
+        DimensionUsuels[] dimensionUsuels = (DimensionUsuels[]) CGenUtil.rechercher(new DimensionUsuels() , null , null , conn , " order by volume asc" );
         if (dimensionUsuels.length > 0 ) {
             return dimensionUsuels[0];
         }
@@ -226,7 +226,7 @@ public class DimensionUsuels extends MaClassMAPTable {
     }
 
     public static DimensionUsuels getDimensinoUsuelsWithMaxRapportVolumePrix(Connection conn)throws Exception{
-        DimensionUsuels[] dimensionUsuels = (DimensionUsuels[]) CGenUtil.rechercher(new DimensionUsuels() , null , null , conn , " order by volume" );
+        DimensionUsuels[] dimensionUsuels = (DimensionUsuels[]) CGenUtil.rechercher(new DimensionUsuels() , null , null , conn , " order by rapportvolumeprix desc" );
         if (dimensionUsuels.length > 0 ) {
             return dimensionUsuels[0];
         }

@@ -3,6 +3,7 @@ package mg.kodoro.models.estimation;
 import java.sql.Connection;
 
 import mg.kodoro.models.Bloc;
+import mg.kodoro.models.DimensionUsuels;
 import mg.kodoro.models.transformation.Transformation;
 import mg.kodoro.models.transformation.TransformationFille;
 
@@ -32,22 +33,35 @@ public class EstimationVente {
     public double getEstimationResteRapportVolumePrix() {
         return estimationResteRapportVolumePrix;
     }
-    public double getEstimationResteRapportVolumePrix(Connection conn) {
+    public double getEstimationResteRapportVolumePrix(Connection conn) throws Exception {
         if (this.getEstimationResteRapportVolumePrix() < 0 ) {
             // Recuperation des reste
             Bloc[] restes = this.getBlocRestantes(conn);
-            
+            DimensionUsuels dim = DimensionUsuels.getDimensinoUsuelsWithMaxRapportVolumePrix(conn);
+            return getEstimationDimensionByBlocs(restes, dim);
         }
         return this.getEstimationResteRapportVolumePrix();
     }
     public double getEstimationResteVolumeMinimal() {
         return estimationResteVolumeMinimal;
     }
-    public double getEstimationResteVolumeMinimal(Connection conn) {
+    public double getEstimationResteVolumeMinimal(Connection conn) throws Exception {
         if (this.getEstimationResteVolumeMinimal() < 0) {
             Bloc[] restes = this.getBlocRestantes(conn);
+            DimensionUsuels dim = DimensionUsuels.getDimensionUsuelsWithMinimalVolume(conn);
+            return getEstimationDimensionByBlocs(restes, dim);
         }
         return this.getEstimationResteVolumeMinimal();
+    }
+    public double getEstimationDimensionByBlocs(Bloc[] blocs , DimensionUsuels dimensionUsuels){
+        if (blocs == null || blocs.length <= 0 || dimensionUsuels == null) {
+            return 0;
+        }
+        // Evaluer la quantite possible
+        double qte = dimensionUsuels.getEstimationQte(blocs[0]);
+
+        // Estimer le montant de vente
+        return dimensionUsuels.getMontantVente(qte);
     }
     
     public void setBloc(Bloc bloc) {
