@@ -15,14 +15,15 @@ public class EstimationVente {
     private double estimationResteVolumeMinimal = 5678;
     private Bloc bloc;
 
-    public EstimationVente(Bloc bloc){
+    public EstimationVente(Bloc bloc , Connection conn) throws Exception{
         setBloc(bloc);
+        getEstimationVente(conn);
     }
     public double getEstimationVente(){
         return this.estimationVente;
     }
     public double getEstimationVente(Connection conn) throws Exception {
-        if (this.estimationVente < 0) {
+        if (this.estimationVente > 0) {
             return this.estimationVente;
         }
         setEstimationVente(getBloc().getEstimationVente(conn));
@@ -30,6 +31,14 @@ public class EstimationVente {
     }
     public double getEstimationResteRapportVolumePrix() {
         return estimationResteRapportVolumePrix;
+    }
+    public double getEstimationResteRapportVolumePrix(Connection conn) {
+        if (this.getEstimationResteRapportVolumePrix() < 0 ) {
+            // Recuperation des reste
+            Bloc[] restes = this.getBloc().getRestes(conn);          
+
+        }
+        return this.getEstimationResteRapportVolumePrix();
     }
     public double getEstimationResteVolumeMinimal() {
         return estimationResteVolumeMinimal;
@@ -79,6 +88,9 @@ public class EstimationVente {
     
     public Bloc getBloc(){
         return this.bloc;
+    }
+    public String getIdBloc(){
+        return this.getBloc().getIdBloc();
     }
 }
 

@@ -15,7 +15,7 @@ UNION
 );
 
 
-SELECT idBloc from Bloc WHERE idOriginalSource = 'BLC000022' and idBloc NOT IN ( SELECT idBloc from v_blocmere);
+-- SELECT idBloc from Bloc WHERE idOriginalSource = 'BLC000022' and idBloc NOT IN ( SELECT idBloc from v_blocmere);
 
 
 CREATE OR REPLACE VIEW Transformation_Lib AS
@@ -26,6 +26,7 @@ SELECT
     b.longueur AS longueur,
     b.largeur AS largeur,
     b.epaisseur AS epaisseur,
+    b.volume    AS volume,
     b.prixFabrication,
     b.dateFabrication,
     b.desce AS desce,

@@ -20,7 +20,8 @@ public class Bloc extends MaClassMAPTable{
     private double longueur;
     private double largeur;
     private double epaisseur;
-    private Date dateFabrication;
+    private double volume;
+    private Date   dateFabrication;
     private double prixFabrication;
     private String idOriginalSource;
     private String idParentSource;
@@ -28,6 +29,7 @@ public class Bloc extends MaClassMAPTable{
     protected Bloc originalSource;
     protected Bloc parentSource;
     protected TransformationLib[] transformations;
+    protected Bloc[] restes ;
     
     @Override
 public String toString() {
@@ -37,6 +39,7 @@ public String toString() {
             ", longueur=" + longueur +
             ", largeur=" + largeur +
             ", epaisseur=" + epaisseur +
+            ", volume=" + this.getVolume() +
             ", dateFabrication=" + (dateFabrication != null ? new SimpleDateFormat("yyyy-MM-dd").format(dateFabrication) : "null") +
             ", prixFabrication=" + prixFabrication +
             ", idOriginalSource='" + idOriginalSource + '\'' +
@@ -202,7 +205,10 @@ public String toString() {
 
     // Calculate volume
     public double getVolume() {
-        return longueur * largeur * epaisseur;
+        if (this.volume <= 0) {
+            this.volume = getLongueur() * getLargeur() * getEpaisseur();
+        }
+        return this.volume;
     }
 
 
@@ -233,6 +239,7 @@ public String toString() {
     @Override
     public MaClassMAPTable createObject(Connection c) throws Exception {
         controlerTaille();
+        controlerVolume();
         if (this.getTuppleID() == null || this.getTuppleID().compareToIgnoreCase("") == 0 || this.getTuppleID().compareToIgnoreCase("0") == 0) {
             this.construirePK(c);
         } 
@@ -243,6 +250,12 @@ public String toString() {
         return super.createObject(c);
     }
 
+    private void controlerVolume() {
+        if (this.volume <= 0 ) {
+            this.getVolume();
+        }
+    }
+        
     public void controlerTaille() throws Exception{
         if (this.getLongueur() <= this.getLargeur() ) {
             throw new Exception("La taille du bloc est invalide ; La longueur doit être supérieure à la largeur.");
@@ -340,7 +353,11 @@ public String toString() {
         return somme;
     }
 
-    public Bloc getRestes(Connection conn){
+    public Bloc[] getRestes(Connection conn){
+        if (this.restes != null) {
+            return this.restes;
+        }
+
         return null;
     }
     public TransformationLib[] getTransformations(Connection conn) throws Exception{

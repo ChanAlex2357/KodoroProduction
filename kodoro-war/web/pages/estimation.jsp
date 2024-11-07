@@ -40,7 +40,7 @@
                             <td><%= volumeRestante %> m³</td>
                             <!-- Collapse trigger for Estimations -->
                             <td>
-                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#estimations-<%= estimation.getIdBloc() %>" aria-expanded="false" aria-controls="estimations-<%= estimation.getIdBloc() %>">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#estimations-<%= estimation.getBloc().getIdBloc() %>" aria-expanded="false" aria-controls="estimations-<%= estimation.getIdBloc() %>">
                                     [P1, P2, P3]
                                 </button>
                                 <div class="collapse" id="estimations-<%= estimation.getIdBloc() %>">

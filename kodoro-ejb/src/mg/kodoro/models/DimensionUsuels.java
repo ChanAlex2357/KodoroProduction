@@ -14,6 +14,8 @@ public class DimensionUsuels extends MaClassMAPTable {
     private double largeur;
     private double epaisseur;
     private double prixVente;
+    private double volume;
+    private double rapportVolumePrix;
     private String desce;
 
     // Constructeur par défaut
@@ -37,6 +39,7 @@ public class DimensionUsuels extends MaClassMAPTable {
         setEpaisseur(epaisseur);
         setPrixVente(prixVente);
         setDesce(desce);
+        
     }
 
     // Getters et Setters
@@ -106,12 +109,18 @@ public class DimensionUsuels extends MaClassMAPTable {
 
     // Calcul du volume
     public double getVolume() {
-        return getLongueur() * getLargeur() * getEpaisseur();
+        if (this.volume <=  0) {
+            this.volume = getLongueur() * getLargeur() * getEpaisseur();
+        }
+        return this.volume;
     }
 
     // Calcul du rapport volume/prix
     public double getRapportVolumePrix() {
-        return prixVente != 0 ? getVolume() / prixVente : 0;
+        if (this.rapportVolumePrix == 0) {
+            this.rapportVolumePrix = prixVente != 0 ? getVolume() / prixVente : 0;
+        }
+        return this.rapportVolumePrix;
     }
 
     @Override
@@ -121,6 +130,8 @@ public class DimensionUsuels extends MaClassMAPTable {
                 ", L=" + this.getLongueur() +
                 ", l=" + this.getLargeur() +
                 ", e=" + this.getEpaisseur() +
+                ", volume=" + this.getVolume() +
+                ", v/p =" + this.getRapportVolumePrix() +
                 ", prixVente=" + this.getPrixVente() +
                 ", desce='" + desce + '\'' +
                 '}';
@@ -136,12 +147,19 @@ public class DimensionUsuels extends MaClassMAPTable {
     public MaClassMAPTable createObject(Connection c) throws Exception {
         System.out.println("-/-/-/-/-//-/-/-");
         setNomTable("DIMENSIONUSUELS");
+        controlerVolume();
+        getRapportVolumePrix();
         if (this.getTuppleID() == null || this.getTuppleID().isEmpty() || this.getTuppleID().equals("0")) {
             this.construirePK(c);
         }
         System.out.println("--- DETAILS ---");
         System.out.println(this.toString());
         return super.createObject(c);
+    }
+    private void controlerVolume() {
+        if (this.volume <= 0 ) {
+            this.getVolume();
+        }
     }
 
     @Override

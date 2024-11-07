@@ -6,6 +6,7 @@ public class TransformationLib extends Transformation {
     private double longueur;
     private double largeur;
     private double epaisseur;
+    private double volume;
     private double prixFabrication;
     private Date dateFabrication;
     private String desce;
@@ -35,6 +36,14 @@ public class TransformationLib extends Transformation {
 
     public double getEpaisseur() {
         return epaisseur;
+    }
+
+    public double getVolume() {
+        return volume;
+    }
+
+    public void setVolume(double volume) {
+        this.volume = volume;
     }
 
     public void setEpaisseur(double epaisseur) {
@@ -91,6 +100,7 @@ public class TransformationLib extends Transformation {
                 ", dateTransformation=" + getDateTransformation() +
                 ", longueur=" + longueur +
                 ", largeur=" + largeur +
+                ", volume=" + volume +
                 ", epaisseur=" + epaisseur +
                 ", prixFabrication=" + prixFabrication +
                 ", dateFabrication=" + dateFabrication +
@@ -99,7 +109,4 @@ public class TransformationLib extends Transformation {
                 ", idParentSource='" + idParentSource + '\'' +
                 '}';
     }
-
-
-
 }
