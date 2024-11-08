@@ -32,12 +32,10 @@
                 if (estimations != null && !estimations.isEmpty()) {
                     for (EstimationVente estimation : estimations) {
                         double volume = 0;
-                        double volumeRestante = 0; // Exemple de calcul pour le volume restante
             %>
                         <tr>
                             <td><%= estimation.getBloc().getIdBloc() %></td>
                             <td><%= estimation.getBloc().getVolume() %> m³</td>
-                            <td><%= volumeRestante %> m³</td>
                             <!-- Collapse trigger for Estimations -->
                             <td>
                                 <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#estimations-<%= estimation.getBloc().getIdBloc() %>" aria-expanded="false" aria-controls="estimations-<%= estimation.getIdBloc() %>">
@@ -45,26 +43,11 @@
                                 </button>
                                 <div class="collapse" id="estimations-<%= estimation.getIdBloc() %>">
                                     <div class="card card-body">
-                                        <strong>P1:</strong> <%= estimation.getEstimationVente() %> m³<br>
-                                        <strong>P2:</strong> <%= estimation.getEstimationResteRapportVolumePrix() %> m³<br>
-                                        <strong>P3:</strong> <%= estimation.getEstimationResteVolumeMinimal() %> m³
+                                        <strong>P1:</strong> <%= estimation.getEstimationVente() %><br>
+                                        <strong>P2:</strong> <%= estimation.getEstimationResteRapportVolumePrix() %><br>
+                                        <strong>P3:</strong> <%= estimation.getEstimationResteVolumeMinimal() %>
                                     </div>
                                 </div>
-                            </td>
-                            <!-- Collapse trigger for Details -->
-                            <td>
-                                <!-- <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#details-<%= estimation.getIdBloc() %>" aria-expanded="false" aria-controls="details-<%= estimation.getIdBloc() %>">
-                                    [Détails Restes, Détails Fabrication]
-                                </button>
-                                <div class="collapse" id="details-<%= estimation.getIdBloc() %>">
-                                    <div class="card card-body">
-                                        <strong>Détails Restes:</strong><br>
-                                            Aucune information sur les blocs restants.
-                                        <strong>Détails Fabrication:</strong><br>
-                                            Aucune information de transformation disponible.
-                                      
-                                    </div>
-                                </div> -->
                             </td>
                         </tr>
             <%

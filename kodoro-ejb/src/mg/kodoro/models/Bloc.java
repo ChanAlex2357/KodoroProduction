@@ -284,11 +284,11 @@ public String toString() {
         }
         return blocs;
     }
-    static public Bloc[] getAllBlocTransformable(){
+    static public Bloc[] getAllBlocOriginal(){
         Bloc[] blocs = new Bloc[0];
         Connection conn = new UtilDB().GetConn();
         try {
-            blocs = (Bloc[]) CGenUtil.rechercher(new Bloc() , null , null , conn , "");
+            blocs = (Bloc[]) CGenUtil.rechercher(new Bloc() , null , null , conn , " and (idparentsource is null and idoriginalsource is null) ");
         } catch (Exception e) {
             e.printStackTrace();
         } 
@@ -357,19 +357,21 @@ public String toString() {
         return somme;
     }
 
-    public Bloc[] getRestes(Connection conn){
+    public Bloc[] getRestes(Connection conn) throws Exception{
         if (this.restes != null) {
             return this.restes;
         }
-
+        Bloc[] blocs = (Bloc[]) CGenUtil.rechercher(new Bloc(),null , null , conn , " and (idbloc not in ( select idbloc from v_blocmere ) and idoriginalsource = '"+this.getIdBloc()+"') ");
+        if (blocs.length > 0) {
+            return blocs;
+        }
         return null;
     }
     public TransformationLib[] getTransformations(Connection conn) throws Exception{
         if (this.transformations != null) {
             return this.transformations;
         }
-
-        TransformationLib[] tLib = (TransformationLib[]) CGenUtil.rechercher(new TransformationLib(),null,null,conn," AND (idBbloc = '"+this.getIdBloc()+"' OR idOriginalSource = '"+this.getIdBloc()+"'");
+        TransformationLib[] tLib = (TransformationLib[]) CGenUtil.rechercher(new TransformationLib(),null,null,conn," AND (idBloc = '"+this.getIdBloc()+"' OR idOriginalSource = '"+this.getIdBloc()+"')");
 
         if (tLib.length <= 0 ) {
             return new TransformationLib[0];
@@ -409,4 +411,55 @@ public String toString() {
     private void setTransformations(TransformationLib[] transformations) {
         this.transformations = transformations;
     }
+
+    public Bloc[] getFille(Connection conn) throws Exception {
+        Bloc bref = new Bloc();
+        bref.setIdOriginalSource( this.getIdBloc() );
+        Bloc[] filles = (Bloc[])CGenUtil.rechercher(bref,null,null,conn,"");
+        if (filles.length <= 0) {
+            return new Bloc[0];
+        }
+        return filles;
+    }
+
+    public double getTauxChangePrixFab( double newPrixFab ){
+        return newPrixFab / this.getPrixFabrication(); 
+    }
+    public void updatePrixFabrication( double tauxChange ){
+        double newFab = this.getPrixFabrication() * tauxChange;
+        System.out.println(this.getIdBloc()+" : "+this.getPrixFabrication()+" => "+newFab);
+        this.setPrixFabrication( newFab);
+    }
+    public void updatePrixFabrication(double prixFab , Connection conn) throws Exception {
+        System.out.println( " | UPDATE PRIX DE FABRICATION |"+this.getIdBloc());
+        double taux = this.getTauxChangePrixFab(prixFab);
+        System.out.println("TAUX DE CAHNGE : "+taux);
+        this.setPrixFabrication(prixFab);
+        // Mettre la table a jour
+        updateToTable(conn);
+        // Mettre a jour les blocs filles
+        //recuperer la liste des filles
+        Bloc[] filles = this.getFille(conn);
+        System.out.println("-- UPDATE PRIX DE FABRICATION FILLE----");
+        for (Bloc bloc : filles) {
+            bloc.updatePrixFabrication(taux);  // Changer le priix selon le taux
+            bloc.updateToTable(conn); // update la table
+        }
+        System.out.println("--- --- --- --- --- ---");
+        // Mettre a jour les prix de transformation
+        TransformationLib[] trans = this.getTransformations(conn);
+        System.out.println("-- UPDATE PRIX DE REVIENT DE TRANSFORMATION ----");
+        for (TransformationLib transformationLib : trans) {
+            
+            transformationLib.updatePrixDeRevientTransformation(taux, conn);
+        }
+        System.out.println("--- --- --- --- --- ---");
+
+
+    }
+
+    public void updatePrixFabrication(String prixFab , Connection conn) throws Exception {
+        updatePrixFabrication( ValidationUtils.validatePositiveStringDouble(prixFab) , conn);
+    }
+
 }

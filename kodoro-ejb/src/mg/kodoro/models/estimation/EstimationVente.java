@@ -12,13 +12,15 @@ public class EstimationVente {
     private Transformation[] transformation;
     private TransformationFille[] detailsTransformation;
     private double estimationVente = -1;
-    private double estimationResteRapportVolumePrix = 1234;
-    private double estimationResteVolumeMinimal = 5678;
+    private double estimationResteRapportVolumePrix = -1;
+    private double estimationResteVolumeMinimal = -1;
     private Bloc bloc;
 
     public EstimationVente(Bloc bloc , Connection conn) throws Exception{
         setBloc(bloc);
         getEstimationVente(conn);
+        getEstimationResteVolumeMinimal(conn);
+        getEstimationResteRapportVolumePrix(conn);
     }
     public double getEstimationVente(){
         return this.estimationVente;
@@ -38,7 +40,7 @@ public class EstimationVente {
             // Recuperation des reste
             Bloc[] restes = this.getBlocRestantes(conn);
             DimensionUsuels dim = DimensionUsuels.getDimensinoUsuelsWithMaxRapportVolumePrix(conn);
-            return getEstimationDimensionByBlocs(restes, dim);
+            setestimationResteRapportVolumePrix( getEstimationDimensionByBlocs(restes, dim) );
         }
         return this.getEstimationResteRapportVolumePrix();
     }
@@ -49,7 +51,7 @@ public class EstimationVente {
         if (this.getEstimationResteVolumeMinimal() < 0) {
             Bloc[] restes = this.getBlocRestantes(conn);
             DimensionUsuels dim = DimensionUsuels.getDimensionUsuelsWithMinimalVolume(conn);
-            return getEstimationDimensionByBlocs(restes, dim);
+            setestimationResteVolumeMinimal( getEstimationDimensionByBlocs(restes, dim) );
         }
         return this.getEstimationResteVolumeMinimal();
     }
@@ -67,7 +69,7 @@ public class EstimationVente {
     public void setBloc(Bloc bloc) {
         this.bloc = bloc;
     }
-    public Bloc[] getBlocRestantes(Connection conn) {
+    public Bloc[] getBlocRestantes(Connection conn) throws Exception {
         if (this.blocRestantes == null || this.blocRestantes.length <= 0) {
             this.blocRestantes = this.getBloc().getRestes(conn);          
         }
