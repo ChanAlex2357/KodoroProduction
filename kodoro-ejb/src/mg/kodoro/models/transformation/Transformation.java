@@ -128,4 +128,20 @@ public class Transformation extends MaClassMAPTable{
     public Bloc getBloc(Connection conn) throws Exception {
         return Bloc.getById(this.getIdBloc(), conn);
     }
+
+    public static TransformationLib getById(String idTransformation,Connection conn) throws Exception {
+        TransformationLib lib = new TransformationLib();
+        lib.setIdTransformation(idTransformation);
+
+        TransformationLib[] libs = (TransformationLib[]) CGenUtil.rechercher(lib, null,null,conn,"");
+
+        if (libs.length > 0) {
+            return libs[0];
+        }
+        return null;
+    }
+
+    public TransformationLib getAsTransformationLib(Connection conn) throws Exception {
+        return Transformation.getById(this.getIdTransformation(), conn);
+    }
 }

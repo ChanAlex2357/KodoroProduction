@@ -82,9 +82,13 @@ public class TransformationCPL {
     public Transformation genereTransformation(Connection conn) throws Exception{
         Transformation trans = new Transformation(this.getIdBloc(), this.getMarge(), this.getDateTransformation());
         trans.createObject(conn, conn);
+
+        TransformationLib transformationLib = trans.getAsTransformationLib(conn);
         for (TransformationFille transformationFille : detailsTransformations) {
+
+            transformationFille.transformation = transformationLib;
             transformationFille.setIdTransformation(trans.getIdTransformation());
-            transformationFille.createObject(conn, conn);
+            transformationFille.createObject(conn);
         }
         return trans;
     }

@@ -40,7 +40,7 @@ JOIN
 
     
 CREATE or replace view TransformationFille_Lib as
-SELE
+SELEct
     tf.idTransformationFille,
     tf.idDimensionUsuels,
     tf.quantite,
@@ -54,4 +54,14 @@ SELE
     t.idOriginalSource,
     t.idParentSource
 from TransformationFille tf
-join Transformation_Lib t on t.idTransformation = tf.idTransformation
+join Transformation_Lib t on t.idTransformation = tf.idTransformation;
+
+create or replace view StockTransformation as
+SELECT 
+    tfl.idDimensionUsuels,
+    tfl.idBloc,
+    SUM(tfl.quantite) as quantite,
+    tfl.idOriginalSource,
+    (SUM(tfl.prixDeRevient) / SUM(tfl.quantite)) as prixDeRevient
+from TransformationFille_Lib tfl
+group by idDimensionUsuels , idOriginalSource;

@@ -3,8 +3,8 @@ import java.sql.Connection;
 
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
-import mg.kodoro.models.Bloc;
 import mg.kodoro.models.DimensionUsuels;
+import mg.kodoro.models.stock.MvtStockDimension;
 import mg.kodoro.utils.ValidationUtils;
 
 public class TransformationFille extends MaClassMAPTable {
@@ -15,7 +15,7 @@ public class TransformationFille extends MaClassMAPTable {
     private double prixDeRevient;
     private double prixVente;
 
-    protected Transformation transformation;
+    protected TransformationLib transformation;
     
     // Constructeur par défaut
     public TransformationFille() {
@@ -127,7 +127,30 @@ public class TransformationFille extends MaClassMAPTable {
         // Controller la validiter de la transformation mere
         controllerTransformation();
         System.out.println(this);
-        return super.createObject(c);
+        super.createObject(c);
+        // generer le mouvement de stock
+        this.genererMvtStockDimension(c);
+        return this;
+    }
+
+    public MvtStockDimension genererMvtStockDimension(Connection c) throws Exception{
+        // Recuperer la transformation mere
+        TransformationLib transformation = this.getTransformation(c);
+        if (transformation == null) {
+            throw new Exception("La transformation mere ["+this.getIdTransformation()+"] associee n'existe pas ou n'as pas ete instancier");
+        }
+        // Cree le mouvement de stock
+        MvtStockDimension mvt = new MvtStockDimension();
+        mvt.setIdDimensionUsuels(this.getIdDimensionUsuels());
+        mvt.setIdOriginalSource( transformation.getIdOriginalSource());
+        mvt.setEntree(this.getQuantite());
+        mvt.setSortie(0);
+        mvt.setPrixDeRevient(this.getPrixDeRevient());
+        mvt.setIdTransformationFille(this.getIdTransformationFille());
+
+        // faire la persistance du mouvement de stock
+        mvt.createObject(c);
+        return mvt;
     }
 
     @Override
@@ -184,6 +207,8 @@ public class TransformationFille extends MaClassMAPTable {
         System.err.println(this.getIdTransformationFille()+" : "+this.getPrixDeRevient()+" => "+newP);
         this.setPrixDeRevient(newP);
         this.updateToTable(conn);
+
+        // Mettre a jour le mouvement de stock
     }
 
     public static TransformationFilleLib getByIdTransformation(String idTransformation , Connection conn) throws Exception {
@@ -209,14 +234,28 @@ public class TransformationFille extends MaClassMAPTable {
         return null;
     }
 
-    public TransformationLib getTransformation(Connection conn) throws Exception{
-        TransformationLib tLib = new TransformationLib();
-        tLib.setIdTransformation(this.getIdTransformation());
+    public static TransformationFilleLib[] getDetailsTransformationDimension(String idDimension , String idOrigine , Connection conn) throws Exception {
+        TransformationFilleLib ref = new TransformationFilleLib();
+        ref.setIdDimensionUsuels(idDimension);
+        ref.setIdOriginalSource(idOrigine);
 
-        TransformationLib[] transformations = (TransformationLib[])CGenUtil.rechercher(tLib,null,null,conn,"");
-        if (transformations.length > 0 ) {
-            return transformations[0];
+        TransformationFilleLib[] filles = (TransformationFilleLib[])CGenUtil.rechercher(ref,null,null,conn,"");
+        if (filles.length > 0) {
+            return filles;
         }
         return null;
+    }
+
+    public TransformationLib getTransformation(Connection conn) throws Exception{
+        if (this.transformation != null) {
+            return this.transformation;
+        }
+        TransformationLib tLib = new TransformationLib();
+        tLib.setIdTransformation(this.getIdTransformation());
+        TransformationLib[] transformations = (TransformationLib[])CGenUtil.rechercher(tLib,null,null,conn,"");
+        if (transformations.length > 0 ) {
+            this.transformation = transformations[0];
+        }
+        return this.transformation;
     }
 }
