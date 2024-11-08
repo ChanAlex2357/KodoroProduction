@@ -1,6 +1,5 @@
 package mg.kodoro.models.transformation;
 
-import java.sql.Connection;
 import java.sql.Date;
 
 public class TransformationLib extends Transformation {
