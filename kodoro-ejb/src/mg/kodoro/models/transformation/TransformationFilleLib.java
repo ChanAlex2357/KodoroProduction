@@ -1,8 +1,11 @@
 package mg.kodoro.models.transformation;
 
+import java.sql.Connection;
 import java.sql.Date;
 
-public class TransformationFille_Lib extends TransformationFille{
+import mg.kodoro.models.Bloc;
+
+public class TransformationFilleLib extends TransformationFille{
     protected Date dateTransformation;
     protected String idBloc;
     protected double marge;
@@ -10,7 +13,7 @@ public class TransformationFille_Lib extends TransformationFille{
     protected String idOriginalSource;
     protected String idParentSource;
 
-    public TransformationFille_Lib(){
+    public TransformationFilleLib(){
         setNomTable("TransformationFille_Lib");
     }
 
@@ -69,4 +72,11 @@ public class TransformationFille_Lib extends TransformationFille{
                 '}';
     }
     
+    public Bloc getBlocOriginalSource(Connection conn) throws Exception {
+        return Bloc.getById(this.getIdOriginalSource(), conn);
+    }
+
+    public Bloc getBlocParentSource(Connection conn) throws Exception {
+        return Bloc.getById(this.getIdParentSource(), conn);
+    }
 }

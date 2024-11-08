@@ -6,6 +6,7 @@ import java.text.ParseException;
 
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.models.Bloc;
 import mg.kodoro.utils.ValidationUtils;
 import utils.TimeUtils;
 
@@ -15,7 +16,7 @@ public class Transformation extends MaClassMAPTable{
     private double  marge;
     private Date    dateTransformation;
 
-    protected TransformationFille[] detailsTransformation;
+    protected TransformationFilleLib[] detailsTransformation;
 
     public Transformation(String idBloc, double marge, Date dateTransformation) {
         this.idBloc = idBloc;
@@ -95,15 +96,15 @@ public class Transformation extends MaClassMAPTable{
     }
 
 
-    public TransformationFille[] getDetailsTransformation(Connection conn) throws Exception{
+    public TransformationFilleLib[] getDetailsTransformation(Connection conn) throws Exception{
         if (this.detailsTransformation == null) {
-            TransformationFille[] transF = new TransformationFille[1];
-            transF[0] = new TransformationFille();
+            TransformationFilleLib[] transF = new TransformationFilleLib[1];
+            transF[0] = new TransformationFilleLib();
             transF[0].setIdTransformation(this.getIdTransformation());
     
-            transF = (TransformationFille[]) CGenUtil.rechercher( transF[0],null,null,conn,"");
+            transF = (TransformationFilleLib[]) CGenUtil.rechercher( transF[0],null,null,conn,"");
             if (transF.length <= 0) {
-                return new TransformationFille[0];
+                return new TransformationFilleLib[0];
             }
             this.detailsTransformation = transF; 
         }
@@ -112,16 +113,19 @@ public class Transformation extends MaClassMAPTable{
 
 
     public double getMontantTransformation(Connection conn) throws Exception{
-        TransformationFille[] details = this.getDetailsTransformation(conn);
-        return TransformationFille.getSommeMontantVente(details,conn);
+        TransformationFilleLib[] details = this.getDetailsTransformation(conn);
+        return TransformationFilleLib.getSommeMontantVente(details,conn);
     }
     
     public void updatePrixDeRevientTransformation(double taux , Connection conn) throws Exception {
         
-        TransformationFille[] transF = getDetailsTransformation(conn);
-        for (TransformationFille transformationFille : transF) {
+        TransformationFilleLib[] transF = getDetailsTransformation(conn);
+        for (TransformationFilleLib transformationFille : transF) {
             transformationFille.updatePrixDeRevient(taux,conn);
         }
     }
 
+    public Bloc getBloc(Connection conn) throws Exception {
+        return Bloc.getById(this.getIdBloc(), conn);
+    }
 }

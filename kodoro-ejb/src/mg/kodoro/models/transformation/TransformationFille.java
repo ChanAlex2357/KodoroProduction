@@ -3,6 +3,7 @@ import java.sql.Connection;
 
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.models.Bloc;
 import mg.kodoro.models.DimensionUsuels;
 import mg.kodoro.utils.ValidationUtils;
 
@@ -185,25 +186,36 @@ public class TransformationFille extends MaClassMAPTable {
         this.updateToTable(conn);
     }
 
-    public static TransformationFille_Lib getByIdTransformation(String idTransformation , Connection conn) throws Exception {
-        TransformationFille_Lib ref = new TransformationFille_Lib();
+    public static TransformationFilleLib getByIdTransformation(String idTransformation , Connection conn) throws Exception {
+        TransformationFilleLib ref = new TransformationFilleLib();
         ref.setIdTransformation(idTransformation);
 
-        TransformationFille_Lib[] transformationFille_Libs = (TransformationFille_Lib[]) CGenUtil.rechercher(ref, null , null , conn , "");
+        TransformationFilleLib[] transformationFille_Libs = (TransformationFilleLib[]) CGenUtil.rechercher(ref, null , null , conn , "");
 
         if (transformationFille_Libs.length > 0) {
             return transformationFille_Libs[0];
         }
         return null;
     }
-    public static TransformationFille_Lib getById(String id , Connection conn) throws Exception {
-        TransformationFille_Lib ref = new TransformationFille_Lib();
+    public static TransformationFilleLib getById(String id , Connection conn) throws Exception {
+        TransformationFilleLib ref = new TransformationFilleLib();
         ref.setIdTransformationFille(id);
 
-        TransformationFille_Lib[] transformationFille_Libs = (TransformationFille_Lib[]) CGenUtil.rechercher(ref, null , null , conn , "");
+        TransformationFilleLib[] transformationFille_Libs = (TransformationFilleLib[]) CGenUtil.rechercher(ref, null , null , conn , "");
 
         if (transformationFille_Libs.length > 0) {
             return transformationFille_Libs[0];
+        }
+        return null;
+    }
+
+    public TransformationLib getTransformation(Connection conn) throws Exception{
+        TransformationLib tLib = new TransformationLib();
+        tLib.setIdTransformation(this.getIdTransformation());
+
+        TransformationLib[] transformations = (TransformationLib[])CGenUtil.rechercher(tLib,null,null,conn,"");
+        if (transformations.length > 0 ) {
+            return transformations[0];
         }
         return null;
     }

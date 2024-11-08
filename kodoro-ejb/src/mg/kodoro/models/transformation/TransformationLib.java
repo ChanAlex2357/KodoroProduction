@@ -1,6 +1,9 @@
 package mg.kodoro.models.transformation;
 
+import java.sql.Connection;
 import java.sql.Date;
+
+import mg.kodoro.models.Bloc;
 
 public class TransformationLib extends Transformation {
     private double longueur;
@@ -110,5 +113,11 @@ public class TransformationLib extends Transformation {
                 '}';
     }
 
-    
+    public Bloc getBlocOriginalSource(Connection conn) throws Exception {
+        return Bloc.getById(this.getIdOriginalSource(), conn);
+    }
+
+    public Bloc getBlocParentSource(Connection conn) throws Exception {
+        return Bloc.getById(this.getIdParentSource(), conn);
+    }
 }
