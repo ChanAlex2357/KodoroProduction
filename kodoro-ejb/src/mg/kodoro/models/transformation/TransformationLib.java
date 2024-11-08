@@ -1,6 +1,7 @@
 package mg.kodoro.models.transformation;
 
-import java.util.Date;
+import java.sql.Connection;
+import java.sql.Date;
 
 public class TransformationLib extends Transformation {
     private double longueur;
@@ -109,4 +110,6 @@ public class TransformationLib extends Transformation {
                 ", idParentSource='" + idParentSource + '\'' +
                 '}';
     }
+
+    
 }

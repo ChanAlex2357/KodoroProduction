@@ -116,5 +116,12 @@ public class Transformation extends MaClassMAPTable{
         return TransformationFille.getSommeMontantVente(details,conn);
     }
     
+    public void updatePrixDeRevientTransformation(double taux , Connection conn) throws Exception {
+        
+        TransformationFille[] transF = getDetailsTransformation(conn);
+        for (TransformationFille transformationFille : transF) {
+            transformationFille.updatePrixDeRevient(taux,conn);
+        }
+    }
 
 }

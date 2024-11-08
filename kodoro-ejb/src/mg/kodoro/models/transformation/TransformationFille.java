@@ -177,4 +177,34 @@ public class TransformationFille extends MaClassMAPTable {
         }
         return somme;
     }
+
+    public void updatePrixDeRevient(double taux, Connection conn) throws Exception {
+        double newP = this.getPrixDeRevient() * taux;
+        System.err.println(this.getIdTransformationFille()+" : "+this.getPrixDeRevient()+" => "+newP);
+        this.setPrixDeRevient(newP);
+        this.updateToTable(conn);
+    }
+
+    public static TransformationFille_Lib getByIdTransformation(String idTransformation , Connection conn) throws Exception {
+        TransformationFille_Lib ref = new TransformationFille_Lib();
+        ref.setIdTransformation(idTransformation);
+
+        TransformationFille_Lib[] transformationFille_Libs = (TransformationFille_Lib[]) CGenUtil.rechercher(ref, null , null , conn , "");
+
+        if (transformationFille_Libs.length > 0) {
+            return transformationFille_Libs[0];
+        }
+        return null;
+    }
+    public static TransformationFille_Lib getById(String id , Connection conn) throws Exception {
+        TransformationFille_Lib ref = new TransformationFille_Lib();
+        ref.setIdTransformationFille(id);
+
+        TransformationFille_Lib[] transformationFille_Libs = (TransformationFille_Lib[]) CGenUtil.rechercher(ref, null , null , conn , "");
+
+        if (transformationFille_Libs.length > 0) {
+            return transformationFille_Libs[0];
+        }
+        return null;
+    }
 }
