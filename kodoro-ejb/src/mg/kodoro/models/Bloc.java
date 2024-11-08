@@ -438,7 +438,7 @@ public String toString() {
         // Mettre la table a jour
         updateToTable(conn);
         // Mettre a jour les blocs filles
-        //recuperer la liste des filles
+        /// recuperer la liste des filles
         Bloc[] filles = this.getFille(conn);
         System.out.println("-- UPDATE PRIX DE FABRICATION FILLE----");
         for (Bloc bloc : filles) {
@@ -446,6 +446,7 @@ public String toString() {
             bloc.updateToTable(conn); // update la table
         }
         System.out.println("--- --- --- --- --- ---");
+        
         // Mettre a jour les prix de transformation
         TransformationLib[] trans = this.getTransformations(conn);
         System.out.println("-- UPDATE PRIX DE REVIENT DE TRANSFORMATION ----");

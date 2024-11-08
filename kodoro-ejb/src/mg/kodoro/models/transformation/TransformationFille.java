@@ -16,6 +16,7 @@ public class TransformationFille extends MaClassMAPTable {
     private double prixVente;
 
     protected TransformationLib transformation;
+    protected MvtStockDimension mvtStockDimension;
     
     // Constructeur par défaut
     public TransformationFille() {
@@ -130,6 +131,7 @@ public class TransformationFille extends MaClassMAPTable {
         super.createObject(c);
         // generer le mouvement de stock
         this.genererMvtStockDimension(c);
+        
         return this;
     }
 
@@ -147,9 +149,9 @@ public class TransformationFille extends MaClassMAPTable {
         mvt.setSortie(0);
         mvt.setPrixDeRevient(this.getPrixDeRevient());
         mvt.setIdTransformationFille(this.getIdTransformationFille());
-
         // faire la persistance du mouvement de stock
         mvt.createObject(c);
+        this.mvtStockDimension = mvt;
         return mvt;
     }
 
@@ -209,6 +211,7 @@ public class TransformationFille extends MaClassMAPTable {
         this.updateToTable(conn);
 
         // Mettre a jour le mouvement de stock
+    
     }
 
     public static TransformationFilleLib getByIdTransformation(String idTransformation , Connection conn) throws Exception {
@@ -257,5 +260,19 @@ public class TransformationFille extends MaClassMAPTable {
             this.transformation = transformations[0];
         }
         return this.transformation;
+    }
+
+    public MvtStockDimension getMvtStockDimension(Connection conn) throws Exception {
+        if (this.mvtStockDimension != null) {
+            return this.mvtStockDimension;
+        }
+        MvtStockDimension mvt = new MvtStockDimension();
+        mvt.setIdTransformationFille(this.getIdTransformationFille());
+
+        MvtStockDimension[] stock = (MvtStockDimension[]) CGenUtil.rechercher(mvt,null,null,conn,"");
+        if (stock.length > 0) {
+            return stock[0];
+        }
+        return null;
     }
 }

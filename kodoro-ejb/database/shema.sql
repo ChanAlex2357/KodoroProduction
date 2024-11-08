@@ -1,10 +1,11 @@
 -- Suppression des tables si elles existent
+
+   DROP TABLE MvtStoctDimension CASCADE CONSTRAINTS;
    DROP TABLE TransformationFille CASCADE CONSTRAINTS;
    DROP TABLE Transformation CASCADE CONSTRAINTS;
    DROP TABLE DimensionUsuels CASCADE CONSTRAINTS;
    DROP TABLE Bloc CASCADE CONSTRAINTS;
 
-   
 CREATE TABLE Bloc(
    idBloc VARCHAR2(255) ,
    longueur NUMBER(15,2)   NOT NULL,
@@ -13,7 +14,7 @@ CREATE TABLE Bloc(
    dateFabrication DATE NOT NULL,
    desce VARCHAR2(255) ,
    largeur NUMBER(15,2)   NOT NULL,
-   volume  NUMBER(15,8),
+   volume NUMBER(15,8)   NOT NULL,
    idOriginalSource VARCHAR2(255) ,
    idParentSource VARCHAR2(255) ,
    PRIMARY KEY(idBloc),
@@ -27,12 +28,10 @@ CREATE TABLE DimensionUsuels(
    longueur NUMBER(15,2)   NOT NULL,
    largeur NUMBER(15,2)   NOT NULL,
    epaisseur NUMBER(15,2)   NOT NULL,
-   volume  NUMBER(15,8),
-   rapportvolumeprix  NUMBER(15,8),
+   volume NUMBER(15,8)   NOT NULL,
    prixVente NUMBER(15,2)   NOT NULL,
    PRIMARY KEY(idDimensionUsuels)
 );
-
 
 CREATE TABLE Transformation(
    idTransformation VARCHAR2(255) ,
@@ -54,4 +53,14 @@ CREATE TABLE TransformationFille(
    FOREIGN KEY(idTransformation) REFERENCES Transformation(idTransformation)
 );
 
-
+CREATE TABLE MvtStoctDimension(
+   idStockDimesion VARCHAR2(255) ,
+   sortie NUMBER(10),
+   entree VARCHAR2(255) ,
+   prixDeVente NUMBER(15,2)  ,
+   idOriginalSource VARCHAR2(255)  NOT NULL,
+   idDimensionUsuels VARCHAR2(255)  NOT NULL,
+   PRIMARY KEY(idStockDimesion),
+   FOREIGN KEY(idOriginalSource) REFERENCES Bloc(idBloc),
+   FOREIGN KEY(idDimensionUsuels) REFERENCES DimensionUsuels(idDimensionUsuels)
+);
