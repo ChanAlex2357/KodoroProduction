@@ -23,6 +23,7 @@ SELECT
     t.idTransformation,
     t.dateTransformation,
     t.idBloc,
+    t.marge,
     b.longueur AS longueur,
     b.largeur AS largeur,
     b.epaisseur AS epaisseur,
@@ -38,3 +39,19 @@ JOIN
     Bloc b ON t.idBloc = b.idBloc;
 
     
+CREATE or replace view TransformationFille_Lib as
+SELE
+    tf.idTransformationFille,
+    tf.idDimensionUsuels,
+    tf.quantite,
+    tf.prixDeRevient,
+    tf.prixVente,
+    tf.idTransformation,
+    t.dateTransformation,
+    t.idBloc,
+    t.marge,
+    t.desce AS desce,
+    t.idOriginalSource,
+    t.idParentSource
+from TransformationFille tf
+join Transformation_Lib t on t.idTransformation = tf.idTransformation

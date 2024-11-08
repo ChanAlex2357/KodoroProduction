@@ -18,6 +18,7 @@
                 <li><a href="entreebloc">Entrée Bloc</a></li>
                 <li><a href="transformation">Transformation</a></li>
                 <li><a href="estimation">Estimations</a></li>
+                <li><a href="updatebloc">Estimations</a></li>
             </ul>
         </nav>
     </header>

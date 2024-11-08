@@ -69,7 +69,37 @@
                     </tr>
         <%
                 }
-            } else {
+        %>
+            <div>
+                <form action="updatebloc" method="post">
+                    <div class="form-group">
+                        <label for="blocSelect" style="color: #FFC107;">Sélectionnez le Bloc</label>
+                        <select class="form-control" id="blocSelect" name="idBloc" required>
+                            <option value="" disabled selected>Choisissez un bloc</option>
+                            <%
+                                if (blocList != null && blocList.length > 0) {
+                                    for (Bloc bloc : blocList) {
+                            %>
+                                        <option value="<%= bloc.getIdBloc() %>"><%= bloc.getIdBloc() %> - <%= bloc.getDesce() %></option>
+                            <%
+                                    }
+                                } else {
+                            %>
+                                    <option value="" disabled>Aucun bloc trouvé</option>
+                            <%
+                                }
+                            %>
+                        </select>
+                        <div class="invalid-feedback">Veuillez sélectionner un bloc.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="prixFabrication" style="color: #FFC107;">Prix de Fabrication (Ar)</label>
+                        <input type="number" step="0.01" class="form-control" id="prixFabrication" name="prixFabrication" required>
+                        <div class="invalid-feedback">Veuillez entrer le prix de fabrication.</div>
+                    </div>
+                </form>
+            </div>
+        <% } else {
         %>
                 <tr>
                     <td colspan="5" class="text-center">Aucun bloc trouvé</td>
