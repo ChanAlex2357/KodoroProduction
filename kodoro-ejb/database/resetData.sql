@@ -6,6 +6,7 @@ BEGIN
 
    -- Suppression des données
     DELETE FROM TransformationFille;
+    DELETE FROM MvtStockDimension;
     DELETE FROM Transformation;
     DELETE FROM BLoc where idparentsource is not null;
    --  DELETE FROM DimensionUsuels;

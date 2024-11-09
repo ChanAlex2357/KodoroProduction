@@ -118,7 +118,7 @@ public class Transformation extends MaClassMAPTable{
     }
     
     public void updatePrixDeRevientTransformation(double taux , Connection conn) throws Exception {
-        
+        setNomTable("TRANSFORMATION");
         TransformationFilleLib[] transF = getDetailsTransformation(conn);
         for (TransformationFilleLib transformationFille : transF) {
             transformationFille.updatePrixDeRevient(taux,conn);

@@ -38,6 +38,7 @@ CREATE TABLE DimensionUsuels(
 CREATE TABLE Transformation(
    idTransformation VARCHAR2(255) ,
    dateTransformation DATE NOT NULL,
+   marge NUMBER(15,2)  NOT NULL,
    idBloc VARCHAR2(255)  NOT NULL,
    PRIMARY KEY(idTransformation),
    FOREIGN KEY(idBloc) REFERENCES Bloc(idBloc)
@@ -46,7 +47,7 @@ CREATE TABLE Transformation(
 DROP TABLE TransformationFille CASCADE CONSTRAINTS;
 CREATE TABLE TransformationFille(
    idTransformationFille VARCHAR2(255) ,
-   quantite VARCHAR2(255)  NOT NULL,
+   quantite NUMBER  NOT NULL,
    prixDeRevient NUMBER(15,2)   NOT NULL,
    prixDeRevientUnitaire NUMBER(15,2)   NOT NULL,
    idDimensionUsuels VARCHAR2(255)  NOT NULL,
@@ -65,21 +66,10 @@ CREATE TABLE MvtStockDimension(
    prixDeVenteUnitaire NUMBER(15,2),
    prixDeRevient NUMBER(15,2),
    prixDeRevientUnitaire NUMBER(15,2),
+   daty DATE NOT NULL,
    idOriginalSource VARCHAR2(255)  NOT NULL,
    idDimensionUsuels VARCHAR2(255)  NOT NULL,
    PRIMARY KEY(idMvtStockDimension),
-   FOREIGN KEY(idOriginalSource) REFERENCES Bloc(idBloc),
-   FOREIGN KEY(idDimensionUsuels) REFERENCES DimensionUsuels(idDimensionUsuels)
-);
-
-CREATE TABLE EtatStockDimension(
-   idEtatStockDimension VARCHAR2(255) ,
-   idOriginalSource VARCHAR2(255)  NOT NULL,
-   idDimensionUsuels VARCHAR2(255)  NOT NULL,
-   quantite NUMBER(15,2),
-   valeurtotal NUMBER(15,2),
-   valeurUnitaire NUMBER(15,2),
-   PRIMARY KEY(idEtatStockDimension),
    FOREIGN KEY(idOriginalSource) REFERENCES Bloc(idBloc),
    FOREIGN KEY(idDimensionUsuels) REFERENCES DimensionUsuels(idDimensionUsuels)
 );

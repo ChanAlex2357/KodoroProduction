@@ -1,6 +1,7 @@
 package mg.kodoro.models.stock;
 
 import java.sql.Connection;
+import java.sql.Date;
 
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
@@ -17,6 +18,15 @@ public class MvtStockDimension extends MaClassMAPTable {
     protected double prixDeRevientUnitaire;
     protected double prixDeVente;
     protected double prixDeVenteUnitaire;
+    protected Date   daty;
+
+    public Date getDaty() {
+        return daty;
+    }
+
+    public void setDaty(Date daty) {
+        this.daty = daty;
+    }
 
     public MvtStockDimension() {
         setNomTable("MvtStockDimension");
@@ -193,5 +203,12 @@ public class MvtStockDimension extends MaClassMAPTable {
 
     public void setPrixDeVenteUnitaire(double prixDeVenteUnitaire) {
         this.prixDeVenteUnitaire = prixDeVenteUnitaire;
+    }
+
+    public void updatePrixDeRevient(double taux,Connection conn) throws Exception {
+        this.setPrixDeRevient( this.getPrixDeRevient() * taux);
+        this.setPrixDeRevientUnitaire( this.getPrixDeRevientUnitaire() * taux);
+
+        this.updateToTable(conn);
     }
 }

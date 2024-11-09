@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
     String but = (String) request.getAttribute("but");
     String title = (String) request.getAttribute("title");
@@ -18,7 +19,7 @@
                 <li><a href="entreebloc">Entrée Bloc</a></li>
                 <li><a href="transformation">Transformation</a></li>
                 <li><a href="estimation">Estimations</a></li>
-                <li><a href="etatstock">Estimations</a></li>
+                <li><a href="etatstock">Etat de stock</a></li>
             </ul>
         </nav>
     </header>

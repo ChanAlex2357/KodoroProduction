@@ -65,6 +65,10 @@ public class TransformationCPL {
     }
 
     public Bloc[] genererBlocRestante(Transformation trans, Connection conn) throws Exception{
+        if (trans == null) {
+            System.out.println("PAS DE RESTES POSSIBLE");
+            return null;
+        }
         Bloc b = this.getBloc(conn);
         if (!b.getIdBloc().equals( this.getIdBloc())) {
             throw new Exception("L'id bloc et le bloc sauvegarder ne correspondent pas ");
@@ -81,8 +85,14 @@ public class TransformationCPL {
     }
     public Transformation genereTransformation(Connection conn) throws Exception{
         Transformation trans = new Transformation(this.getIdBloc(), this.getMarge(), this.getDateTransformation());
+        
+        if (detailsTransformations.length <= 0) {
+            System.out.println("PAS DE TRANSFORMATION POSSIBLE");
+            return null;
+        }
         trans.createObject(conn, conn);
         TransformationLib transformationLib = trans.getAsTransformationLib(conn);
+
         for (TransformationFille transformationFille : detailsTransformations) {
             transformationFille.transformation = transformationLib;
             transformationFille.setIdTransformation(trans.getIdTransformation());

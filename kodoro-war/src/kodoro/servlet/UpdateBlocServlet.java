@@ -25,9 +25,14 @@ public class UpdateBlocServlet extends HttpServlet{
 
             Bloc b = Bloc.getById(idBloc, conn);
             b.updatePrixFabrication(prixFabricationStr, conn);
-
             conn.commit();
+            response.sendRedirect("entreebloc");
         } catch (Exception e) {
+            try {
+                conn.rollback();
+            } catch (Exception r) {
+                r.printStackTrace();
+            }
             e.printStackTrace();
         }
         finally {

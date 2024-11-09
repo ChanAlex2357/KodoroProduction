@@ -71,11 +71,11 @@
                                         <div class="invalid-feedback">Entrez une quantité valide pour ce produit.</div>
                                     </td>
                                     <td>
-                                        <input type="number" name="prixRevient[]" class="form-control" min="0" step="0.1" value="0" required>
+                                        <input type="number" name="prixRevientunitaire[]"" min="0" step="0.1" value="0" required>
                                         <div class="invalid-feedback">Entrez un prix valide.</div>
                                     </td>
                                     <td>
-                                        <input type="number" name="prixRevientunitaire[]"" min="0" step="0.1" value="0" required>
+                                        <input type="number" name="prixRevient[]" class="form-control" min="0" step="0.1" value="0" required>
                                         <div class="invalid-feedback">Entrez un prix valide.</div>
                                     </td>
                             </tr>

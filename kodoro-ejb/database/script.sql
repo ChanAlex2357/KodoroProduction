@@ -45,7 +45,7 @@ SELEct
     tf.idDimensionUsuels,
     tf.quantite,
     tf.prixDeRevient,
-    tf.prixVente,
+    tf.prixDeRevientUnitaire,
     tf.idTransformation,
     t.dateTransformation,
     t.idBloc,
@@ -59,13 +59,15 @@ from TransformationFille tf
 join Transformation_Lib t on t.idTransformation = tf.idTransformation
 join DimensionUsuels dim on tf.idDimensionUsuels = dim.idDimensionUsuels;
 
-CREATE TABLE EtatStockDimension 
+CREATE or replace view EtatStockDimension  as 
+SELECT
     mvts.idDimensionUsuels,
     mvts.idOriginalSource,
     mvts.entree,
     mvts.sortie,
     (mvts.entree - mvts.sortie) AS quantite,
-    mvts.prixDeRevient
+    mvts.prixDeRevient,
+    mvts.prixDeVente,
     CASE 
         WHEN (mvts.entree - mvts.sortie) != 0 THEN mvts.prixDeRevient / (mvts.entree - mvts.sortie)
         ELSE NULL
@@ -75,8 +77,9 @@ FROM (
         mvt.idDimensionUsuels, 
         mvt.idOriginalSource,
         SUM(NVL(mvt.entree, 0)) AS entree,
-        SUM(NVL(mvt.sortie, 0)) AS sortie,0
-        SUM(NVL(mvt.prixDeRevient, 0)) AS prixDeRevient
+        SUM(NVL(mvt.sortie, 0)) AS sortie,
+        SUM(NVL(mvt.prixDeRevient, 0)) AS prixDeRevient,
+        SUM(NVL(mvt.prixDeVente, 0)) AS prixDeVente
     FROM 
         MvtStockDimension mvt
     GROUP BY 

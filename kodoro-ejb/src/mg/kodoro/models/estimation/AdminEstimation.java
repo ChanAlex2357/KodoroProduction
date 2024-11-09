@@ -22,7 +22,6 @@ public class AdminEstimation {
         AdminEstimation adminEstimation =  new AdminEstimation();
         for (Bloc bloc : blocs) {
             EstimationVente estimationVente =  new EstimationVente(bloc,conn);
-            estimationVente.getEstimationVente(conn);
             adminEstimation.getEstimations().add(estimationVente);
 
         }

@@ -5,49 +5,18 @@ import java.sql.Connection;
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
 
-public class EtatStockDimension extends MaClassMAPTable{;
-    protected String idEtatStockDimension;
+public class EtatStockDimension extends MaClassMAPTable{
     protected String idOriginalSource;
     protected String idDimensionUsuels;
     protected double quantite;
-    protected double valeurTotal;
-    protected double valeurUnitaire;
+    protected double entree;
+    protected double sortie;
+    protected double prixDeRevient;
+    protected double prixDeVente;
+    protected double prixDeRevientMoyenne;
+    
     public EtatStockDimension(){setNomTable("EtatStockDimension");}
-    
-    @Override
-    public MaClassMAPTable createObject(Connection c) throws Exception {
-        controllerValeur();
-                return super.createObject(c);
-    }
-    
-    private void controllerValeur() {
-        if (valeurTotal == 0 && valeurUnitaire > 0) {
-            this.setValeurTotal( this.getValeurUnitaire() * this.getQuantite());
-        }
-    }
 
-    public void updateEtatStock(MvtStockDimension mvt , Connection c) throws Exception {
-        
-    }
-        
-    @Override
-    public MaClassMAPTable createObject(Connection localconn, Connection remoteconn) throws Exception {
-        return this.createObject(localconn);
-    }
-    @Override
-    public String getAttributIDName() {
-        return "idEtatStockDimension";
-    }
-    @Override
-    public String getTuppleID() {
-        return this.getIdEtatStockDimension();
-    }
-
-    @Override
-    public void construirePK(Connection c) throws Exception {
-        this.preparePk("STD", "GET_STD_SEQ");
-        this.setIdEtatStockDimension(this.makePK(c));
-    }
     public double getQuantite() {
         return quantite;
     }
@@ -68,28 +37,55 @@ public class EtatStockDimension extends MaClassMAPTable{;
     }
         
     public static EtatStockDimension[] getEtatDeStocks(Connection conn) throws Exception {
-        EtatStockDimension[] etatStocks = (EtatStockDimension[]) CGenUtil.rechercher(new EtatStockDimension(),null,null,conn,"");
+        EtatStockDimension[] etatStocks = (EtatStockDimension[]) CGenUtil.rechercher(new EtatStockDimension(),null,null,conn," order by idDimensionUsuels");
         if (etatStocks.length >  0) {
             return etatStocks;
         }
         return null;
     }
-    public String getIdEtatStockDimension() {
-        return idEtatStockDimension;
+    @Override
+    public MaClassMAPTable createObject(Connection localconn, Connection remoteconn) throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'createObject'");
     }
-    public void setIdEtatStockDimension(String idEtatStockDimension) {
-        this.idEtatStockDimension = idEtatStockDimension;
+    @Override
+    public String getAttributIDName() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAttributIDName'");
     }
-    public double getValeurTotal() {
-        return valeurTotal;
+    @Override
+    public String getTuppleID() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getTuppleID'");
     }
-    public void setValeurTotal(double valeurTotal) {
-        this.valeurTotal = valeurTotal;
+    public double getEntree() {
+        return entree;
     }
-    public double getValeurUnitaire() {
-        return valeurUnitaire;
+    public void setEntree(double entree) {
+        this.entree = entree;
     }
-    public void setValeurUnitaire(double valeurUnitaire) {
-        this.valeurUnitaire = valeurUnitaire;
+    public double getSortie() {
+        return sortie;
+    }
+    public void setSortie(double sortie) {
+        this.sortie = sortie;
+    }
+    public double getPrixDeRevient() {
+        return prixDeRevient;
+    }
+    public void setPrixDeRevient(double prixDeRevient) {
+        this.prixDeRevient = prixDeRevient;
+    }
+    public double getPrixDeVente() {
+        return prixDeVente;
+    }
+    public void setPrixDeVente(double prixDeVente) {
+        this.prixDeVente = prixDeVente;
+    }
+    public double getPrixDeRevientMoyenne() {
+        return prixDeRevientMoyenne;
+    }
+    public void setPrixDeRevientMoyenne(double prixDeRevientMoyenne) {
+        this.prixDeRevientMoyenne = prixDeRevientMoyenne;
     }
 }

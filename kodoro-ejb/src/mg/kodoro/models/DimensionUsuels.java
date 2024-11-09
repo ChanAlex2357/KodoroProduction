@@ -5,16 +5,13 @@ import java.sql.SQLException;
 
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.models.dimension.ClassDimension;
 import mg.kodoro.utils.ValidationUtils;
 import utilitaire.UtilDB;
 
-public class DimensionUsuels extends MaClassMAPTable {
+public class DimensionUsuels extends ClassDimension {
     private String idDimensionUsuels;
-    private double longueur;
-    private double largeur;
-    private double epaisseur;
     private double prixVente;
-    private double volume;
     private double rapportVolumePrix;
     private String desce;
 
@@ -41,7 +38,6 @@ public class DimensionUsuels extends MaClassMAPTable {
         setDesce(desce);
         
     }
-
     // Getters et Setters
     public String getIdDimensionUsuels() {
         return idDimensionUsuels;
@@ -59,42 +55,6 @@ public class DimensionUsuels extends MaClassMAPTable {
         this.idDimensionUsuels = idDimensionUsuels;
     }
 
-    public double getLongueur() {
-        return longueur;
-    }
-
-    public void setLongueur(double longueur) {
-        this.longueur = longueur;
-    }
-
-    public void setLongueur(String longueur) {
-        this.longueur = ValidationUtils.validatePositiveStringDouble(longueur);
-    }
-
-    public double getLargeur() {
-        return largeur;
-    }
-
-    public void setLargeur(double largeur) {
-        this.largeur = largeur;
-    }
-
-    public void setLargeur(String largeur) {
-        this.largeur = ValidationUtils.validatePositiveStringDouble(largeur);
-    }
-
-    public double getEpaisseur() {
-        return epaisseur;
-    }
-
-    public void setEpaisseur(double epaisseur) {
-        this.epaisseur = epaisseur;
-    }
-
-    public void setEpaisseur(String epaisseur) {
-        this.epaisseur = ValidationUtils.validatePositiveStringDouble(epaisseur);
-    }
-
     public double getPrixVente() {
         return prixVente;
     }
@@ -105,14 +65,6 @@ public class DimensionUsuels extends MaClassMAPTable {
 
     public void setPrixVente(String prixVente) {
         this.prixVente = ValidationUtils.validatePositiveStringDouble(prixVente);
-    }
-
-    // Calcul du volume
-    public double getVolume() {
-        if (this.volume <= 0) {
-            setVolume(getLongueur() * getLargeur() * getEpaisseur());
-        }
-        return this.volume;
     }
 
     // Calcul du rapport volume/prix

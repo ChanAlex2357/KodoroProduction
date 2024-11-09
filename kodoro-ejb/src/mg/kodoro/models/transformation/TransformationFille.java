@@ -11,7 +11,7 @@ public class TransformationFille extends MaClassMAPTable {
     private String idTransformationFille;
     private String idTransformation;
     private String idDimensionUsuels;
-    private int quantite;
+    private int    quantite;
     private double prixDeRevient;
     private double prixDeRevientUnitaire;
 
@@ -91,10 +91,18 @@ public class TransformationFille extends MaClassMAPTable {
     }
 
     public void setPrixDeRevient(String prixDeRevient) {
-        this.prixDeRevient = ValidationUtils.validatePositiveStringDouble(prixDeRevient);
+        try {
+            this.setPrixDeRevient(ValidationUtils.validatePositiveStringDouble(prixDeRevient));
+        } catch (IllegalArgumentException e) {
+            if (this.getPrixDeRevientUnitaire() > 0) {
+                setPrixDeRevient();
+            }
+        }
     }
     public void setPrixDeRevientUnitaire(String prixDeRevient) {
-        this.setPrixDeRevient(ValidationUtils.validatePositiveStringDouble(prixDeRevient));
+        try {
+            this.setPrixDeRevientUnitaire(ValidationUtils.validatePositiveStringDouble(prixDeRevient));
+        } catch (IllegalArgumentException e) {}
     }
     
     @Override
@@ -154,6 +162,7 @@ public class TransformationFille extends MaClassMAPTable {
         mvt.setIdDimensionUsuels(this.getIdDimensionUsuels());
         mvt.setIdOriginalSource( transformation.getIdOriginalSource());
         mvt.setEntree(this.getQuantite());
+        mvt.setDaty(transformation.getDateFabrication());
         mvt.setSortie(0);
         mvt.setPrixDeRevientUnitaire(this.getPrixDeRevientUnitaire());
         mvt.setPrixDeRevient(this.getPrixDeRevient());
@@ -214,12 +223,17 @@ public class TransformationFille extends MaClassMAPTable {
     }
 
     public void updatePrixDeRevient(double taux, Connection conn) throws Exception {
+        setNomTable("TRANSFORMATIONFILLE");
         double newP = this.getPrixDeRevient() * taux;
+        double newPu = this.getPrixDeRevientUnitaire() * taux;
         System.err.println(this.getIdTransformationFille()+" : "+this.getPrixDeRevient()+" => "+newP);
         this.setPrixDeRevient(newP);
+        this.setPrixDeRevientUnitaire(newPu);
         this.updateToTable(conn);
 
         // Mettre a jour le mouvement de stock
+        MvtStockDimension mvt  = this.getMvtStockDimension(conn);
+        mvt.updatePrixDeRevient(taux,conn);
     
     }
 

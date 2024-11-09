@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.models.dimension.ClassDimension;
 import mg.kodoro.models.transformation.TransformationLib;
 import mg.kodoro.utils.ValidationUtils;
 import utilitaire.UtilDB;
@@ -14,18 +15,13 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-public class Bloc extends MaClassMAPTable{
+public class Bloc extends ClassDimension{
     private String idBloc;
     private String desce;
-    private double longueur;
-    private double largeur;
-    private double epaisseur;
-    private double volume;
     private Date   dateFabrication;
     private double prixFabrication;
     private String idOriginalSource;
     private String idParentSource;
-
     protected Bloc originalSource;
     protected Bloc parentSource;
     protected TransformationLib[] transformations;
@@ -52,23 +48,13 @@ public String toString() {
     }
     
     public Bloc (String longueur , String largeur ,String epasseur , String dateFab , String prixFab) throws ParseException{
-        setNomTable("BLOC");
-
         setLongueur(longueur);
         setLargeur(largeur);
         setEpaisseur(epasseur);
         setDateFabrication(dateFab);
         setPrixFabrication(prixFab);
     }
-    public Bloc(double longueur , double largeur , double epaisseur , Date dateFab , double prixFab){
-        setNomTable("BLOC");
-        
-        setLongueur(longueur);
-        setLargeur(largeur);
-        setEpaisseur(epaisseur);
-        setDateFabrication(dateFab);
-        setPrixFabrication(prixFab);
-    }
+
     // Getters and Setters
     public String getDesce() {
         return desce;
@@ -113,43 +99,6 @@ public String toString() {
 
     public void setIdBloc(String idBloc) {
         this.idBloc = idBloc;
-    }
-
-    public double getLongueur() {
-        return longueur;
-    }
-
-    public void setVolume(double volume) {
-        this.volume = volume;
-    }
-
-    public void setLongueur(String longueur) {
-        if (longueur == null) {
-            throw new IllegalArgumentException("Veuillez saisir une valeur de longueur valide");
-        }
-        this.setLongueur(ValidationUtils.validatePositiveStringDouble(longueur));
-    }
-
-    public double getLargeur() {
-        return largeur;
-    }
-
-    public void setLargeur(String largeur) {
-        if (largeur == null) {
-            throw new IllegalArgumentException("Veuillez saisir une valeur de largeur valide");
-        }
-        this.setLargeur(ValidationUtils.validatePositiveStringDouble(largeur));
-    }
-
-    public double getEpaisseur() {
-        return epaisseur;
-    }
-
-    public void setEpaisseur(String epaisseur) {
-        if (epaisseur == null){
-            throw new IllegalArgumentException("Veuillez saisir une valeur d'eppaisseur valide");
-        }
-        setEpaisseur(ValidationUtils.validatePositiveStringDouble(epaisseur));
     }
 
     public Date getDateFabrication() {
@@ -207,16 +156,6 @@ public String toString() {
         this.idParentSource = parentSource;
     }
 
-    // Calculate volume
-    public double getVolume() {
-        if (this.volume <= 0) {
-            setVolume(getLongueur() * getLargeur() * getEpaisseur());
-        }
-        return this.volume;
-    }
-
-
-
     @Override
     public MaClassMAPTable createObject(Connection localconn, Connection remoteconn) throws Exception {
         this.createObject(localconn);
@@ -242,6 +181,7 @@ public String toString() {
     }
     @Override
     public MaClassMAPTable createObject(Connection c) throws Exception {
+        setNomTable("BLOC");
         controlerTaille();
         controlerVolume();
         if (this.getTuppleID() == null || this.getTuppleID().compareToIgnoreCase("") == 0 || this.getTuppleID().compareToIgnoreCase("0") == 0) {
@@ -452,7 +392,6 @@ public String toString() {
         TransformationLib[] trans = this.getTransformations(conn);
         System.out.println("-- UPDATE PRIX DE REVIENT DE TRANSFORMATION ----");
         for (TransformationLib transformationLib : trans) {
-            
             transformationLib.updatePrixDeRevientTransformation(taux, conn);
         }
         System.out.println("--- --- --- --- --- ---");

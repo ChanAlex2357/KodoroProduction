@@ -69,7 +69,7 @@
                     </tr>
         <%
                 }
-         else {
+            } else {
         %>
                 <tr>
                     <td colspan="5" class="text-center">Aucun bloc trouvé</td>
