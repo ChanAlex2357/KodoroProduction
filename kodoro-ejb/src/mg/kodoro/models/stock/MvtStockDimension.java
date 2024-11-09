@@ -6,6 +6,7 @@ import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
 
 public class MvtStockDimension extends MaClassMAPTable {
+    
     protected String idMvtStockDimension;
     protected String idTransformationFille;
     protected double entree;
@@ -13,6 +14,9 @@ public class MvtStockDimension extends MaClassMAPTable {
     protected String idOriginalSource;
     protected String idDimensionUsuels;
     protected double prixDeRevient;
+    protected double prixDeRevientUnitaire;
+    protected double prixDeVente;
+    protected double prixDeVenteUnitaire;
 
     public MvtStockDimension() {
         setNomTable("MvtStockDimension");
@@ -81,12 +85,45 @@ public class MvtStockDimension extends MaClassMAPTable {
     @Override
     public MaClassMAPTable createObject(Connection c) throws Exception {
         setNomTable("MvtStockDimension");
+        // Contolle de donnee
+        controllerPrixMvt();
+        
         if (this.getTuppleID() == null || this.getTuppleID().compareToIgnoreCase("") == 0 || this.getTuppleID().compareToIgnoreCase("0") == 0) {
             this.construirePK(c);
         }
+        
         System.out.println("-- GENERER MVT STOCK ---");
         System.out.println(this);
         return super.createObject(c);
+    }
+    
+    protected void controllerPrixMvt(){
+        if (this.getEntree() > 0) {
+            this.controllerPrixRevient();
+        }
+        else if (this.getSortie() > 0) {
+            this.controllerPrixVente();
+        }
+    }
+
+    protected void controllerPrixRevient() {
+        if (this.prixDeRevient == 0 && this.prixDeRevientUnitaire > 0) {
+            setPrixDeRevient( this.getPrixDeRevientUnitaire() * this.getEntree());
+        }
+        else if (getPrixDeRevientUnitaire() == 0 && getPrixDeRevient() >0) {
+            setPrixDeRevientUnitaire(getPrixDeRevient() / this.getEntree());
+        }
+    }
+
+    protected void controllerPrixVente() {
+        if (this.prixDeVente == 0 && this.prixDeVenteUnitaire > 0) {
+            setPrixDeVente( this.getPrixDeVenteUnitaire() * this.getSortie());
+        }
+        else if (getPrixDeVenteUnitaire() == 0 && getPrixDeVente() >0) {
+            setPrixDeVenteUnitaire(getPrixDeVente() / this.getSortie());
+        }
+
+
     }
 
     @Override
@@ -132,5 +169,29 @@ public class MvtStockDimension extends MaClassMAPTable {
                 ", idDimensionUsuels='" + idDimensionUsuels + '\'' +
                 ", prixDeRevient=" + prixDeRevient +
                 '}';
+    }
+
+    public double getPrixDeRevientUnitaire() {
+        return prixDeRevientUnitaire;
+    }
+
+    public void setPrixDeRevientUnitaire(double prixDeRevientUnitaire) {
+        this.prixDeRevientUnitaire = prixDeRevientUnitaire;
+    }
+
+    public double getPrixDeVente() {
+        return prixDeVente;
+    }
+
+    public void setPrixDeVente(double prixDeVente) {
+        this.prixDeVente = prixDeVente;
+    }
+
+    public double getPrixDeVenteUnitaire() {
+        return prixDeVenteUnitaire;
+    }
+
+    public void setPrixDeVenteUnitaire(double prixDeVenteUnitaire) {
+        this.prixDeVenteUnitaire = prixDeVenteUnitaire;
     }
 }

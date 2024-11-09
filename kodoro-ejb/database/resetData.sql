@@ -5,9 +5,10 @@ BEGIN
    EXECUTE IMMEDIATE 'ALTER TABLE TransformationFille DISABLE CONSTRAINT TRANSFORMATIONFILLE_IDTRANSFORMATION_FK';
 
    -- Suppression des données
-   EXECUTE IMMEDIATE 'DELETE FROM TransformationFille';
-   EXECUTE IMMEDIATE 'DELETE FROM Transformation';
-   EXECUTE IMMEDIATE 'DELETE FROM DimensionUsuels';
+    DELETE FROM TransformationFille;
+    DELETE FROM Transformation;
+    DELETE FROM BLoc where idparentsource is not null;
+   --  DELETE FROM DimensionUsuels;
    EXECUTE IMMEDIATE 'DELETE FROM Bloc';
 
    -- Réactivation des contraintes de clé étrangère

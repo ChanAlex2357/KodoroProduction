@@ -51,6 +51,7 @@
                 <tr>
                     <th>Produit</th>
                     <th>Quantité</th>
+                    <th>Prix de revient Unitaire</th>
                     <th>Prix de revient</th>
                 </tr>
             </thead>
@@ -62,18 +63,21 @@
                             <tr>
                                 <td>
                                     <input type="hidden" name="idDimensionUsuel[]" value="<%= dimension.getIdDimensionUsuels() %>">
-                                    <input type="hidden" name="prixVente[]" value="<%= dimension.getPrixVente() %>">
                                     <%= dimension.getDesce() %>( 
-                                    <%= dimension.getLongueur() %> x <%= dimension.getLargeur() %> x <%= dimension.getEpaisseur() %> )
-                                </td>
-                                <td>
-                                    <input type="number" name="quantite[]" class="form-control" min="0" step="1" value="0" required>
-                                    <div class="invalid-feedback">Entrez une quantité valide pour ce produit.</div>
-                                </td>
-                                <td>
-                                    <input type="number" name="prixRevient[]" class="form-control" min="0" step="0.1" value="0" required>
-                                    <div class="invalid-feedback">Entrez un prix valide.</div>
-                                </td>
+                                        <%= dimension.getLongueur() %> x <%= dimension.getLargeur() %> x <%= dimension.getEpaisseur() %> )
+                                    </td>
+                                    <td>
+                                        <input type="number" name="quantite[]" class="form-control" min="0" step="1" value="0" required>
+                                        <div class="invalid-feedback">Entrez une quantité valide pour ce produit.</div>
+                                    </td>
+                                    <td>
+                                        <input type="number" name="prixRevient[]" class="form-control" min="0" step="0.1" value="0" required>
+                                        <div class="invalid-feedback">Entrez un prix valide.</div>
+                                    </td>
+                                    <td>
+                                        <input type="number" name="prixRevientunitaire[]"" min="0" step="0.1" value="0" required>
+                                        <div class="invalid-feedback">Entrez un prix valide.</div>
+                                    </td>
                             </tr>
                 <%
                         }

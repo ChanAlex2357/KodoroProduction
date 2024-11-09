@@ -33,6 +33,8 @@ CREATE TABLE DimensionUsuels(
    PRIMARY KEY(idDimensionUsuels)
 );
 
+   DROP TABLE Transformation CASCADE CONSTRAINTS;
+   
 CREATE TABLE Transformation(
    idTransformation VARCHAR2(255) ,
    dateTransformation DATE NOT NULL,
@@ -41,11 +43,12 @@ CREATE TABLE Transformation(
    FOREIGN KEY(idBloc) REFERENCES Bloc(idBloc)
 );
 
+DROP TABLE TransformationFille CASCADE CONSTRAINTS;
 CREATE TABLE TransformationFille(
    idTransformationFille VARCHAR2(255) ,
    quantite VARCHAR2(255)  NOT NULL,
    prixDeRevient NUMBER(15,2)   NOT NULL,
-   prixVente NUMBER(15,2)   NOT NULL,
+   prixDeRevientUnitaire NUMBER(15,2)   NOT NULL,
    idDimensionUsuels VARCHAR2(255)  NOT NULL,
    idTransformation VARCHAR2(255)  NOT NULL,
    PRIMARY KEY(idTransformationFille),
@@ -53,14 +56,30 @@ CREATE TABLE TransformationFille(
    FOREIGN KEY(idTransformation) REFERENCES Transformation(idTransformation)
 );
 
+DROP TABLE MvtStockDimension CASCADE CONSTRAINTS;
 CREATE TABLE MvtStockDimension(
-   idMvtStockDimesion VARCHAR2(255) ,
+   idMvtStockDimension VARCHAR2(255) ,
    sortie   NUMBER(15,2),
    entree  NUMBER(15,2) ,
-   prixDeRevient NUMBER(15,2)  ,
+   prixDeVente NUMBER(15,2),
+   prixDeVenteUnitaire NUMBER(15,2),
+   prixDeRevient NUMBER(15,2),
+   prixDeRevientUnitaire NUMBER(15,2),
    idOriginalSource VARCHAR2(255)  NOT NULL,
    idDimensionUsuels VARCHAR2(255)  NOT NULL,
-   PRIMARY KEY(idMvtStockDimesion),
+   PRIMARY KEY(idMvtStockDimension),
+   FOREIGN KEY(idOriginalSource) REFERENCES Bloc(idBloc),
+   FOREIGN KEY(idDimensionUsuels) REFERENCES DimensionUsuels(idDimensionUsuels)
+);
+
+CREATE TABLE EtatStockDimension(
+   idEtatStockDimension VARCHAR2(255) ,
+   idOriginalSource VARCHAR2(255)  NOT NULL,
+   idDimensionUsuels VARCHAR2(255)  NOT NULL,
+   quantite NUMBER(15,2),
+   valeurtotal NUMBER(15,2),
+   valeurUnitaire NUMBER(15,2),
+   PRIMARY KEY(idEtatStockDimension),
    FOREIGN KEY(idOriginalSource) REFERENCES Bloc(idBloc),
    FOREIGN KEY(idDimensionUsuels) REFERENCES DimensionUsuels(idDimensionUsuels)
 );

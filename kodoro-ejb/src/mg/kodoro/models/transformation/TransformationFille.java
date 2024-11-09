@@ -13,8 +13,9 @@ public class TransformationFille extends MaClassMAPTable {
     private String idDimensionUsuels;
     private int quantite;
     private double prixDeRevient;
-    private double prixVente;
+    private double prixDeRevientUnitaire;
 
+    
     protected TransformationLib transformation;
     protected MvtStockDimension mvtStockDimension;
     
@@ -22,23 +23,27 @@ public class TransformationFille extends MaClassMAPTable {
     public TransformationFille() {
         setNomTable("TRANSFORMATIONFILLE");
     }
-    
-    // Constructeur avec paramètres double
-    public TransformationFille( String idDimension,int quantite, double prixDeRevient) {
-        setIdDimensionUsuels(idDimension);
-        setQuantite(quantite);
-        setPrixDeRevient(prixDeRevient);
-    }
 
     // Constructeur avec paramètres String
-    public TransformationFille(String idDimension,String prixVente,String quantite,String prixDeRevient) {
+    public TransformationFille(String idDimension,String quantite,String prixDeRevientUnitaire,String prixDeRevient) {
         setIdDimensionUsuels(idDimension);
-        setPrixVente(prixVente);
         setQuantite(quantite);
+        setPrixDeRevientUnitaire(prixDeRevientUnitaire);
         setPrixDeRevient(prixDeRevient);
     }
     
-    // Getters et Setters
+    public double getPrixDeRevientUnitaire() {
+        return prixDeRevientUnitaire;
+    }
+
+    public void setPrixDeRevientUnitaire(double prixDeRevientUnitaire) {
+        this.prixDeRevientUnitaire = prixDeRevientUnitaire;
+    }
+    protected void setPrixDeRevient() {
+        setPrixDeRevient( this.getPrixDeRevientUnitaire() * this.getQuantite());
+    }
+        
+            // Getters et Setters
     public String getIdTransformationFille() {
         return idTransformationFille;
     }
@@ -75,6 +80,9 @@ public class TransformationFille extends MaClassMAPTable {
     }
 
     public double getPrixDeRevient() {
+        if (prixDeRevient == 0) {
+            setPrixDeRevient();
+        }
         return prixDeRevient;
     }
 
@@ -85,21 +93,10 @@ public class TransformationFille extends MaClassMAPTable {
     public void setPrixDeRevient(String prixDeRevient) {
         this.prixDeRevient = ValidationUtils.validatePositiveStringDouble(prixDeRevient);
     }
-    public void setPrixVente(String prixDeRevient) {
-        this.prixVente = ValidationUtils.validatePositiveStringDouble(prixDeRevient);
+    public void setPrixDeRevientUnitaire(String prixDeRevient) {
+        this.setPrixDeRevient(ValidationUtils.validatePositiveStringDouble(prixDeRevient));
     }
-
-    public double getMontantVente() throws Exception{
-        return this.getPrixVente() * this.getQuantite();
-    }
-
-    public double getPrixVente() {
-        return prixVente;
-    }
-
-    public void setPrixVente(double prixVente) {
-        this.prixVente = prixVente;
-    }
+    
     @Override
     public String toString() {
         return "TransformationFille{" +
@@ -127,12 +124,23 @@ public class TransformationFille extends MaClassMAPTable {
         setNomTable("TRANSFORMATIONFILLE");
         // Controller la validiter de la transformation mere
         controllerTransformation();
+        controllerPrixRevient();
+
         System.out.println(this);
         super.createObject(c);
         // generer le mouvement de stock
         this.genererMvtStockDimension(c);
         
         return this;
+    }
+
+    protected void controllerPrixRevient() {
+        if (this.prixDeRevient == 0 && this.prixDeRevientUnitaire > 0) {
+            setPrixDeRevient( this.getPrixDeRevientUnitaire() * this.getQuantite());
+        }
+        else if (getPrixDeRevientUnitaire() == 0 && getPrixDeRevient() >0) {
+            setPrixDeRevientUnitaire(getPrixDeRevient() / this.getQuantite());
+        }
     }
 
     public MvtStockDimension genererMvtStockDimension(Connection c) throws Exception{
@@ -147,6 +155,7 @@ public class TransformationFille extends MaClassMAPTable {
         mvt.setIdOriginalSource( transformation.getIdOriginalSource());
         mvt.setEntree(this.getQuantite());
         mvt.setSortie(0);
+        mvt.setPrixDeRevientUnitaire(this.getPrixDeRevientUnitaire());
         mvt.setPrixDeRevient(this.getPrixDeRevient());
         mvt.setIdTransformationFille(this.getIdTransformationFille());
         // faire la persistance du mouvement de stock
@@ -196,9 +205,9 @@ public class TransformationFille extends MaClassMAPTable {
         return null;
     }
 
-    public static double getSommeMontantVente(TransformationFille[] details , Connection conn) throws Exception {
+    public static double getSommeMontantVente(TransformationFilleLib[] details , Connection conn) throws Exception {
         double somme = 0;
-        for (TransformationFille transformationFille : details) {
+        for (TransformationFilleLib transformationFille : details) {
             somme += transformationFille.getMontantVente(); 
         }
         return somme;

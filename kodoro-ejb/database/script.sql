@@ -50,29 +50,32 @@ SELEct
     t.dateTransformation,
     t.idBloc,
     t.marge,
-    t.desce AS desce,
+    t.desce AS desceBloc,
     t.idOriginalSource,
-    t.idParentSource
+    t.idParentSource,
+    dim.prixVente,
+    dim.desce as desceDim
 from TransformationFille tf
-join Transformation_Lib t on t.idTransformation = tf.idTransformation;
+join Transformation_Lib t on t.idTransformation = tf.idTransformation
+join DimensionUsuels dim on tf.idDimensionUsuels = dim.idDimensionUsuels;
 
-CREATE OR REPLACE VIEW EtatStockDimension AS
-SELECT 
+CREATE TABLE EtatStockDimension 
     mvts.idDimensionUsuels,
     mvts.idOriginalSource,
     mvts.entree,
     mvts.sortie,
     (mvts.entree - mvts.sortie) AS quantite,
+    mvts.prixDeRevient
     CASE 
         WHEN (mvts.entree - mvts.sortie) != 0 THEN mvts.prixDeRevient / (mvts.entree - mvts.sortie)
         ELSE NULL
-    END AS moyenne_prixderevient
+    END AS prixDeRevientMoyenne
 FROM (
     SELECT
         mvt.idDimensionUsuels, 
         mvt.idOriginalSource,
         SUM(NVL(mvt.entree, 0)) AS entree,
-        SUM(NVL(mvt.sortie, 0)) AS sortie,
+        SUM(NVL(mvt.sortie, 0)) AS sortie,0
         SUM(NVL(mvt.prixDeRevient, 0)) AS prixDeRevient
     FROM 
         MvtStockDimension mvt

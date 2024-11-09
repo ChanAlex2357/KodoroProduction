@@ -23,8 +23,8 @@ public class TransformationCPL {
         String margePourcentage ,
         String dateTrans ,
         String[] idDimensions ,
-        String[] prixVente,
-        String[] qunatite , 
+        String[] qunatite ,
+        String[] prixRevientUnitaire , 
         String[] prixRevient , 
         String[] longueurs , 
         String[] largeurs , 
@@ -34,7 +34,7 @@ public class TransformationCPL {
         setIdBloc(idBloc);
         setMarge(margePourcentage);
         setDateTransformation(dateTrans);
-        setTransformationFille(idDimensions,prixVente, qunatite , prixRevient );
+        setTransformationFille(idDimensions, qunatite , prixRevientUnitaire , prixRevient);
         setRestes(longueurs, largeurs, epaisseurs , dateTrans);
     }
 
@@ -44,11 +44,11 @@ public class TransformationCPL {
         this.genererBlocRestante(trans,conn);
     }
     
-    public void setTransformationFille(String[] idDimensions, String[] prixVente , String[] quantite , String[] prixRevient){
+    public void setTransformationFille(String[] idDimensions, String[] quantite, String[] prixRevientUnitaire , String[] prixRevient ){
         List<TransformationFille> transF = new ArrayList<>();
         for (int i = 0; i < idDimensions.length; i++) {
             try {
-                transF.add(new TransformationFille(idDimensions[i],prixVente[i],quantite[i],prixRevient[i]));
+                transF.add(new TransformationFille(idDimensions[i],quantite[i],prixRevientUnitaire[i],prixRevient[i]));
             } catch ( IllegalArgumentException e) {
                 System.out.println("Inutile d'inserer une valeur de 0 .NEXT!");
             }
@@ -84,7 +84,6 @@ public class TransformationCPL {
         trans.createObject(conn, conn);
         TransformationLib transformationLib = trans.getAsTransformationLib(conn);
         for (TransformationFille transformationFille : detailsTransformations) {
-
             transformationFille.transformation = transformationLib;
             transformationFille.setIdTransformation(trans.getIdTransformation());
             transformationFille.createObject(conn);

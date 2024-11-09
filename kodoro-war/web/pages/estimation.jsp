@@ -22,9 +22,7 @@
             <tr>
                 <th>ID Bloc</th>
                 <th>Volume</th>
-                <th>Volume Restante</th>
                 <th>Estimations</th>
-                <th>Détails</th>
             </tr>
         </thead>
         <tbody>

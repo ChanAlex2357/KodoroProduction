@@ -4,12 +4,15 @@ import java.sql.Connection;
 import java.sql.Date;
 
 import mg.kodoro.models.Bloc;
+import mg.kodoro.utils.ValidationUtils;
 
 public class TransformationFilleLib extends TransformationFille{
     protected Date dateTransformation;
     protected String idBloc;
     protected double marge;
-    protected String desce ;
+    protected String desceBloc ;
+    protected String desceDim ;
+    protected double prixVente;
     protected String idOriginalSource;
     protected String idParentSource;
 
@@ -35,11 +38,31 @@ public class TransformationFilleLib extends TransformationFille{
     public void setMarge(double marge) {
         this.marge = marge;
     }
-    public String getDesce() {
-        return desce;
+    public String getDesceBloc() {
+        return desceBloc;
     }
-    public void setDesce(String desce) {
-        this.desce = desce;
+    public void setDesceBloc(String desceBloc) {
+        this.desceBloc = desceBloc;
+    }
+    public String getDesceDim() {
+        return desceDim;
+    }
+    public void setDesceDim(String desceDim) {
+        this.desceDim = desceDim;
+    }
+    public void setPrixVente(String prixDeRevient) {
+        this.prixVente = ValidationUtils.validatePositiveStringDouble(prixDeRevient);
+    }
+    public double getMontantVente() throws Exception{
+        return this.getPrixVente() * this.getQuantite();
+    }
+
+    public double getPrixVente() {
+        return prixVente;
+    }
+
+    public void setPrixVente(double prixVente) {
+        this.prixVente = prixVente;
     }
     public String getIdOriginalSource() {
         return idOriginalSource;
@@ -66,7 +89,8 @@ public class TransformationFilleLib extends TransformationFille{
                 ", marge=" + getMarge() +
                 ", idTransformation='" + getIdTransformation() + '\'' +
                 ", dateTransformation=" + getDateTransformation()+
-                ", desce='" + desce + '\'' +
+                ", desceBloc ='" + desceBloc + '\'' +
+                ", desceDim='" + desceDim + '\'' +
                 ", idOriginalSource='" + idOriginalSource + '\'' +
                 ", idParentSource='" + idParentSource + '\'' +
                 '}';

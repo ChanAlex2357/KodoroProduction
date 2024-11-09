@@ -384,7 +384,7 @@ public String toString() {
         double sommeVente = 0;
         TransformationLib[] transformations = getTransformations(conn);
         for (TransformationLib trans : transformations) {
-            sommeVente += trans.getMontantTransformation(conn);
+            sommeVente += trans.getMontantVente(conn);
         }
         return sommeVente;
     }
