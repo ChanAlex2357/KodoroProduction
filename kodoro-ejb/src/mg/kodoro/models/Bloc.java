@@ -362,10 +362,11 @@ public String toString() {
             return this.restes;
         }
         Bloc[] blocs = (Bloc[]) CGenUtil.rechercher(new Bloc(),null , null , conn , " and (idbloc not in ( select idbloc from v_blocmere ) and idoriginalsource = '"+this.getIdBloc()+"') ");
-        if (blocs.length > 0) {
-            return blocs;
+        if (blocs.length <= 0) {
+            blocs = new Bloc[1];
+            blocs[0] = this;
         }
-        return null;
+        return blocs;
     }
     public TransformationLib[] getTransformations(Connection conn) throws Exception{
         if (this.transformations != null) {
@@ -446,7 +447,7 @@ public String toString() {
             bloc.updateToTable(conn); // update la table
         }
         System.out.println("--- --- --- --- --- ---");
-        
+
         // Mettre a jour les prix de transformation
         TransformationLib[] trans = this.getTransformations(conn);
         System.out.println("-- UPDATE PRIX DE REVIENT DE TRANSFORMATION ----");

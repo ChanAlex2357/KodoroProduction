@@ -3,16 +3,16 @@ package mg.kodoro;
 import java.sql.Connection;
 
 import mg.kodoro.models.Bloc;
+import mg.kodoro.models.stock.MvtStockDimension;
 import utilitaire.UtilDB;
 
 public class Debug {
     public static void main(String[] args) {
-        Bloc bloc = new Bloc();
-        bloc.setIdBloc("BLC000002");
-
+    
         Connection conn = new UtilDB().GetConn();
         try {
-            bloc.getTransformations(conn);            
+            MvtStockDimension mvt = new MvtStockDimension();
+            mvt.setidTra
         } catch (Exception e) {
             e.printStackTrace();
         }

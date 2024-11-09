@@ -6,6 +6,8 @@ import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
 
 public class EtatStockDimension extends MaClassMAPTable{;
+    protected double entree;
+    protected double sortie;
     protected double quantite;
     protected String idOriginalSource;
     protected String idDimensionUsuels;
@@ -56,5 +58,17 @@ public class EtatStockDimension extends MaClassMAPTable{;
             return etatStocks;
         }
         return null;
+    }
+    public double getEntree() {
+        return entree;
+    }
+    public void setEntree(double entree) {
+        this.entree = entree;
+    }
+    public double getSortie() {
+        return sortie;
+    }
+    public void setSortie(double sortie) {
+        this.sortie = sortie;
     }
 }

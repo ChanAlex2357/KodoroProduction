@@ -1,6 +1,6 @@
 -- Suppression des tables si elles existent
 
-   DROP TABLE MvtStoctDimension CASCADE CONSTRAINTS;
+   DROP TABLE MvtStockDimension CASCADE CONSTRAINTS;
    DROP TABLE TransformationFille CASCADE CONSTRAINTS;
    DROP TABLE Transformation CASCADE CONSTRAINTS;
    DROP TABLE DimensionUsuels CASCADE CONSTRAINTS;
@@ -53,14 +53,14 @@ CREATE TABLE TransformationFille(
    FOREIGN KEY(idTransformation) REFERENCES Transformation(idTransformation)
 );
 
-CREATE TABLE MvtStoctDimension(
-   idStockDimesion VARCHAR2(255) ,
-   sortie NUMBER(10),
-   entree VARCHAR2(255) ,
-   prixDeVente NUMBER(15,2)  ,
+CREATE TABLE MvtStockDimension(
+   idMvtStockDimesion VARCHAR2(255) ,
+   sortie   NUMBER(15,2),
+   entree  NUMBER(15,2) ,
+   prixDeRevient NUMBER(15,2)  ,
    idOriginalSource VARCHAR2(255)  NOT NULL,
    idDimensionUsuels VARCHAR2(255)  NOT NULL,
-   PRIMARY KEY(idStockDimesion),
+   PRIMARY KEY(idMvtStockDimesion),
    FOREIGN KEY(idOriginalSource) REFERENCES Bloc(idBloc),
    FOREIGN KEY(idDimensionUsuels) REFERENCES DimensionUsuels(idDimensionUsuels)
 );

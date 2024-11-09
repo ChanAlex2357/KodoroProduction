@@ -78,6 +78,9 @@ public class TransformationLib extends Transformation {
     }
 
     public String getIdOriginalSource() {
+        if (idOriginalSource == null || idOriginalSource == "") {
+            return this.getIdBloc();
+        }
         return idOriginalSource;
     }
 
@@ -86,6 +89,9 @@ public class TransformationLib extends Transformation {
     }
 
     public String getIdParentSource() {
+        if (this.idParentSource == null) {
+            return this.getIdBloc();
+        }
         return idParentSource;
     }
 

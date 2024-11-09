@@ -55,3 +55,15 @@ BEGIN
    RETURN retour; 
 END;
 /
+
+DROP SEQUENCE msd_seq;
+CREATE SEQUENCE msd_seq START WITH 1 INCREMENT by 1;
+CREATE OR REPLACE Function GET_MSD_SEQ
+   RETURN NUMBER
+IS
+   retour NUMBER;
+BEGIN
+   SELECT msd_seq.NEXTVAL into retour FROM DUAL;
+   RETURN retour; 
+END;
+/

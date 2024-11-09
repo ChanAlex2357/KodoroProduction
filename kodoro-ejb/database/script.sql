@@ -56,12 +56,27 @@ SELEct
 from TransformationFille tf
 join Transformation_Lib t on t.idTransformation = tf.idTransformation;
 
-create or replace view StockTransformation as
+CREATE OR REPLACE VIEW EtatStockDimension AS
 SELECT 
-    tfl.idDimensionUsuels,
-    tfl.idBloc,
-    SUM(tfl.quantite) as quantite,
-    tfl.idOriginalSource,
-    (SUM(tfl.prixDeRevient) / SUM(tfl.quantite)) as prixDeRevient
-from TransformationFille_Lib tfl
-group by idDimensionUsuels , idOriginalSource;
+    mvts.idDimensionUsuels,
+    mvts.idOriginalSource,
+    mvts.entree,
+    mvts.sortie,
+    (mvts.entree - mvts.sortie) AS quantite,
+    CASE 
+        WHEN (mvts.entree - mvts.sortie) != 0 THEN mvts.prixDeRevient / (mvts.entree - mvts.sortie)
+        ELSE NULL
+    END AS moyenne_prixderevient
+FROM (
+    SELECT
+        mvt.idDimensionUsuels, 
+        mvt.idOriginalSource,
+        SUM(NVL(mvt.entree, 0)) AS entree,
+        SUM(NVL(mvt.sortie, 0)) AS sortie,
+        SUM(NVL(mvt.prixDeRevient, 0)) AS prixDeRevient
+    FROM 
+        MvtStockDimension mvt
+    GROUP BY 
+        mvt.idDimensionUsuels, 
+        mvt.idOriginalSource
+) mvts;
