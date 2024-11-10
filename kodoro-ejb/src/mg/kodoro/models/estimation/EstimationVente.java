@@ -9,13 +9,14 @@ import mg.kodoro.models.transformation.TransformationFille;
 
 public class EstimationVente {
     private Bloc[] blocRestantes;
+    private double volumeRestantes;
     private Transformation[] transformation;
     private TransformationFille[] detailsTransformation;
     private double estimationVente = -1;
     private double estimationResteRapportVolumePrix = -1;
     private double estimationResteVolumeMinimal = -1;
     private Bloc bloc;
-
+    
     public EstimationVente(Bloc bloc , Connection conn) throws Exception{
         setBloc(bloc);
         getEstimationVente(conn);
@@ -61,7 +62,6 @@ public class EstimationVente {
         }
         // Evaluer la quantite possible
         double qte = dimensionUsuels.getEstimationQte(blocs[0]);
-
         // Estimer le montant de vente
         return dimensionUsuels.getMontantVente(qte);
     }
@@ -71,7 +71,8 @@ public class EstimationVente {
     }
     public Bloc[] getBlocRestantes(Connection conn) throws Exception {
         if (this.blocRestantes == null || this.blocRestantes.length <= 0) {
-            this.blocRestantes = this.getBloc().getRestes(conn);          
+            this.blocRestantes = this.getBloc().getRestes(conn);
+            setVolumeRestantes(Bloc.getSommeVolume(this.blocRestantes));
         }
         return blocRestantes;
     }
@@ -79,24 +80,24 @@ public class EstimationVente {
     public Transformation[] getTransformation() {
         return transformation;
     }
-
+    
     public void setTransformation(Transformation[] transformation) {
         this.transformation = transformation;
     }
-
+    
     public TransformationFille[] getDetailsTransformation() {
         return detailsTransformation;
     }
-
+    
     public void setDetailsTransformation(TransformationFille[] detailsTransformation) {
         this.detailsTransformation = detailsTransformation;
     }
-
-
+    
+    
     public void setEstimationVente(double estimationVente) {
         this.estimationVente = estimationVente;
     }
-
+    
     
     public void setestimationResteRapportVolumePrix(double estimationResteRapportVolumePrix) {
         this.estimationResteRapportVolumePrix = estimationResteRapportVolumePrix;
@@ -105,13 +106,19 @@ public class EstimationVente {
     public void setestimationResteVolumeMinimal(double estimationResteVolumeMinimal) {
         this.estimationResteVolumeMinimal = estimationResteVolumeMinimal;
     }
-
+    
     
     public Bloc getBloc(){
         return this.bloc;
     }
     public String getIdBloc(){
         return this.getBloc().getIdBloc();
+    }
+    public double getVolumeRestantes() {
+        return volumeRestantes;
+    }
+    public void setVolumeRestantes(double volumeRestantes) {
+        this.volumeRestantes = volumeRestantes;
     }
 }
 

@@ -4,10 +4,11 @@ import java.sql.Connection;
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
 import mg.kodoro.models.DimensionUsuels;
+import mg.kodoro.models.PrixMannagement;
 import mg.kodoro.models.stock.MvtStockDimension;
 import mg.kodoro.utils.ValidationUtils;
 
-public class TransformationFille extends MaClassMAPTable {
+public class TransformationFille extends MaClassMAPTable implements PrixMannagement{
     private String idTransformationFille;
     private String idTransformation;
     private String idDimensionUsuels;
@@ -222,15 +223,24 @@ public class TransformationFille extends MaClassMAPTable {
         return somme;
     }
 
-    public void updatePrixDeRevient(double taux, Connection conn) throws Exception {
-        setNomTable("TRANSFORMATIONFILLE");
+    @Override
+    public void updatePrixDeRevient(double taux) {
         double newP = this.getPrixDeRevient() * taux;
         double newPu = this.getPrixDeRevientUnitaire() * taux;
-        System.err.println(this.getIdTransformationFille()+" : "+this.getPrixDeRevient()+" => "+newP);
         this.setPrixDeRevient(newP);
         this.setPrixDeRevientUnitaire(newPu);
-        this.updateToTable(conn);
+    }
 
+    @Override
+    public void updatePrixDeRevient(double taux, Connection conn) throws Exception {
+        setNomTable("TRANSFORMATIONFILLE");
+        double pr = this.getPrixDeRevient();
+        // Modifier le prix de revient et le prix de revient unitaire
+        updatePrixDeRevient(taux);
+
+        System.out.println(this.getIdTransformationFille()+" : "+pr+" => "+this.getPrixDeRevient());
+        
+        this.updateToTable(conn);
         // Mettre a jour le mouvement de stock
         MvtStockDimension mvt  = this.getMvtStockDimension(conn);
         mvt.updatePrixDeRevient(taux,conn);

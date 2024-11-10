@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-public class Bloc extends ClassDimension{
+public class Bloc extends ClassDimension implements PrixMannagement{
     private String idBloc;
     private String desce;
     private Date   dateFabrication;
@@ -321,11 +321,8 @@ public String toString() {
         return this.transformations;
     }
     public double getEstimationVente(Connection conn)throws Exception{
-        double sommeVente = 0;
         TransformationLib[] transformations = getTransformations(conn);
-        for (TransformationLib trans : transformations) {
-            sommeVente += trans.getMontantVente(conn);
-        }
+        double sommeVente = TransformationLib.getSommeMontantVente(transformations, conn);
         return sommeVente;
     }
 
@@ -401,6 +398,16 @@ public String toString() {
 
     public void updatePrixFabrication(String prixFab , Connection conn) throws Exception {
         updatePrixFabrication( ValidationUtils.validatePositiveStringDouble(prixFab) , conn);
+    }
+
+    @Override
+    public void updatePrixDeRevient(double tauxDeChange) {
+        this.updatePrixFabrication(tauxDeChange);
+    }
+
+    @Override
+    public void updatePrixDeRevient(double tauxDeChange, Connection conn) throws Exception {
+        this.updatePrixFabrication(tauxDeChange, conn);
     }
 
 }

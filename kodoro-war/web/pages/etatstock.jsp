@@ -11,7 +11,7 @@
 %>
 
 <%
-    AdminEtatStockDimension adminEtat = (AdminEtatStockDimension) obj 
+    AdminEtatStockDimension adminEtat = (AdminEtatStockDimension) obj;
     EtatStockDimension[] etatStockList = adminEtat.getEtatStockDimensions();
 %>
 

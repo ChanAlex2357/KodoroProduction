@@ -86,3 +86,28 @@ FROM (
         mvt.idDimensionUsuels, 
         mvt.idOriginalSource
 ) mvts;
+
+CREATE or replace view EtatStockDIM  as 
+SELECT
+    mvts.idDimensionUsuels,
+    mvts.entree,
+    mvts.sortie,
+    (mvts.entree - mvts.sortie) AS quantite,
+    mvts.prixDeRevient,
+    mvts.prixDeVente,
+    CASE 
+        WHEN (mvts.entree - mvts.sortie) != 0 THEN mvts.prixDeRevient / (mvts.entree - mvts.sortie)
+        ELSE NULL
+    END AS prixDeRevientMoyenne
+FROM (
+    SELECT
+        mvt.idDimensionUsuels,
+        SUM(NVL(mvt.entree, 0)) AS entree,
+        SUM(NVL(mvt.sortie, 0)) AS sortie,
+        SUM(NVL(mvt.prixDeRevient, 0)) AS prixDeRevient,
+        SUM(NVL(mvt.prixDeVente, 0)) AS prixDeVente
+    FROM 
+        MvtStockDimension mvt
+    GROUP BY 
+        mvt.idDimensionUsuels
+) mvts;

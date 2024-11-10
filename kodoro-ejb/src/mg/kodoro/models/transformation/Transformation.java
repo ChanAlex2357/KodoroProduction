@@ -112,6 +112,13 @@ public class Transformation extends MaClassMAPTable{
     }
 
 
+    public static double getSommeMontantVente(TransformationLib[] transformations , Connection conn)throws Exception {
+        double sommeVente = 0;
+        for (TransformationLib trans : transformations) {
+            sommeVente += trans.getMontantVente(conn);
+        }
+        return sommeVente;
+    }
     public double getMontantVente(Connection conn) throws Exception{
         TransformationFilleLib[] details = this.getDetailsTransformation(conn);
         return TransformationFilleLib.getSommeMontantVente(details,conn);

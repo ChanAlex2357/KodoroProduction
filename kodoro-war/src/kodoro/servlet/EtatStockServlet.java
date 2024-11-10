@@ -34,6 +34,6 @@ public class EtatStockServlet extends HttpServlet{
                     e.printStackTrace();
                 }
             }
-        DispatcherUtils.dispatchToTemplate("etatstock.jsp", resp, req);
+        DispatcherUtils.dispatchToTemplate("etatStock.jsp", resp, req);
     }
 }

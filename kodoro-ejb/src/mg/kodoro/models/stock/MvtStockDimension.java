@@ -5,8 +5,9 @@ import java.sql.Date;
 
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.models.PrixMannagement;
 
-public class MvtStockDimension extends MaClassMAPTable {
+public class MvtStockDimension extends MaClassMAPTable implements PrixMannagement{
     
     protected String idMvtStockDimension;
     protected String idTransformationFille;
@@ -205,10 +206,15 @@ public class MvtStockDimension extends MaClassMAPTable {
         this.prixDeVenteUnitaire = prixDeVenteUnitaire;
     }
 
+    @Override
     public void updatePrixDeRevient(double taux,Connection conn) throws Exception {
-        this.setPrixDeRevient( this.getPrixDeRevient() * taux);
-        this.setPrixDeRevientUnitaire( this.getPrixDeRevientUnitaire() * taux);
-
+        this.updatePrixDeRevient(taux);
         this.updateToTable(conn);
+    }
+    
+    @Override
+    public void updatePrixDeRevient(double tauxDeChange) {
+        this.setPrixDeRevient( this.getPrixDeRevient() * tauxDeChange);
+        this.setPrixDeRevientUnitaire( this.getPrixDeRevientUnitaire() * tauxDeChange);
     }
 }
