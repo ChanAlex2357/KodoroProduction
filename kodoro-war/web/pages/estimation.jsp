@@ -36,7 +36,7 @@
                         <tr>
                             <td><%= estimation.getBloc().getIdBloc() %></td>
                             <td><%= estimation.getBloc().getVolume() %> m³</td>
-                            <td><%= estimation.get></td>
+                            <td><%= estimation.getBlocRestantes() %> m³</td>
                             <!-- Collapse trigger for Estimations -->
                             <td>
                                 <div id="estimations-<%= estimation.getIdBloc() %>">
@@ -48,7 +48,7 @@
                                 </div>
                             </td>
                             <td>
-
+                                <li><a href="etatstock?idBloc=<%= estimation.getIdBloc() %>">Voir detail du stock des dimensions </a></li>
                             </td>
                         </tr>
             <%
