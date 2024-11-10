@@ -36,7 +36,7 @@
                         <tr>
                             <td><%= estimation.getBloc().getIdBloc() %></td>
                             <td><%= estimation.getBloc().getVolume() %> m³</td>
-                            <td><%= estimation.getBlocRestantes() %> m³</td>
+                            <td><%= estimation.getVolumeRestantes() %> m³</td>
                             <!-- Collapse trigger for Estimations -->
                             <td>
                                 <div id="estimations-<%= estimation.getIdBloc() %>">

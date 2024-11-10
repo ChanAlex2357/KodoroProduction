@@ -5,7 +5,9 @@
     Object obj = request.getAttribute("adminEtatStockDimension");
     String idBloc = request.getParameter("idBloc");
 %>
-    <h1>IDBLOC : <%= idBloc ></h1>
+<%  if(idBloc != null){ %>
+    <h1>IDBLOC : <%= idBloc %></h1>
+<% } %>
 <!-- SI il n'y a pas de stock disponible -->
 <%  if(obj == null){ %>
         <h2>Aucnune Stock Disponible</h1>

@@ -24,11 +24,11 @@ public class EtatStockServlet extends HttpServlet{
         Connection conn = new UtilDB().GetConn();
             try {
                 if (idBloc != null) {
-                    AdminDetailEtatStockDimension ad = AdminDetailEtatStockDimension.getEtatStock(idBloc,conn);
+                    AdminDetailEtatStockDimension ad = new AdminDetailEtatStockDimension().getEtatStock(idBloc,conn);
                     req.setAttribute("adminEtatStockDimension",ad);
                 }
                 else {
-                    AdminEtatStockDimension ad = AdminEtatStockDimension.getEtatStock(conn);
+                    AdminEtatStockDimension ad = new AdminEtatStockDimension().getEtatStock(conn);
                     req.setAttribute("adminEtatStockDimension", ad);
                 }
             } catch (Exception e) {

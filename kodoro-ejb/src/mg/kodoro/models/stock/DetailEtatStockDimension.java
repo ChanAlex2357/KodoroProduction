@@ -3,7 +3,6 @@ package mg.kodoro.models.stock;
 import java.sql.Connection;
 
 import bean.CGenUtil;
-import mg.kodoro.bean.MaClassMAPTable;
 
 public class DetailEtatStockDimension extends EtatStockDimension {
     protected String idOriginalSource;

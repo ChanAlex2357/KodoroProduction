@@ -5,25 +5,37 @@ import java.sql.Connection;
 import mg.kodoro.models.stock.affichage.AffichageTableStock;
 
 public class AdminEtatStockDimension {
-    public EtatStockDimension[] etatStockDims;
+    public EtatStockDimension[] etatStockDimensions;
+    public AffichageTableStock affichageTableStock;
 
-    public EtatStockDimension[] getEtatStockDims() {
-        return etatStockDims;
+    public AdminEtatStockDimension(){
+        setAffichageTableStock(new AffichageTableStock( this ));
+        getAffichageTableStock().disableOriginalView();
+    }
+    public AffichageTableStock getAffichageTableStock() {
+        return affichageTableStock;
     }
 
-    public void setEtatStockDims(EtatStockDimension[] etatStockDims) {
-        this.etatStockDims = etatStockDims;
+    public void setAffichageTableStock(AffichageTableStock affichageTableStock) {
+        this.affichageTableStock = affichageTableStock;
     }
 
-    public static AdminEtatStockDimension getEtatStock(Connection conn) throws Exception {
+
+    public EtatStockDimension[] getEtatStockDimensions() {
+        return etatStockDimensions;
+    }
+
+    public void setEtatStockDimensions(EtatStockDimension[] etatStockDimensions) {
+        this.etatStockDimensions = etatStockDimensions;
+    }
+
+    public AdminEtatStockDimension getEtatStock(Connection conn) throws Exception {
         AdminEtatStockDimension adminEtatStockDim = new AdminEtatStockDimension();
-        EtatStockDimension[] etatStockDims = new EtatStockDimension().getEtatDeStocks(conn);
-        adminEtatStockDim.setEtatStockDims(etatStockDims);
+        EtatStockDimension[] etatStockDimensions = new EtatStockDimension().getEtatDeStocks(conn);
+        adminEtatStockDim.setEtatStockDimensions(etatStockDimensions);
         return adminEtatStockDim;
     }
     public String getHtml(){
-        AffichageTableStock tableStock = new AffichageTableStock(this.getEtatStockDims());
-        tableStock.disableOriginalView();
-        return tableStock.getHtmlPattern();
+        return getAffichageTableStock().getHtmlPattern();
     }
 }
