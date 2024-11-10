@@ -14,13 +14,30 @@
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li><a href="entreebloc">Entrée Bloc</a></li>
-                <li><a href="transformation">Transformation</a></li>
-                <li><a href="estimation">Estimations</a></li>
-                <li><a href="etatstock">Etat de stock</a></li>
-            </ul>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+
+                <a class="navbar-brand" href="#">KODORO</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="entreebloc">Entrée Bloc</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="transformation">Transformation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="estimation">Estimations</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="etatstock">Etat de stock</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </nav>
     </header>
 
@@ -38,8 +55,8 @@
         <% } catch(Exception e) { out.println(e.getMessage()); } %>
     </main>
 
-    <footer>
-        <div class="footer-content">
+    <footer class="py-3 bg-light" >
+        <div class="container">
             <p>&copy; 2024 - Application de Gestion de Blocs</p>
             <p>Développé par : ETU002434</p> <!-- Replace [Ton Identifiant] with your actual identifier -->
         </div>

@@ -69,6 +69,9 @@ public class EstimationVente {
     public void setBloc(Bloc bloc) {
         this.bloc = bloc;
     }
+    public Bloc[] getBlocRestantes(){
+        return this.blocRestantes;
+    }
     public Bloc[] getBlocRestantes(Connection conn) throws Exception {
         if (this.blocRestantes == null || this.blocRestantes.length <= 0) {
             this.blocRestantes = this.getBloc().getRestes(conn);

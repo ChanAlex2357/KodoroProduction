@@ -58,7 +58,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             e1.printStackTrace();
         }
         message = "Unexpected error: " + e.getMessage();
-        e.printStackTrace();
+        DispatcherUtils.dispatchToError(message, "entreebloc",response,request);
     }
     finally {
         try {

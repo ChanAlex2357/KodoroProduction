@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kodoro.utils.DispatcherUtils;
 import mg.kodoro.models.Bloc;
 import utilitaire.UtilDB;
 
@@ -34,6 +35,8 @@ public class UpdateBlocServlet extends HttpServlet{
                 r.printStackTrace();
             }
             e.printStackTrace();
+            DispatcherUtils.dispatchToError(e.getMessage(), "transformation",response,request);
+
         }
         finally {
             try {

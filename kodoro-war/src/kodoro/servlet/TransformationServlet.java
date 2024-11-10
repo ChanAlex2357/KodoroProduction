@@ -54,7 +54,9 @@ public class TransformationServlet extends HttpServlet {
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
-                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Les détails de transformation sont incomplets.");
+                String message = "Les détails de transformation sont incomplets \n"+e.getMessage();
+                DispatcherUtils.dispatchToError(message, "transformation",resp,req);
+
             }
             finally {
                 try {

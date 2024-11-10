@@ -25,6 +25,7 @@ import utilitaire.UtilDB;
             } catch (Exception e) {
                 e.printStackTrace();
                 req.setAttribute("adminestimation", null);
+                
             }
             finally {
                 try {

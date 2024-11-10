@@ -1,5 +1,8 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <%@ page import="mg.kodoro.models.estimation.EstimationVente" %>
 <%@ page import="mg.kodoro.models.estimation.AdminEstimation" %>
+<%@ page import="mg.kodoro.models.Bloc" %>
 <%@ page import="java.util.List" %>
 
 <%
@@ -23,6 +26,7 @@
                 <th>ID Bloc</th>
                 <th>Volume</th>
                 <th>Volume Restante</th>
+                <th>Blocs restantes</th>
                 <th>Estimations</th>
                 <th>Details</th>
             </tr>
@@ -37,6 +41,18 @@
                             <td><%= estimation.getBloc().getIdBloc() %></td>
                             <td><%= estimation.getBloc().getVolume() %> m³</td>
                             <td><%= estimation.getVolumeRestantes() %> m³</td>
+                            <td>
+                                <ul>
+
+                                    <%
+                                    Bloc[] restes = estimation.getBlocRestantes();
+                                    for( Bloc reste : restes) { %>
+                                        <li class="nav-item">
+                                            <%= reste.getDesceVolume()%>
+                                        </li>    
+                                    <% } %>
+                                </ul>
+                            </td>
                             <!-- Collapse trigger for Estimations -->
                             <td>
                                 <div id="estimations-<%= estimation.getIdBloc() %>">
@@ -48,7 +64,7 @@
                                 </div>
                             </td>
                             <td>
-                                <li><a href="etatstock?idBloc=<%= estimation.getIdBloc() %>">Voir detail du stock des dimensions </a></li>
+                                <li class="nav-item"><a href="etatstock?idBloc=<%= estimation.getIdBloc() %>">Voir detail du stock des dimensions </a></li>
                             </td>
                         </tr>
             <%

@@ -27,6 +27,10 @@ public class Bloc extends ClassDimension implements PrixMannagement{
     protected TransformationLib[] transformations;
     protected Bloc[] restes ;
     
+    public String getDesceVolume(){
+        return this.getIdBloc()+" - "+this.getVolume()+" m³";
+    }
+
     @Override
 public String toString() {
     return "Bloc{" +

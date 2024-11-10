@@ -34,6 +34,7 @@ public class EtatStockServlet extends HttpServlet{
             } catch (Exception e) {
                 e.printStackTrace();
                 req.setAttribute("adminEtatStockDimension", null);
+                
             }
             finally {
                 try {
