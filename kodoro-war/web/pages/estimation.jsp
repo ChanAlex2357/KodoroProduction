@@ -22,7 +22,9 @@
             <tr>
                 <th>ID Bloc</th>
                 <th>Volume</th>
+                <th>Volume Restante</th>
                 <th>Estimations</th>
+                <th>Details</th>
             </tr>
         </thead>
         <tbody>
@@ -34,6 +36,7 @@
                         <tr>
                             <td><%= estimation.getBloc().getIdBloc() %></td>
                             <td><%= estimation.getBloc().getVolume() %> m³</td>
+                            <td><%= estimation.get></td>
                             <!-- Collapse trigger for Estimations -->
                             <td>
                                 <div id="estimations-<%= estimation.getIdBloc() %>">
@@ -43,6 +46,9 @@
                                         <strong>P3:</strong> <%= estimation.getEstimationResteVolumeMinimal() %>
                                     </div>
                                 </div>
+                            </td>
+                            <td>
+
                             </td>
                         </tr>
             <%

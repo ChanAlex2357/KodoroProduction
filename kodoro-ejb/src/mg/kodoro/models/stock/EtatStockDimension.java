@@ -6,7 +6,6 @@ import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
 
 public class EtatStockDimension extends MaClassMAPTable{
-    protected String idOriginalSource;
     protected String idDimensionUsuels;
     protected double quantite;
     protected double entree;
@@ -15,19 +14,13 @@ public class EtatStockDimension extends MaClassMAPTable{
     protected double prixDeVente;
     protected double prixDeRevientMoyenne;
     
-    public EtatStockDimension(){setNomTable("EtatStockDimension");}
+    public EtatStockDimension(){setNomTable("EtatStockDim");}
 
     public double getQuantite() {
         return quantite;
     }
     public void setQuantite(double quantite) {
         this.quantite = quantite;
-    }
-    public String getIdOriginalSource() {
-        return idOriginalSource;
-    }
-    public void setIdOriginalSource(String idOriginalSource) {
-        this.idOriginalSource = idOriginalSource;
     }
     public String getIdDimensionUsuels() {
         return idDimensionUsuels;
@@ -36,7 +29,7 @@ public class EtatStockDimension extends MaClassMAPTable{
         this.idDimensionUsuels = idDimensionUsuels;
     }
         
-    public static EtatStockDimension[] getEtatDeStocks(Connection conn) throws Exception {
+    public EtatStockDimension[] getEtatDeStocks(Connection conn) throws Exception {
         EtatStockDimension[] etatStocks = (EtatStockDimension[]) CGenUtil.rechercher(new EtatStockDimension(),null,null,conn," order by idDimensionUsuels");
         if (etatStocks.length >  0) {
             return etatStocks;
@@ -87,5 +80,9 @@ public class EtatStockDimension extends MaClassMAPTable{
     }
     public void setPrixDeRevientMoyenne(double prixDeRevientMoyenne) {
         this.prixDeRevientMoyenne = prixDeRevientMoyenne;
+    }
+
+    public String getIdOriginalSource() {
+        return null;
     }
 }

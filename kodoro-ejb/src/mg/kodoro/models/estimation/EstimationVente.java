@@ -4,6 +4,7 @@ import java.sql.Connection;
 
 import mg.kodoro.models.Bloc;
 import mg.kodoro.models.DimensionUsuels;
+import mg.kodoro.models.stock.DetailsEtatStockDimension;
 import mg.kodoro.models.transformation.Transformation;
 import mg.kodoro.models.transformation.TransformationFille;
 
@@ -12,6 +13,7 @@ public class EstimationVente {
     private double volumeRestantes;
     private Transformation[] transformation;
     private TransformationFille[] detailsTransformation;
+    private DetailsEtatStockDimension[] etatStockDimensions;
     private double estimationVente = -1;
     private double estimationResteRapportVolumePrix = -1;
     private double estimationResteVolumeMinimal = -1;
@@ -106,8 +108,6 @@ public class EstimationVente {
     public void setestimationResteVolumeMinimal(double estimationResteVolumeMinimal) {
         this.estimationResteVolumeMinimal = estimationResteVolumeMinimal;
     }
-    
-    
     public Bloc getBloc(){
         return this.bloc;
     }
@@ -119,6 +119,12 @@ public class EstimationVente {
     }
     public void setVolumeRestantes(double volumeRestantes) {
         this.volumeRestantes = volumeRestantes;
+    }
+    public DetailsEtatStockDimension[] getEtatStockDimensions(Connection conn) throws Exception {
+        return etatStockDimensions;
+    }
+    public void setEtatStockDimensions(DetailsEtatStockDimension[] etatStockDimensions) {
+        this.etatStockDimensions = etatStockDimensions;
     }
 }
 

@@ -2,21 +2,28 @@ package mg.kodoro.models.stock;
 
 import java.sql.Connection;
 
-public class AdminEtatStockDimension {
-    public EtatStockDimension[] etatStockDimensions;
+import mg.kodoro.models.stock.affichage.AffichageTableStock;
 
-    public EtatStockDimension[] getEtatStockDimensions() {
-        return etatStockDimensions;
+public class AdminEtatStockDimension {
+    public EtatStockDimension[] etatStockDims;
+
+    public EtatStockDimension[] getEtatStockDims() {
+        return etatStockDims;
     }
 
-    public void setEtatStockDimensions(EtatStockDimension[] etatStockDimensions) {
-        this.etatStockDimensions = etatStockDimensions;
+    public void setEtatStockDims(EtatStockDimension[] etatStockDims) {
+        this.etatStockDims = etatStockDims;
     }
 
     public static AdminEtatStockDimension getEtatStock(Connection conn) throws Exception {
-        AdminEtatStockDimension adminEtatStockDimension = new AdminEtatStockDimension();
-        EtatStockDimension[] etatStockDimensions = EtatStockDimension.getEtatDeStocks(conn);
-        adminEtatStockDimension.setEtatStockDimensions(etatStockDimensions);
-        return adminEtatStockDimension;
+        AdminEtatStockDimension adminEtatStockDim = new AdminEtatStockDimension();
+        EtatStockDimension[] etatStockDims = new EtatStockDimension().getEtatDeStocks(conn);
+        adminEtatStockDim.setEtatStockDims(etatStockDims);
+        return adminEtatStockDim;
+    }
+    public String getHtml(){
+        AffichageTableStock tableStock = new AffichageTableStock(this.getEtatStockDims());
+        tableStock.disableOriginalView();
+        return tableStock.getHtmlPattern();
     }
 }
