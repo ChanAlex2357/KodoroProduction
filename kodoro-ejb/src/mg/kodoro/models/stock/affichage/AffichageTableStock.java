@@ -28,6 +28,7 @@ public class AffichageTableStock extends HtmlTableObject {
                     thead += "       <th scope=\"col\">Id Original Source</th>\r\n";
                 }
                 thead +="       <th scope=\"col\">Id Dimension Usuels</th>\r\n" + //
+                "       <th scope=\"col\">Nom Dimension</th>\r\n" + //
                 "       <th scope=\"col\">Quantité</th>\r\n" + //
                 "       <th scope=\"col\">Entrée</th>\r\n" + //
                 "       <th scope=\"col\">Sortie</th>\r\n" + //
@@ -45,11 +46,13 @@ public class AffichageTableStock extends HtmlTableObject {
                 EtatStockDimension[] etatStockDimensions = this.getEtatStockDimensions();
                 if (etatStockDimensions != null && etatStockDimensions.length > 0) {
                     for (EtatStockDimension etatStock : etatStockDimensions) {
+                        System.out.println("+>>>> "+etatStock.getIdDimensionUsuels());
                         tbody += "<tr>\r\n";
                         if (originalView) {
                             tbody += "<td>"+ etatStock.getIdOriginalSource()+"</td>\r\n";
                         }
-                        tbody += "<td><"+ etatStock.getIdDimensionUsuels()+"</td>\r\n" + //
+                        tbody += "<td>"+ etatStock.getIdDimensionUsuels()+"</td>\r\n" + //
+                        "<td>"+ etatStock.getDesceDim()+"</td>\r\n" + //
                         "<td>"+ etatStock.getQuantite()+"</td>\r\n" + //
                         "<td>"+ etatStock.getEntree()+"</td>\r\n" + //
                         "<td>"+ etatStock.getSortie()+"</td>\r\n" + //
@@ -61,7 +64,7 @@ public class AffichageTableStock extends HtmlTableObject {
             }
             else {
                 tbody += " <tr>\r\n" + //
-                "     <td colspan=\"8\" class=\"text-center\">Aucun état de stock trouvé</td>\r\n" + //
+                "     <td colspan=\"9\" class=\"text-center\">Aucun état de stock trouvé</td>\r\n" + //
                 " </tr>\r\n";
             }
             return tbody;

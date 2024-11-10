@@ -62,6 +62,7 @@ join DimensionUsuels dim on tf.idDimensionUsuels = dim.idDimensionUsuels;
 CREATE or replace view EtatStockDimension  as 
 SELECT
     mvts.idDimensionUsuels,
+    dim.desce as desceDim,
     mvts.idOriginalSource,
     mvts.entree,
     mvts.sortie,
@@ -85,11 +86,13 @@ FROM (
     GROUP BY 
         mvt.idDimensionUsuels, 
         mvt.idOriginalSource
-) mvts;
+) mvts
+JOIN DimensionUsuels dim on dim.idDimensionUsuels = mvts.idDimensionUsuels;
 
 CREATE or replace view EtatStockDIM  as 
 SELECT
     mvts.idDimensionUsuels,
+    dim.desce as desceDim,
     mvts.entree,
     mvts.sortie,
     (mvts.entree - mvts.sortie) AS quantite,
@@ -110,4 +113,5 @@ FROM (
         MvtStockDimension mvt
     GROUP BY 
         mvt.idDimensionUsuels
-) mvts;
+) mvts
+JOIN DimensionUsuels dim on dim.idDimensionUsuels = mvts.idDimensionUsuels;

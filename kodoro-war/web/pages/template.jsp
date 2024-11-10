@@ -41,8 +41,7 @@
     <footer>
         <div class="footer-content">
             <p>&copy; 2024 - Application de Gestion de Blocs</p>
-            <p>Développé par : [Ton Identifiant]</p> <!-- Replace [Ton Identifiant] with your actual identifier -->
-            <p><a href="mailto:support@exemple.com">Contact Support</a> | <a href="terms.jsp">Termes et Conditions</a> | <a href="privacy.jsp">Politique de Confidentialité</a></p>
+            <p>Développé par : ETU002434</p> <!-- Replace [Ton Identifiant] with your actual identifier -->
         </div>
     </footer>
 

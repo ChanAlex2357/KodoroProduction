@@ -3,6 +3,7 @@
 <%
     // Retrieve the list of blocs directly in JSP
     Bloc[] blocList = Bloc.getAllBlocs();
+    Bloc[] blocOriginals = Bloc.getAllBlocOriginal();
 %>
 
 <div class="container mt-5">
@@ -80,21 +81,22 @@
     </tbody>
 </table>
 <div>
+    <h3>Mise a jour de prix de revient</h3>
     <form action="updatebloc" method="post">
         <div class="form-group">
             <label for="blocSelect" style="color: #FFC107;">Sélectionnez le Bloc</label>
             <select class="form-control" id="blocSelect" name="idBloc" required>
                 <option value="" disabled selected>Choisissez un bloc</option>
                 <%
-                    if (blocList != null && blocList.length > 0) {
-                        for (Bloc bloc : blocList) {
+                    if (blocOriginals != null && blocOriginals.length > 0) {
+                        for (Bloc bloc : blocOriginals) {
                 %>
                             <option value="<%= bloc.getIdBloc() %>"><%= bloc.getIdBloc() %> - <%= bloc.getDesce() %></option>
                 <%
                         }
                     } else {
                 %>
-                        <option value="" disabled>Aucun bloc trouvé</option>
+                        <option value="" disabled>Aucun bloc Bloc Original a mettre a jour</option>
                 <%
                     }
                 %>

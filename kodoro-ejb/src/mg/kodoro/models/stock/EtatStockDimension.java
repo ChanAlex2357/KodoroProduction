@@ -7,6 +7,7 @@ import mg.kodoro.bean.MaClassMAPTable;
 
 public class EtatStockDimension extends MaClassMAPTable{
     protected String idDimensionUsuels;
+    protected String desceDim;
     protected double quantite;
     protected double entree;
     protected double sortie;
@@ -85,4 +86,13 @@ public class EtatStockDimension extends MaClassMAPTable{
     public String getIdOriginalSource() {
         return null;
     }
+
+    public String getDesceDim() {
+        return desceDim;
+    }
+
+    public void setDesceDim(String desceDim) {
+        this.desceDim = desceDim;
+    }
+
 }

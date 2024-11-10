@@ -1,9 +1,9 @@
 <!-- footer.jsp -->
 <footer>
     <div class="footer-content">
-        <p>&copy; 2024 - Application de Gestion de Blocs</p>
-        <p>Développé par : [Ton Identifiant]</p> <!-- Remplace [Ton Identifiant] par ton identifiant réel -->
-        <p><a href="mailto:support@exemple.com">Contact Support</a> | <a href="terms.jsp">Termes et Conditions</a> | <a href="privacy.jsp">Politique de Confidentialité</a></p>
+        <p>&copy; 2024 - Application de Gestion de Kidoro</p>
+        <p>Développé par : [ETU002434]</p> <!-- Remplace [Ton Identifiant] par ton identifiant réel -->
+        <!-- <p><a href="mailto:support@exemple.com">Contact Support</a> | <a href="terms.jsp">Termes et Conditions</a> | <a href="privacy.jsp">Politique de Confidentialité</a></p> -->
     </div>
 </footer>
 <jsp:include page='${pageContext.request.contextPath}/pages/static/js.jsp'/>
