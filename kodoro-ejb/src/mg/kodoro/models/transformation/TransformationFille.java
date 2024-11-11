@@ -3,6 +3,7 @@ import java.sql.Connection;
 
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.models.Bloc;
 import mg.kodoro.models.DimensionUsuels;
 import mg.kodoro.models.PrixMannagement;
 import mg.kodoro.models.stock.MvtStockDimension;
@@ -19,6 +20,7 @@ public class TransformationFille extends MaClassMAPTable implements PrixMannagem
     
     protected TransformationLib transformation;
     protected MvtStockDimension mvtStockDimension;
+    protected DimensionUsuels dimensionUsuels;
     
     // Constructeur par défaut
     public TransformationFille() {
@@ -81,7 +83,7 @@ public class TransformationFille extends MaClassMAPTable implements PrixMannagem
     }
 
     public double getPrixDeRevient() {
-        if (prixDeRevient == 0) {
+        if (prixDeRevient == 0 &&  prixDeRevientUnitaire > 0 ) {
             setPrixDeRevient();
         }
         return prixDeRevient;
@@ -194,15 +196,19 @@ public class TransformationFille extends MaClassMAPTable implements PrixMannagem
         double somme = 0;
         for(TransformationFille fille : filles){
             DimensionUsuels dim = fille.getDimensionUsuels(conn);
-            System.out.println(dim); 
-            double v = dim.getVolume() * fille.getQuantite();
-            System.out.println(v);
+            System.out.println(dim);
+            double vd = dim.getVolume(); 
+            double v = fille.getVolume(conn);
+            System.out.println( vd+" X "+fille.getQuantite()+" = "+v);
             somme += v;
         }
         return somme;
     }
             
     public DimensionUsuels getDimensionUsuels(Connection conn) throws Exception {
+        if (this.dimensionUsuels != null) {
+            return this.dimensionUsuels;
+        }
         DimensionUsuels[] dimensions = new DimensionUsuels[1];
         dimensions[0] = new DimensionUsuels();
         dimensions[0].setIdDimensionUsuels(this.getIdDimensionUsuels());
@@ -222,6 +228,15 @@ public class TransformationFille extends MaClassMAPTable implements PrixMannagem
         }
         return somme;
     }
+    public static double getSommeMontantPrixDeRevient(TransformationFilleLib[] details, Connection conn) {
+        double somme = 0;
+        for (TransformationFilleLib transformationFille : details) {
+            somme += transformationFille.getPrixDeRevient(); 
+        }
+        return somme;
+    }
+
+    
 
     @Override
     public void updatePrixDeRevient(double taux) {
@@ -307,5 +322,15 @@ public class TransformationFille extends MaClassMAPTable implements PrixMannagem
             return stock[0];
         }
         return null;
+    }
+
+    public double getVolume(Connection conn)throws Exception{
+        DimensionUsuels dim = this.getDimensionUsuels(conn);
+        return dim.getVolume() * this.getQuantite();
+    }
+    public void setPrixDeRevient(Bloc source ,Connection conn)throws Exception {
+        double puv = source.getPrixUnitaireVolume();
+        double volumeFille = this.getVolume(conn);
+        this.setPrixDeRevient( volumeFille * puv);
     }
 }

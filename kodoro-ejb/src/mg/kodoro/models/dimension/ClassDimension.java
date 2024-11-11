@@ -56,5 +56,4 @@ public abstract class ClassDimension extends MaClassMAPTable{
         }
         setEpaisseur(ValidationUtils.validatePositiveStringDouble(epaisseur));
     }
-    
 }

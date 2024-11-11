@@ -30,10 +30,7 @@ public class AffichageTableStock extends HtmlTableObject {
                 thead +="       <th scope=\"col\">Id Dimension Usuels</th>\r\n" + //
                 "       <th scope=\"col\">Nom Dimension</th>\r\n" + //
                 "       <th scope=\"col\">Quantité</th>\r\n" + //
-                "       <th scope=\"col\">Entrée</th>\r\n" + //
-                "       <th scope=\"col\">Sortie</th>\r\n" + //
                 "       <th scope=\"col\">Prix de Revient</th>\r\n" + //
-                "       <th scope=\"col\">Prix de Vente</th>\r\n" + //
                 "       <th scope=\"col\">Prix de Revient Moyenne</th>\r\n" + //
                 "   </tr>\r\n" + //
                 "</thead>\r\n";
@@ -54,10 +51,10 @@ public class AffichageTableStock extends HtmlTableObject {
                         tbody += "<td>"+ etatStock.getIdDimensionUsuels()+"</td>\r\n" + //
                         "<td>"+ etatStock.getDesceDim()+"</td>\r\n" + //
                         "<td>"+ etatStock.getQuantite()+"</td>\r\n" + //
-                        "<td>"+ etatStock.getEntree()+"</td>\r\n" + //
-                        "<td>"+ etatStock.getSortie()+"</td>\r\n" + //
+                        // "<td>"+ etatStock.getEntree()+"</td>\r\n" + //
+                        // "<td>"+ etatStock.getSortie()+"</td>\r\n" + //
                         "<td>"+ etatStock.getPrixDeRevient()+"</td>\r\n" + //
-                        "<td>"+ etatStock.getPrixDeVente()+"</td>\r\n" + //
+                        // "<td>"+ etatStock.getPrixDeVente()+"</td>\r\n" + //
                         "<td>"+ etatStock.getPrixDeRevientMoyenne()+"</td>\r\n" + //
                         "</tr>\r\n";
                     }   

@@ -23,7 +23,7 @@ public class TransformationCPL {
         String margePourcentage ,
         String dateTrans ,
         String[] idDimensions ,
-        String[] qunatite ,
+        String[] qunatite,
         String[] prixRevientUnitaire , 
         String[] prixRevient , 
         String[] longueurs , 
@@ -48,6 +48,7 @@ public class TransformationCPL {
         List<TransformationFille> transF = new ArrayList<>();
         for (int i = 0; i < idDimensions.length; i++) {
             try {
+
                 transF.add(new TransformationFille(idDimensions[i],quantite[i],prixRevientUnitaire[i],prixRevient[i]));
             } catch ( IllegalArgumentException e) {
                 System.out.println("Inutile d'inserer une valeur de 0 .NEXT!");
@@ -93,7 +94,10 @@ public class TransformationCPL {
         trans.createObject(conn, conn);
         TransformationLib transformationLib = trans.getAsTransformationLib(conn);
 
+        Bloc b = this.getBloc(conn);
         for (TransformationFille transformationFille : detailsTransformations) {
+            
+            transformationFille.setPrixDeRevient(b, conn);
             transformationFille.transformation = transformationLib;
             transformationFille.setIdTransformation(trans.getIdTransformation());
             transformationFille.createObject(conn);
@@ -101,11 +105,19 @@ public class TransformationCPL {
         return trans;
     }
     
+    public double getPourcentage(){
+        return this.getMarge() /100;
+    }
+
+
     public void controllerMarge(Connection conn) throws Exception{
         double margeCalculer = getMargeVolume(conn);
-        if (margeCalculer > this.getMarge()) {
+        double taux = (this.getBloc(conn).getVolume() * this.getPourcentage());
+        System.out.println("TAUX % : "+taux);
+        if (margeCalculer > taux) {
             throw new Exception("La marge de volume ("+margeCalculer+" %) ne respecte pas la marge etablie ("+this.getMarge()+" %)");
         }
+        System.out.println(margeCalculer+" < "+taux );
     }
 
     public double getMargeVolume(Connection conn) throws Exception{
@@ -116,28 +128,20 @@ public class TransformationCPL {
         if ( vrt > vre || vrt > getBloc(conn).getVolume()) {
             throw new IllegalArgumentException("Le volume du reste ne doit pas etre inferieur");
         }
-        return calculerMargeVolume(vre, vrt);
+        return calculerMargeVolume(getBloc(conn).getVolume() , vre, vrt);
     }
     
-    public double calculerMargeVolume(double volumeEstime , double volumeTheorique) {
-        double reste = Math.abs(volumeTheorique - volumeEstime);
-        double calc =  reste / volumeTheorique;
-        double marge = calc * 100;
+    public double calculerMargeVolume( double vb , double volumeEstime , double volumeTheorique) {
+        double eccart =  Math.abs(vb - (Math.abs(volumeEstime + volumeTheorique)));
 
-        System.out.println("RESTE : "+reste);
-        System.out.println("CALC : "+calc);
-        System.out.println("MARGE : "+marge);
+        System.out.println("ECART : "+eccart);
 
-        return  marge;
+        return  eccart;
     }
     
     public double getVolumeRestanteEstime(Connection conn) throws Exception{
-        double vb = getBloc(conn).getVolume(); // Volume du bloc
         double vtt = this.getVolumeTotalTransformer(conn); // Volume total transformer
-        
-        System.out.println("VB :"+vb);
-        System.out.println("VTT : "+vtt);
-        return vb - vtt;
+        return vtt;
     }
     
     public double getVolumeTotalTransformer(Connection conn) throws Exception{

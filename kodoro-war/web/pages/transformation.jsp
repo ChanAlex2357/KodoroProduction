@@ -11,38 +11,41 @@
     <h2 class="text-center mb-4" style="color: #FFC107;">Insertion de Transformation</h2>
     <form action="transformation" method="post" class="needs-validation" novalidate>
         
-        <!-- Sélection du bloc -->
-        <div class="form-group">
-            <label for="blocSelect" >Sélectionnez le Bloc</label>
-            <select class="form-control" id="blocSelect" name="idBloc" required>
-                <option value="" disabled selected>Choisissez un bloc</option>
+        <div class="row">
+
+            <!-- Sélection du bloc -->
+            <div class="form-group col-md-4">
+                <label for="blocSelect" >Sélectionnez le Bloc</label>
+                <select class="form-select" id="blocSelect" name="idBloc" required>
+                    <option value="" disabled selected>Choisissez un bloc</option>
                 <%
-                    if (blocList != null && blocList.length > 0) {
+                if (blocList != null && blocList.length > 0) {
                         for (Bloc bloc : blocList) {
-                %>
+                            %>
                             <option value="<%= bloc.getIdBloc() %>"><%= bloc.getIdBloc() %> - <%= bloc.getDesce() %></option>
-                <%
+                            <%
                         }
                     } else {
                 %>
                         <option value="" disabled>Aucun bloc trouvé</option>
                 <%
                     }
-                %>
-            </select>
-            <div class="invalid-feedback">Veuillez sélectionner un bloc.</div>
-        </div>
-        
-        <!-- Champ pour marge en pourcentage -->
-        <div class="form-group">
-            <label for="margePourcentage" >Marge en Pourcentage</label>
-            <input type="number" name="margePourcentage" id="margePourcentage" class="form-control" min="0" max="100" step="0.01" required>
-            <div class="invalid-feedback">Veuillez entrer une marge valide (entre 0 et 100).</div>
-        </div>
-        <!-- Champ pour date de transformation -->
-        <div class="form-group">
-            <label for="dateTransformation" >Date de transformation</label>
-            <input type="date" name="dateTransformation" id="dateTransformation" class="form-control" required>
+                    %>
+                </select>
+                <div class="invalid-feedback">Veuillez sélectionner un bloc.</div>
+            </div>
+            
+            <!-- Champ pour marge en pourcentage -->
+            <div class="form-group col-md-4">
+                <label for="margePourcentage" >Marge en Pourcentage</label>
+                <input type="number" name="margePourcentage" id="margePourcentage" class="form-control" min="0" max="100" step="0.01" required>
+                <div class="invalid-feedback">Veuillez entrer une marge valide (entre 0 et 100).</div>
+            </div>
+            <!-- Champ pour date de transformation -->
+            <div class="form-group col-md-4">
+                <label for="dateTransformation" >Date de transformation</label>
+                <input type="date" name="dateTransformation" id="dateTransformation" class="form-control" required>
+            </div>
         </div>
         <hr>
         <h4 class="mt-4" style="color: #FFC107;">Dimensions Usuelles</h4>
@@ -51,8 +54,6 @@
                 <tr>
                     <th>Produit</th>
                     <th>Quantité</th>
-                    <th>Prix de revient Unitaire</th>
-                    <th>Prix de revient</th>
                 </tr>
             </thead>
             <tbody>
@@ -69,14 +70,8 @@
                                     <td>
                                         <input type="number" name="quantite[]" class="form-control" min="0" step="1" value="0" required>
                                         <div class="invalid-feedback">Entrez une quantité valide pour ce produit.</div>
-                                    </td>
-                                    <td>
-                                        <input type="number" class="form-control" name="prixRevientunitaire[]"" min="0" step="0.1" value="0" required>
-                                        <div class="invalid-feedback">Entrez un prix valide.</div>
-                                    </td>
-                                    <td>
-                                        <input type="number" name="prixRevient[]" class="form-control" min="0" step="0.1" value="0" required>
-                                        <div class="invalid-feedback">Entrez un prix valide.</div>
+                                        <input type="hidden" class="form-control" name="prixRevientunitaire[]"" min="0" step="0.1" value="0" required>
+                                        <input type="hidden" name="prixRevient[]" class="form-control" min="0" step="0.1" value="0" required>
                                     </td>
                             </tr>
                 <%
@@ -101,14 +96,14 @@
                         <th>Longueur (m)</th>
                         <th>Largeur (m)</th>
                         <th>Épaisseur (m)</th>
-                        <th>Action</th>
+                        <!-- <th>Action</th> -->
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Lignes dynamiques ajoutées via JavaScript -->
                 </tbody>
             </table>
-            <button type="button" class="btn btn-secondary d-block" onclick="ajouterBlocRestant()">Ajouter un bloc restant</button>
+            <!-- <button type="button" class="btn btn-secondary d-block" onclick="ajouterBlocRestant()">Ajouter un bloc restant</button> -->
         </div>
         <hr>
         <div>
@@ -131,9 +126,8 @@
         newRow.innerHTML = `
             <td><input type="number" name="longueurBlocRestant[]" step="0.01" class="form-control" value="0" required></td>
             <td><input type="number" name="largeurBlocRestant[]" step="0.01" class="form-control" value="0" required></td>
-            <td><input type="number" name="epaisseurBlocRestant[]" step="0.01" class="form-control" value="0" required></td>
-            <td><button type="button" class="btn btn-danger btn-sm" onclick="supprimerLigne(this)">Supprimer</button></td>
-        `;
+            <td><input type="number" name="epaisseurBlocRestant[]" step="0.01" class="form-control" value="0" required></td>`;
+            //  <td><button type="button" class="btn btn-danger btn-sm" onclick="supprimerLigne(this)">Supprimer</button></td>
     }
     function supprimerLigne(button) {
         // Supprimer la ligne de la table

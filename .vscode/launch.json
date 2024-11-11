@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MeasureParser",
+            "request": "launch",
+            "mainClass": "mg.kodoro.MeasureParser",
+            "projectName": "Kodoro_816ced7f"
+        },
+        {
+            "type": "java",
+            "name": "Test",
+            "request": "launch",
+            "mainClass": "mg.kodoro.Test",
+            "projectName": "Kodoro_816ced7f"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"

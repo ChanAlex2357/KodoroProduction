@@ -111,13 +111,23 @@ public class Transformation extends MaClassMAPTable{
         return this.detailsTransformation;
     }
 
-
+    public static double getSommePrixDeRevient(TransformationLib[] transformations, Connection conn) throws Exception {
+        double sommeRevient = 0;
+        for (TransformationLib trans : transformations) {
+            sommeRevient += trans.getMontantPrixDeRevient(conn);
+        }
+        return sommeRevient;
+    }
     public static double getSommeMontantVente(TransformationLib[] transformations , Connection conn)throws Exception {
         double sommeVente = 0;
         for (TransformationLib trans : transformations) {
             sommeVente += trans.getMontantVente(conn);
         }
         return sommeVente;
+    }
+    public double getMontantPrixDeRevient(Connection conn) throws Exception{
+        TransformationFilleLib[] details = this.getDetailsTransformation(conn);
+        return TransformationFilleLib.getSommeMontantPrixDeRevient(details,conn);
     }
     public double getMontantVente(Connection conn) throws Exception{
         TransformationFilleLib[] details = this.getDetailsTransformation(conn);

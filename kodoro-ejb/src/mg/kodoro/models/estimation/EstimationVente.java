@@ -12,50 +12,46 @@ public class EstimationVente {
     private double volumeRestantes;
     private Transformation[] transformation;
     private TransformationFille[] detailsTransformation;
-    private double estimationVente = -1;
-    private double estimationResteRapportVolumePrix = -1;
-    private double estimationResteVolumeMinimal = -1;
+
+    public EstimationPrix vente;
+    public EstimationPrix optimal;
+    public EstimationPrix minimal; 
     private Bloc bloc;
     
+
     public EstimationVente(Bloc bloc , Connection conn) throws Exception{
         setBloc(bloc);
-        getEstimationVente(conn);
-        getEstimationResteVolumeMinimal(conn);
-        getEstimationResteRapportVolumePrix(conn);
+        setVente(new EstimationPrix());
+        setOptimal(new EstimationPrix());
+        setMinimal(new EstimationPrix());
+
+        setVente(conn);
+        setOptimal(conn);
+        setMinimal(conn);
+        
     }
-    public double getEstimationVente(){
-        return this.estimationVente;
+    private void setOptimal(Connection conn) throws Exception {
+        Bloc[] restes = this.getBlocRestantes(conn);
+        DimensionUsuels dim = DimensionUsuels.getDimensinoUsuelsWithMaxRapportVolumePrix(conn);
+        
+        this.getOptimal().setChiffreAffaireTheorique(getEstimationDimensionByBlocs(restes, dim));
+        this.getOptimal().setPrixDeRevientTotal(getPrixRevientTheorique(restes, dim));
+    }   
+
+    private void setMinimal(Connection conn) throws Exception {
+        Bloc[] restes = this.getBlocRestantes(conn);
+        DimensionUsuels dim = DimensionUsuels.getDimensionUsuelsWithMinimalVolume(conn);
+
+        this.getMinimal().setChiffreAffaireTheorique(getEstimationDimensionByBlocs(restes, dim));
+        this.getMinimal().setPrixDeRevientTotal(getPrixRevientTheorique(restes, dim));
     }
-    public double getEstimationVente(Connection conn) throws Exception {
-        if (this.estimationVente > 0) {
-            return this.estimationVente;
-        }
-        setEstimationVente(getBloc().getEstimationVente(conn));
-        return estimationVente;
+
+    private void setVente(Connection conn) throws Exception {
+        this.getVente().setChiffreAffaireTheorique( this.getBloc().getEstimationVente(conn));
+        this.getVente().setPrixDeRevientTotal( this.getBloc().getEstimationPrixDeRevientTotal(conn));
     }
-    public double getEstimationResteRapportVolumePrix() {
-        return estimationResteRapportVolumePrix;
-    }
-    public double getEstimationResteRapportVolumePrix(Connection conn) throws Exception {
-        if (this.getEstimationResteRapportVolumePrix() < 0 ) {
-            // Recuperation des reste
-            Bloc[] restes = this.getBlocRestantes(conn);
-            DimensionUsuels dim = DimensionUsuels.getDimensinoUsuelsWithMaxRapportVolumePrix(conn);
-            setestimationResteRapportVolumePrix( getEstimationDimensionByBlocs(restes, dim) );
-        }
-        return this.getEstimationResteRapportVolumePrix();
-    }
-    public double getEstimationResteVolumeMinimal() {
-        return estimationResteVolumeMinimal;
-    }
-    public double getEstimationResteVolumeMinimal(Connection conn) throws Exception {
-        if (this.getEstimationResteVolumeMinimal() < 0) {
-            Bloc[] restes = this.getBlocRestantes(conn);
-            DimensionUsuels dim = DimensionUsuels.getDimensionUsuelsWithMinimalVolume(conn);
-            setestimationResteVolumeMinimal( getEstimationDimensionByBlocs(restes, dim) );
-        }
-        return this.getEstimationResteVolumeMinimal();
-    }
+   
+    
     public double getEstimationDimensionByBlocs(Bloc[] blocs , DimensionUsuels dimensionUsuels){
         if (blocs == null || blocs.length <= 0 || dimensionUsuels == null) {
             return 0;
@@ -64,6 +60,18 @@ public class EstimationVente {
         double qte = dimensionUsuels.getEstimationQte(blocs[0]);
         // Estimer le montant de vente
         return dimensionUsuels.getMontantVente(qte);
+    }
+
+    public double getPrixRevientTheorique(Bloc[] blocs , DimensionUsuels dimensionUsuels)  {
+        if (blocs == null || blocs.length <= 0 || dimensionUsuels == null) {
+            return 0;
+        }
+        // Evaluer la quantite possible
+        double qte = dimensionUsuels.getEstimationQte(blocs[0]);
+
+        double volume = qte * dimensionUsuels.getVolume();
+        // Estimer le montant de vente
+        return blocs[0].getPrixUnitaireVolume() * volume;
     }
     
     public void setBloc(Bloc bloc) {
@@ -96,19 +104,6 @@ public class EstimationVente {
         this.detailsTransformation = detailsTransformation;
     }
     
-    
-    public void setEstimationVente(double estimationVente) {
-        this.estimationVente = estimationVente;
-    }
-    
-    
-    public void setestimationResteRapportVolumePrix(double estimationResteRapportVolumePrix) {
-        this.estimationResteRapportVolumePrix = estimationResteRapportVolumePrix;
-    }
-    
-    public void setestimationResteVolumeMinimal(double estimationResteVolumeMinimal) {
-        this.estimationResteVolumeMinimal = estimationResteVolumeMinimal;
-    }
     public Bloc getBloc(){
         return this.bloc;
     }
@@ -121,6 +116,27 @@ public class EstimationVente {
     public void setVolumeRestantes(double volumeRestantes) {
 
         this.volumeRestantes = volumeRestantes;
+    }
+    public void setBlocRestantes(Bloc[] blocRestantes) {
+        this.blocRestantes = blocRestantes;
+    }
+    public EstimationPrix getVente() {
+        return vente;
+    }
+    public void setVente(EstimationPrix vente) {
+        this.vente = vente;
+    }
+    public EstimationPrix getOptimal() {
+        return optimal;
+    }
+    public void setOptimal(EstimationPrix optimal) {
+        this.optimal = optimal;
+    }
+    public EstimationPrix getMinimal() {
+        return minimal;
+    }
+    public void setMinimal(EstimationPrix minimal) {
+        this.minimal = minimal;
     }
 }
 

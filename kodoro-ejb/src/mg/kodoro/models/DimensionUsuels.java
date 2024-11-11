@@ -70,7 +70,7 @@ public class DimensionUsuels extends ClassDimension {
     // Calcul du rapport volume/prix
     public double getRapportVolumePrix() {
         if (this.rapportVolumePrix == 0) {
-            setRapportVolumePrix(prixVente != 0 ? getVolume() / prixVente : 0);
+            setRapportVolumePrix(getVolume() != 0 ? prixVente / getVolume() : 0);
         }
         return this.rapportVolumePrix;
     }

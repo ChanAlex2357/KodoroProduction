@@ -324,6 +324,11 @@ public String toString() {
         setTransformations(tLib);
         return this.transformations;
     }
+    public double getEstimationPrixDeRevientTotal(Connection conn)throws Exception{
+        TransformationLib[] transformations = getTransformations(conn);
+        double somme = TransformationLib.getSommePrixDeRevient(transformations, conn);
+        return somme;
+    }
     public double getEstimationVente(Connection conn)throws Exception{
         TransformationLib[] transformations = getTransformations(conn);
         double sommeVente = TransformationLib.getSommeMontantVente(transformations, conn);

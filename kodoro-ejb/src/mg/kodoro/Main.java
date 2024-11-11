@@ -9,10 +9,9 @@ public class Main {
     public static void main(String[] args) {
         DimensionUsuels[] dimensionUsuels = new DimensionUsuels[4];
         
-        dimensionUsuels[0] = new DimensionUsuels(2.5,1.5,0.2,2500,"King size");
-        dimensionUsuels[1] = new DimensionUsuels(1.7,1.3,0.15,2000,"Medium size");
-        dimensionUsuels[2] = new DimensionUsuels(1.5,1.3,0.15,	1500,"Lite size");
-        dimensionUsuels[3] = new DimensionUsuels(0.1,0.1,0.1,1000,"Mini size");
+        dimensionUsuels[0] = new DimensionUsuels(16,4,2,20000,"King size");
+        dimensionUsuels[1] = new DimensionUsuels(10,7,1,12000,"Medium size");
+        dimensionUsuels[2] = new DimensionUsuels(5,1,1,	600,"Lite size");
 
         Connection conn = new UtilDB().GetConn();
         try {

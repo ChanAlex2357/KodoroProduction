@@ -30,7 +30,7 @@
 
 <div class="container">
     <h1 class="text-danger">Erreur</h1>
-    <p class="lead"><%= message %></p>
+    <p class="lead"><%= errorMessage %></p>
     <a class="btn btn-custom mt-3" href='<%= redirectUrl %>'>
         OK
     </a>
