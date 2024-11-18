@@ -5,7 +5,7 @@ public class Measurement {
     String unit;
 
     public Measurement (String imput) {
-
+        parseMeasurement(imput);
     }
 
     public void parseMeasurement(String input) {
@@ -41,17 +41,29 @@ public class Measurement {
     }
 
     public void setValue(double value) {
+        System.out.println("VALUE : "+value);
         this.value = value;
     }
 
     public String getUnit() {
         return unit;
     }
-
+    
     public void setUnit(String unit) {
+        System.out.println("UNIT : "+unit);
         this.unit = unit;
     }
 
-
-    public double 
+    public double getMesureInMeter() {
+        return Measurement.getMesureInMeter(value, unit);
+    }
+    public static double getMesureInMeter(double value, String unit) {
+        if (unit.equalsIgnoreCase("m")) {
+            return value;
+        } else if (unit.equalsIgnoreCase("cm")) {
+            return value / 100.0;  // Conversion de cm en m
+        } else {
+            throw new IllegalArgumentException("VALEUR ENTREE : ("+value+" "+unit+") L'unite de mesure "+unit+" n'est pas une unite valide");
+        }
+    }
 }

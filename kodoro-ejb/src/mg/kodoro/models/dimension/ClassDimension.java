@@ -8,6 +8,7 @@ public abstract class ClassDimension extends MaClassMAPTable{
     protected double largeur;
     protected double epaisseur;
     protected double volume;
+ 
     public double getLongueur() {
         return longueur;
     }
@@ -40,20 +41,24 @@ public abstract class ClassDimension extends MaClassMAPTable{
         if (longueur == null) {
             throw new IllegalArgumentException("Veuillez saisir une valeur de longueur valide");
         }
-        this.setLongueur(ValidationUtils.validatePositiveStringDouble(longueur));
+        this.setLongueur(ValidationUtils.validatePositiveDouble(getDimInMeter(longueur)));
     }
 
+    public double getDimInMeter(String dim){
+        Measurement measurement = new Measurement(dim);
+        return measurement.getMesureInMeter();
+    }
     public void setLargeur(String largeur) {
         if (largeur == null) {
             throw new IllegalArgumentException("Veuillez saisir une valeur de largeur valide");
         }
-        this.setLargeur(ValidationUtils.validatePositiveStringDouble(largeur));
+        this.setLargeur(ValidationUtils.validatePositiveDouble(getDimInMeter(largeur)));
     }
 
     public void setEpaisseur(String epaisseur) {
         if (epaisseur == null){
             throw new IllegalArgumentException("Veuillez saisir une valeur d'eppaisseur valide");
         }
-        setEpaisseur(ValidationUtils.validatePositiveStringDouble(epaisseur));
+        setEpaisseur(ValidationUtils.validatePositiveDouble(getDimInMeter(epaisseur)));
     }
 }

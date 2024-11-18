@@ -13,6 +13,9 @@ public class EstimationVente {
     private Transformation[] transformation;
     private TransformationFille[] detailsTransformation;
 
+    private DimensionUsuels dimProfit;
+    private DimensionUsuels dimMinPerte;
+
     public EstimationPrix vente;
     public EstimationPrix optimal;
     public EstimationPrix minimal; 
@@ -33,7 +36,7 @@ public class EstimationVente {
     private void setOptimal(Connection conn) throws Exception {
         Bloc[] restes = this.getBlocRestantes(conn);
         DimensionUsuels dim = DimensionUsuels.getDimensinoUsuelsWithMaxRapportVolumePrix(conn);
-        
+        setDimProfit(dim);
         this.getOptimal().setChiffreAffaireTheorique(getEstimationDimensionByBlocs(restes, dim));
         this.getOptimal().setPrixDeRevientTotal(getPrixRevientTheorique(restes, dim));
     }   
@@ -41,6 +44,7 @@ public class EstimationVente {
     private void setMinimal(Connection conn) throws Exception {
         Bloc[] restes = this.getBlocRestantes(conn);
         DimensionUsuels dim = DimensionUsuels.getDimensionUsuelsWithMinimalVolume(conn);
+        setDimMinPerte(dim);
 
         this.getMinimal().setChiffreAffaireTheorique(getEstimationDimensionByBlocs(restes, dim));
         this.getMinimal().setPrixDeRevientTotal(getPrixRevientTheorique(restes, dim));
@@ -137,6 +141,18 @@ public class EstimationVente {
     }
     public void setMinimal(EstimationPrix minimal) {
         this.minimal = minimal;
+    }
+    public DimensionUsuels getDimProfit() {
+        return dimProfit;
+    }
+    public void setDimProfit(DimensionUsuels dimProfit) {
+        this.dimProfit = dimProfit;
+    }
+    public DimensionUsuels getDimMinPerte() {
+        return dimMinPerte;
+    }
+    public void setDimMinPerte(DimensionUsuels dimMinPerte) {
+        this.dimMinPerte = dimMinPerte;
     }
 }
 

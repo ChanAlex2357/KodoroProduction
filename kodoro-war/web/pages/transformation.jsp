@@ -124,9 +124,9 @@
 
         // Ajouter des cellules pour longueur, largeur, épaisseur, prix de fabrication, et une action pour supprimer la ligne
         newRow.innerHTML = `
-            <td><input type="number" name="longueurBlocRestant[]" step="0.01" class="form-control" value="0" required></td>
-            <td><input type="number" name="largeurBlocRestant[]" step="0.01" class="form-control" value="0" required></td>
-            <td><input type="number" name="epaisseurBlocRestant[]" step="0.01" class="form-control" value="0" required></td>`;
+            <td><input type="text" name="longueurBlocRestant[]" class="form-control" value="0" required></td>
+            <td><input type="text" name="largeurBlocRestant[]" class="form-control" value="0" required></td>
+            <td><input type="text" name="epaisseurBlocRestant[]" class="form-control" value="0" required></td>`;
             //  <td><button type="button" class="btn btn-danger btn-sm" onclick="supprimerLigne(this)">Supprimer</button></td>
     }
     function supprimerLigne(button) {

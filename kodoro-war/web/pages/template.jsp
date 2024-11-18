@@ -58,7 +58,7 @@
     <footer class="py-3 bg-light" >
         <div class="container">
             <p>&copy; 2024 - Application de Gestion de Blocs</p>
-            <p>Développé par : ETU002434</p> <!-- Replace [Ton Identifiant] with your actual identifier -->
+            <p><h3>ETU002434</h3></p> <!-- Replace [Ton Identifiant] with your actual identifier -->
         </div>
     </footer>
 

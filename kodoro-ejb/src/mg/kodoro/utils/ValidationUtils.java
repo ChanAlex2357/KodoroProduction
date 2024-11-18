@@ -23,6 +23,5 @@ public class ValidationUtils {
         validatePositiveDouble(val);
         return val;    
     }
-
     
 }
