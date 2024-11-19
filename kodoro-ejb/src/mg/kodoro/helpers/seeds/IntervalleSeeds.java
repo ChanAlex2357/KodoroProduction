@@ -9,6 +9,10 @@ public abstract class IntervalleSeeds<T> {
         setMin(min);
         setMax(max);
     }
+    public IntervalleSeeds(String min, String max) {
+        setMin(Double.parseDouble(min));
+        setMax(Double.parseDouble(max));
+    }
 
     public double getMin() {
         return min;

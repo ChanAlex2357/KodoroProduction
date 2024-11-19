@@ -9,6 +9,11 @@ public class DateSeeds extends IntervalleSeeds<Date> {
 
     private final Random random;
 
+    public DateSeeds(String min, String max) {
+        super(min, max);
+        this.random = new Random();
+    }
+
     public DateSeeds(double annee_min, double annee_max) {
         super(annee_min, annee_max);
         this.random = new Random();

@@ -6,6 +6,9 @@ public class IntegerSeeds extends IntervalleSeeds<Integer>{
     public IntegerSeeds (double min , double max) {
         super(min, max);
     }
+    public IntegerSeeds (String min , String max) {
+        super(min, max);
+    }
     @Override
     public Integer generate() {
         int min = getIntMin();
