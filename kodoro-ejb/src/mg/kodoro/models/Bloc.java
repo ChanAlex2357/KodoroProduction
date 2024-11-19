@@ -8,6 +8,7 @@ import mg.kodoro.models.dimension.ClassDimension;
 import mg.kodoro.models.pricing.PrixMannagement;
 import mg.kodoro.models.transformation.TransformationLib;
 import mg.kodoro.utils.ValidationUtils;
+import mg.kodoro.utils.blockggen.BlocStat;
 import mg.kodoro.utils.blockggen.GenerateurBloc;
 import utilitaire.UtilDB;
 import utils.TimeUtils;
@@ -24,12 +25,24 @@ public class Bloc extends ClassDimension implements PrixMannagement{
     private double prixFabrication;
     private String idOriginalSource;
     private String idParentSource;
-    
+
     protected Bloc originalSource;
     protected Bloc parentSource;
     protected TransformationLib[] transformations;
     protected Bloc[] restes ;
+    protected static BlocStat blocStat;
     
+    public static BlocStat getBlocStat(Connection conn) throws Exception {
+        if (Bloc.blocStat == null) {
+            Bloc.setBlocStat(BlocStat.getBlocStat(conn));
+        }
+        return Bloc.blocStat;
+    }
+
+    protected static void setBlocStat(BlocStat blocStat) {
+        Bloc.blocStat = blocStat;
+    }
+
     public String getDesceVolume(){
         return this.getIdBloc()+" - "+this.getVolume()+" m³";
     }
@@ -54,7 +67,7 @@ public String toString() {
         setNomTable("BLOC");
     }
 
-    public Bloc(GenerateurBloc gen, Connection conn) {
+    public Bloc(GenerateurBloc gen, Connection conn) throws Exception {
         setNomTable("BLOC");
         setLongueur(gen.genererLongueur());
         setLargeur(gen.genererLargeur());
