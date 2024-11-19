@@ -1,4 +1,4 @@
-package mg.kodoro.models;
+package mg.kodoro.models.annexe;
 
 import java.sql.Connection;
 
