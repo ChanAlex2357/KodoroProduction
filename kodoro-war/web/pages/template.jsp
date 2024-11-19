@@ -35,6 +35,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="etatstock">Etat de stock</a>
                         </li>
+                        <li class="nav-iterm">
+                            <a class="nav-link" href="genbloc">Generer Bloc</a>
+                        </li>
                     </ul>
                 </div>
             </div>
