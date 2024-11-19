@@ -8,7 +8,10 @@ public class MargeSeeds extends IntegerSeeds {
         super("0", marge);
     }
     public double generatePourcentage(){
-        int randMarge = generate();
-        return randMarge / 100;
+        double randMarge = generate();
+        System.out.println(randMarge);
+        double pourcentage = randMarge / 100;
+        System.out.println(randMarge/100);
+        return pourcentage;
     }
 }

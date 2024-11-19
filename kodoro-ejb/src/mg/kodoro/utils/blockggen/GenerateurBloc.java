@@ -46,6 +46,8 @@ public class GenerateurBloc {
         double avgPrixDeRevient = Bloc.getBlocStat(conn).getPrixDeRevientMoyenne();
         double randMarge = getMargeSeeds().generatePourcentage();
         double taux = avgPrixDeRevient * randMarge;
+        System.out.println("RAND MARGE : "+randMarge);
+        System.out.println("TAUX : "+taux);
         int signe = randomSigne();
         return avgPrixDeRevient + signe * taux;
     }
