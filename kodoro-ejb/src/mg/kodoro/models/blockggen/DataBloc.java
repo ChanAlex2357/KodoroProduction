@@ -11,7 +11,7 @@ public class DataBloc {
     double aMax;
     double marge;
 
-    public DataBloc(double quantite, double LMin, double LMax, double lMin, double lMax,
+    public DataBloc( double LMin, double LMax, double lMin, double lMax,
     double eMin, double eMax, double aMin, double aMax, double marge){
         setLMax(lMax);
         setLMin(lMin);
@@ -23,7 +23,7 @@ public class DataBloc {
         setaMax(aMax);
         setMarge(marge);
     }
-    public DataBloc(String quantite, String LMin, String LMax, String lMin, String lMax,
+    public DataBloc( String LMin, String LMax, String lMin, String lMax,
     String eMin, String eMax, String aMin, String aMax, String marge){
         setLMax(lMax);
         setLMin(lMin);

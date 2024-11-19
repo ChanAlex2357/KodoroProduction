@@ -6,6 +6,7 @@ import java.sql.Date;
 
 import mg.kodoro.helpers.seeds.DateSeeds;
 import mg.kodoro.helpers.seeds.IntegerSeeds;
+import mg.kodoro.helpers.seeds.MargeSeeds;
 import mg.kodoro.models.Bloc;
 import mg.kodoro.models.blockggen.DataBloc;
 
@@ -16,14 +17,17 @@ public class GenerateurBloc {
     private IntegerSeeds intervalleLongueur;
     private IntegerSeeds intervalleLargeur;
     private IntegerSeeds intervalleEpaisseur;
+    private MargeSeeds   margeSeeds;
     private DateSeeds intervalleAnnee;
-    private BlocStat blocStat;
+
     public GenerateurBloc(DataBloc dataBloc) {
         setDataBloc(dataBloc);
-        this.intervalleLongueur = new IntegerSeeds(dataBloc.getLMin(), dataBloc.getLMax());
-        this.intervalleLargeur = new IntegerSeeds(dataBloc.getlMin(), dataBloc.getlMax());
-        this.intervalleEpaisseur = new IntegerSeeds(dataBloc.geteMin(), dataBloc.geteMax());
-        this.intervalleAnnee = new DateSeeds(dataBloc.getaMin(), dataBloc.getaMax());
+        setIntervalleLongueur(new IntegerSeeds(dataBloc.getLMin(), dataBloc.getLMax()));
+        setIntervalleLargeur(new IntegerSeeds(dataBloc.getlMin(), dataBloc.getlMax()));
+        setIntervalleEpaisseur(new IntegerSeeds(dataBloc.geteMin(), dataBloc.geteMax()));
+        setIntervalleAnnee(new DateSeeds(dataBloc.getaMin(), dataBloc.getaMax()));
+        setMargeSeeds(new MargeSeeds(dataBloc.getMarge()));
+
     }
     public double genererLongueur(){
         return getIntervalleLongueur().generate();
@@ -38,10 +42,10 @@ public class GenerateurBloc {
         return getIntervalleAnnee().generateWorkDate();
     }
     public double genererPrixDeRevient(Connection conn) throws Exception {
-        double marge = getMarge();
         // ! Recupere la moyenne des prix de revients des blocs originels actuelles
         double avgPrixDeRevient = Bloc.getBlocStat(conn).getPrixDeRevientMoyenne();
-        double taux = avgPrixDeRevient * marge;
+        double randMarge = getMargeSeeds().generatePourcentage();
+        double taux = avgPrixDeRevient * randMarge;
         int signe = randomSigne();
         return avgPrixDeRevient + signe * taux;
     }
@@ -93,11 +97,11 @@ public class GenerateurBloc {
     public void setDataBloc(DataBloc dataBloc) {
         this.dataBloc = dataBloc;
     }
-    public BlocStat getBlocStat() {
-        return blocStat;
+    public MargeSeeds getMargeSeeds() {
+        return margeSeeds;
+    }
+    public void setMargeSeeds(MargeSeeds margeSeeds) {
+        this.margeSeeds = margeSeeds;
     }
 
-    public void setBlocStat(BlocStat blocStat) {
-        this.blocStat = blocStat;
-    }
 }
