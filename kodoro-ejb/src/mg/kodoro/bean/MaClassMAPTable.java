@@ -18,7 +18,6 @@ public abstract class MaClassMAPTable extends ClassMAPTable{
         }
         return this;
     }
-    abstract public MaClassMAPTable createObject(Connection localconn , Connection remoteconn) throws Exception;
     
     public MaClassMAPTable createObject() throws SQLException{
         Connection conn = new UtilDB().GetConn();
@@ -53,13 +52,6 @@ public abstract class MaClassMAPTable extends ClassMAPTable{
         System.out.println(objects);
         for (MaClassMAPTable maClassMAPTable : objects) {
             maClassMAPTable.createObject(conn);
-        }
-    }
-
-    public static void createObjects(MaClassMAPTable[] objects , Connection conn , Connection conn2) throws Exception{
-        System.out.println(objects);
-        for (MaClassMAPTable maClassMAPTable : objects) {
-            maClassMAPTable.createObject(conn,conn2);
         }
     }
 }
