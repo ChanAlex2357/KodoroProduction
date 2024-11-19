@@ -4,7 +4,9 @@ import java.sql.Date;
 
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.models.blockggen.GenerateurBloc;
 import mg.kodoro.models.dimension.ClassDimension;
+import mg.kodoro.models.pricing.PrixMannagement;
 import mg.kodoro.models.transformation.TransformationLib;
 import mg.kodoro.utils.ValidationUtils;
 import utilitaire.UtilDB;
@@ -48,6 +50,10 @@ public String toString() {
 }
 
     public Bloc(){
+        setNomTable("BLOC");
+    }
+
+    public Bloc(String Lmin , String Lmax , String lmin , String lmax , String amin , String amax , String marge , Connection conn) {
         setNomTable("BLOC");
     }
     
