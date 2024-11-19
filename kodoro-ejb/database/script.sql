@@ -118,6 +118,6 @@
     JOIN DimensionUsuels dim on dim.idDimensionUsuels = mvts.idDimensionUsuels;
 
 -- * VIEW POUR LA MOYENNE DE PRIX DE REVIENT DES BLOCS ORIGINELS
-    CREATE OR REPLACE VIEW V_PRBLOCORIGINEL
+    CREATE OR REPLACE VIEW V_PRBLOCORIGINEL as
     SELECT AVG(prixFabrication) as prixDeRevientMoyenne
     FROM v_blocorigine
