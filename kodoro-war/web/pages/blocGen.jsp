@@ -1,7 +1,7 @@
 <section class="container">
     <div class="row">
         <div>
-            <form action="">
+            <form method="post" action="genbloc">
                 <!-- Quantite -->
                 <div class="form-group mb-3">
                     <label class="form-label" for="quantite">Quantite</label>
@@ -54,12 +54,12 @@
                     <label class="from-label">Annee de production</label>
                     <div class="row">
                         <div class="col-6 form-group">
-                            <label for="lmin">Min</label>
-                            <input type="number" class="form-control" name="lmin" id="lmin" placeholder="min" value="2022">
+                            <label for="amin">Min</label>
+                            <input type="number" class="form-control" name="amin" id="amin" placeholder="min" value="2022">
                         </div>
                         <div class="col-6 form-group">
-                            <label for="lmax">Max</label>
-                            <input type="number" class="form-control" name="lmax" id="lmax" placeholder="max" value="2024">
+                            <label for="amax">Max</label>
+                            <input type="number" class="form-control" name="amax" id="amax" placeholder="max" value="2024">
                         </div>
                     </div>
                 </div>
