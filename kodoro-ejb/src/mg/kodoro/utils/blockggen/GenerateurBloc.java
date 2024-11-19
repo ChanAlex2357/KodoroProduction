@@ -1,5 +1,8 @@
 package mg.kodoro.utils.blockggen;
 
+import java.sql.Connection;
+import java.sql.Date;
+
 import mg.kodoro.helpers.seeds.DateSeeds;
 import mg.kodoro.helpers.seeds.IntegerSeeds;
 import mg.kodoro.models.blockggen.DataBloc;
@@ -23,11 +26,18 @@ public class GenerateurBloc {
     public double genererLongueur(){
         return getIntervalleLongueur().generate();
     }
-
-
-
-    public double genererPrixDeRevient(double marge) {
-        double avgPrixDeRevient = getBlocStat().getPrixDeRevientMoyenne();
+    public double genererLargeur(){
+        return getIntervalleLargeur().generate();
+    }
+    public double genererEpaisseur(){
+        return getIntervalleEpaisseur().generate();
+    }
+    public Date generateDateFabrication(){
+        return getIntervalleAnnee().generateWorkDate();
+    }
+    public double genererPrixDeRevient(double marge , Connection conn) {
+        // ! Recupere la moyenne des prix de revients des blocs originels actuelles
+        double avgPrixDeRevient = 0;
         double taux = avgPrixDeRevient * marge;
         int signe = randomSigne();
         return avgPrixDeRevient + signe * taux;
