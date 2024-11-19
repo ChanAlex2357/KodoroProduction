@@ -35,7 +35,8 @@ public class GenerateurBloc {
     public Date generateDateFabrication(){
         return getIntervalleAnnee().generateWorkDate();
     }
-    public double genererPrixDeRevient(double marge , Connection conn) {
+    public double genererPrixDeRevient(Connection conn) {
+        double marge = getMarge();
         // ! Recupere la moyenne des prix de revients des blocs originels actuelles
         double avgPrixDeRevient = 0;
         double taux = avgPrixDeRevient * marge;

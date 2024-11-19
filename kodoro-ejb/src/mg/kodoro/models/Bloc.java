@@ -4,11 +4,11 @@ import java.sql.Date;
 
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
-import mg.kodoro.models.blockggen.GenerateurBloc;
 import mg.kodoro.models.dimension.ClassDimension;
 import mg.kodoro.models.pricing.PrixMannagement;
 import mg.kodoro.models.transformation.TransformationLib;
 import mg.kodoro.utils.ValidationUtils;
+import mg.kodoro.utils.blockggen.GenerateurBloc;
 import utilitaire.UtilDB;
 import utils.TimeUtils;
 
@@ -24,6 +24,7 @@ public class Bloc extends ClassDimension implements PrixMannagement{
     private double prixFabrication;
     private String idOriginalSource;
     private String idParentSource;
+    
     protected Bloc originalSource;
     protected Bloc parentSource;
     protected TransformationLib[] transformations;
@@ -53,8 +54,13 @@ public String toString() {
         setNomTable("BLOC");
     }
 
-    public Bloc(String Lmin , String Lmax , String lmin , String lmax , String amin , String amax , String marge , Connection conn) {
+    public Bloc(GenerateurBloc gen, Connection conn) {
         setNomTable("BLOC");
+        setLongueur(gen.genererLongueur());
+        setLargeur(gen.genererLargeur());
+        setEpaisseur(gen.genererEpaisseur());
+        setDateFabrication(gen.generateDateFabrication());
+        setPrixFabrication(gen.genererPrixDeRevient(conn));
     }
     
     public Bloc (String longueur , String largeur ,String epasseur , String dateFab , String prixFab) throws ParseException{
