@@ -5,9 +5,10 @@ import java.sql.Date;
 
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.bean.ViewClassMAPTable;
 import mg.kodoro.models.PrixMannagement;
 
-public class MvtStockDimension extends MaClassMAPTable implements PrixMannagement{
+public class MvtStockDimension extends ViewClassMAPTable implements PrixMannagement{
     
     protected String idMvtStockDimension;
     protected String idTransformationFille;
@@ -135,12 +136,6 @@ public class MvtStockDimension extends MaClassMAPTable implements PrixMannagemen
         }
 
 
-    }
-
-    @Override
-    public MaClassMAPTable createObject(Connection localconn, Connection remoteconn) throws Exception {
-        this.createObject(localconn);
-        return this;
     }
 
     @Override

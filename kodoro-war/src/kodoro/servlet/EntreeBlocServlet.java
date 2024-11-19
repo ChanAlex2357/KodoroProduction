@@ -38,22 +38,22 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     // Prepare response to show success or failure
     String message = null;
     Connection local = new UtilDB().GetConn();
-    Connection remote = DbUtils.getRemoteConn();
+    // Connection remote = DbUtils.getRemoteConn();
     try {
         Bloc bloc = new Bloc(longueurStr, largeurStr, epaisseurStr, dateFabricationStr, prixFabricationStr);
         // Desactiver l'autocommit
         local.setAutoCommit(false);
-        remote.setAutoCommit(false);
+        // remote.setAutoCommit(false);
 
-        bloc.createObject(local, remote);
+        bloc.createObject(local);
 
         // Commiter les changements
         local.commit();
-        remote.commit();
+        // remote.commit();
     } catch (Exception e) {
         try {
             local.rollback();
-            remote.rollback();
+            // remote.rollback();
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
@@ -63,7 +63,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     finally {
         try {
             local.close();
-            remote.close();
+            // remote.close();
             System.out.println("-- Connections Closed on insertion bloc --");
         } catch (Exception e) {
             e.printStackTrace();

@@ -125,12 +125,6 @@ public class TransformationFille extends MaClassMAPTable implements PrixMannagem
     }
 
     @Override
-    public MaClassMAPTable createObject(Connection localconn, Connection remoteconn) throws Exception {
-        this.createObject(localconn);
-        return this;
-    }
-
-    @Override
     public MaClassMAPTable createObject(Connection c) throws Exception {
         setNomTable("TRANSFORMATIONFILLE");
         // Controller la validiter de la transformation mere

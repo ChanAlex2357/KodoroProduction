@@ -161,13 +161,6 @@ public String toString() {
     }
 
     @Override
-    public MaClassMAPTable createObject(Connection localconn, Connection remoteconn) throws Exception {
-        this.createObject(localconn);
-        //! Generer le mouvement de stock dans la base distante
-        return this;
-    }
-
-    @Override
     public String getAttributIDName() {
         return "idBloc";
     }

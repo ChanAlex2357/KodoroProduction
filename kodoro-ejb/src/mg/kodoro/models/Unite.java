@@ -58,10 +58,4 @@ public class Unite extends MaClassMAPTable{
     public void setDesce(String desce) {
         this.desce = desce;
     }
-
-    @Override
-    public MaClassMAPTable createObject(Connection localconn, Connection remoteconn) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createObject'");
-    }
 }
