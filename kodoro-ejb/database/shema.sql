@@ -73,3 +73,63 @@ CREATE TABLE MvtStockDimension(
    FOREIGN KEY(idOriginalSource) REFERENCES Bloc(idBloc),
    FOREIGN KEY(idDimensionUsuels) REFERENCES DimensionUsuels(idDimensionUsuels)
 );
+
+CREATE TABLE TypeMvt(
+   IdTypeMvt VARCHAR2(255) ,
+   val VARCHAR2(255) ,
+   desce VARCHAR2(255)  NOT NULL,
+   PRIMARY KEY(IdTypeMvt)
+);
+
+CREATE TABLE FormuleProduction(
+   IdFormuleProduction VARCHAR2(255) ,
+   desce VARCHAR2(255)  NOT NULL,
+   prixDeRevient NUMBER(15,2)   NOT NULL,
+   PRIMARY KEY(IdFormuleProduction)
+);
+
+CREATE TABLE Unite(
+   idUnite VARCHAR2(255) ,
+   val VARCHAR2(255)  NOT NULL,
+   desce VARCHAR2(255)  NOT NULL,
+   PRIMARY KEY(idUnite)
+);
+
+CREATE TABLE Machine(
+   idMachine VARCHAR2(255) ,
+   desce VARCHAR2(255)  NOT NULL,
+   PRIMARY KEY(idMachine)
+);
+
+CREATE TABLE Ressource(
+   idRessource VARCHAR2(255) ,
+   desce VARCHAR2(255)  NOT NULL,
+   puAchat NUMBER(15,2)   NOT NULL,
+   idUnite VARCHAR2(255)  NOT NULL,
+   PRIMARY KEY(idRessource),
+   FOREIGN KEY(idUnite) REFERENCES Unite(idUnite)
+);
+
+CREATE TABLE FormuleProductionFille(
+   idFormuleProductionFille VARCHAR2(255) ,
+   quantite NUMBER(15,2)   NOT NULL,
+   idRessource VARCHAR2(255)  NOT NULL,
+   IdFormuleProduction VARCHAR2(255)  NOT NULL,
+   PRIMARY KEY(idFormuleProductionFille),
+   FOREIGN KEY(idRessource) REFERENCES Ressource(idRessource),
+   FOREIGN KEY(IdFormuleProduction) REFERENCES FormuleProduction(IdFormuleProduction)
+);
+
+CREATE TABLE Production(
+   IdProduction VARCHAR2(255) ,
+   dateProduction DATE NOT NULL,
+   prTheorique NUMBER(15,2)   NOT NULL,
+   prPratique NUMBER(15,2)   NOT NULL,
+   IdFormuleProduction VARCHAR2(255)  NOT NULL,
+   idBloc VARCHAR2(255)  NOT NULL,
+   idMachine VARCHAR2(255)  NOT NULL,
+   PRIMARY KEY(IdProduction),
+   FOREIGN KEY(IdFormuleProduction) REFERENCES FormuleProduction(IdFormuleProduction),
+   FOREIGN KEY(idBloc) REFERENCES Bloc(idBloc),
+   FOREIGN KEY(idMachine) REFERENCES Machine(idMachine)
+);
