@@ -2,6 +2,7 @@ package mg.kodoro.models.annexe;
 
 import java.sql.Connection;
 
+import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
 
 public class Unite extends MaClassMAPTable{
@@ -57,5 +58,12 @@ public class Unite extends MaClassMAPTable{
 
     public void setDesce(String desce) {
         this.desce = desce;
+    }
+    public static Unite[] getAllUnite(Connection conn) throws Exception {
+        Unite[] unites = (Unite[]) CGenUtil.rechercher(new Unite(),null , null , conn , "");
+        if (unites.length <= 0 ) {
+            return null;
+        }
+        return unites;
     }
 }
