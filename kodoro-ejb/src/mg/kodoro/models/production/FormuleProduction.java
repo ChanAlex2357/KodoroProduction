@@ -2,6 +2,7 @@ package mg.kodoro.models.production;
 
 import java.sql.Connection;
 
+import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
 
 public class FormuleProduction extends MaClassMAPTable{
@@ -12,6 +13,21 @@ public class FormuleProduction extends MaClassMAPTable{
 
     public FormuleProduction(){setNomTable("FormuleProduction");}
     
+
+    public FormuleProduction getById(Connection conn) throws Exception {
+        String id = this.getIdFormuleProduction();
+        return FormuleProduction.getById(id, conn);
+    }
+    public static FormuleProduction getById( String id ,Connection conn) throws Exception {
+        FormuleProduction ref = new FormuleProduction();
+        ref.setIdFormuleProduction(id);
+        FormuleProduction[] formules = (FormuleProduction[]) CGenUtil.rechercher(ref,null,null,conn,"");
+        if (formules.length < 0) {
+            formules = (FormuleProduction[]) CGenUtil.rechercher(new FormuleProduction(),null,null,conn,"");  
+        }
+        return formules[0];
+    }
+
     @Override
     public MaClassMAPTable createObject(Connection c) throws Exception {
         setNomTable("FormuleProduction");
@@ -50,6 +66,5 @@ public class FormuleProduction extends MaClassMAPTable{
     }
     public void setPrixDeRevient(double prixDeRevient) {
         this.prixDeRevient = prixDeRevient;
-    }
-    
+    }    
 }

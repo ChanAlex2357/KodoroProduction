@@ -61,4 +61,14 @@ public class Machine extends MaClassMAPTable{
         }
         return blocs;
     }
+
+    public static Machine getById(String idMachine, Connection conn) throws Exception {
+        Machine ref = new Machine();
+        ref.setIdMachine(idMachine);
+        Machine[] machines = (Machine[])CGenUtil.rechercher(ref,null,null,conn,"");
+        if (machines.length < 0) {
+            machines = (Machine[])CGenUtil.rechercher(new Machine(),null,null,conn,"");
+        }
+        return machines[0];
+    }
 }
