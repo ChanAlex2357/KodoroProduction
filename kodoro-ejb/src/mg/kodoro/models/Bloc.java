@@ -231,38 +231,12 @@ public String toString() {
     }
     
 
-    static public Bloc[] getAllBlocs(){
-        Bloc[] blocs = new Bloc[0];
-        Connection conn = new UtilDB().GetConn();
-        try {
-            blocs = (Bloc[]) CGenUtil.rechercher(new Bloc() , null , null , conn , "");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } 
-        finally {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    static public Bloc[] getAllBlocs(Connection conn) throws Exception{
+        Bloc[] blocs = (Bloc[]) CGenUtil.rechercher(new Bloc() , null , null , conn , "");
         return blocs;
     }
-    static public Bloc[] getAllBlocOriginal(){
-        Bloc[] blocs = new Bloc[0];
-        Connection conn = new UtilDB().GetConn();
-        try {
-            blocs = (Bloc[]) CGenUtil.rechercher(new Bloc() , null , null , conn , " and (idparentsource is null and idoriginalsource is null) ");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } 
-        finally {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    static public Bloc[] getAllBlocOriginal(Connection conn)throws Exception{
+        Bloc[] blocs =(Bloc[]) CGenUtil.rechercher(new Bloc() , null , null , conn , " and (idparentsource is null and idoriginalsource is null) ");
         return blocs;
     }
     public double getPrixUnitaireVolume(){

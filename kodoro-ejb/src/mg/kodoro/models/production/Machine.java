@@ -72,22 +72,9 @@ public class Machine extends MaClassMAPTable{
         this.desce = desce;
     }
 
-    public static Machine[] getAllMachines(){
-        Machine[] blocs = new Machine[0];
-        Connection conn = new UtilDB().GetConn();
-        try {
-            blocs = (Machine[]) CGenUtil.rechercher(new Machine() , null , null , conn , "");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } 
-        finally {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return blocs;
+    public static Machine[] getAllMachines(Connection conn) throws Exception{
+        Machine[] machines = (Machine[]) CGenUtil.rechercher(new Machine() , null , null , conn , "");
+        return machines;
     }
 
     public static Machine getById(String idMachine, Connection conn) throws Exception {

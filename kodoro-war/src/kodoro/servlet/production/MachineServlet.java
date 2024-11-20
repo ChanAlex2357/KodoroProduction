@@ -11,13 +11,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kodoro.utils.DispatcherUtils;
+import mg.kodoro.models.Bloc;
 import mg.kodoro.models.production.Machine;
 import utilitaire.UtilDB;
 @WebServlet(name = "MachineServlet" , urlPatterns = "/machine")
 public class MachineServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Machine[] machines = Machine.getAllMachines(); //La liste des machines
+        Machine[] machines = null; //La liste des machines
+
+        Connection conn = new UtilDB().GetConn();
+        try {
+            machines = Machine.getAllMachines(conn); //La liste des machines
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         req.setAttribute("machines", machines);
         DispatcherUtils.dispatchToTemplate("machine.jsp", resp, req);
     }

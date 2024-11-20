@@ -22,10 +22,25 @@ public class EntreeBlocServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         /// Recuperer les donnees necessaires
-        Bloc[] blocList = Bloc.getAllBlocs(); // La liste de tous les blocs
-        Bloc[] blocOriginals = Bloc.getAllBlocOriginal(); // La liste des blocs originales
-        Machine[] machines = Machine.getAllMachines(); //La liste des machines
+        Bloc[] blocList = null; // La liste de tous les blocs
+        Bloc[] blocOriginals = null; // La liste des blocs originales
+        Machine[] machines = null; //La liste des machines
 
+        Connection conn = new UtilDB().GetConn();
+        try {
+            blocList = Bloc.getAllBlocs(conn); // La liste de tous les blocs
+            blocOriginals = Bloc.getAllBlocOriginal(conn); // La liste des blocs originales
+            machines = Machine.getAllMachines(conn); //La liste des machines
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
 
         req.setAttribute("bloclist", blocList);
         req.setAttribute("originals", blocOriginals);
