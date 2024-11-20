@@ -3,9 +3,9 @@ package mg.kodoro.models.stock;
 import java.sql.Connection;
 
 import bean.CGenUtil;
-import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.bean.ViewClassMAPTable;
 
-public class EtatStockDimension extends MaClassMAPTable{
+public class EtatStockDimension extends ViewClassMAPTable{
     protected String idDimensionUsuels;
     protected String desceDim;
     protected double quantite;
@@ -37,21 +37,7 @@ public class EtatStockDimension extends MaClassMAPTable{
         }
         return null;
     }
-    @Override
-    public MaClassMAPTable createObject(Connection localconn, Connection remoteconn) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createObject'");
-    }
-    @Override
-    public String getAttributIDName() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAttributIDName'");
-    }
-    @Override
-    public String getTuppleID() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTuppleID'");
-    }
+    
     public double getEntree() {
         return entree;
     }

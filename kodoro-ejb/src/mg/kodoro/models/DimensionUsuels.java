@@ -89,11 +89,6 @@ public class DimensionUsuels extends ClassDimension {
                 '}';
     }
 
-    @Override
-    public MaClassMAPTable createObject(Connection localconn, Connection remoteconn) throws Exception {
-        this.createObject(localconn);
-        return this;
-    }
 
     @Override
     public MaClassMAPTable createObject(Connection c) throws Exception {
