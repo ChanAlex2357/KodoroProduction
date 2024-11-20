@@ -12,11 +12,9 @@ import mg.kodoro.models.transformation.TransformationLib;
 import mg.kodoro.utils.ValidationUtils;
 import mg.kodoro.utils.blockggen.BlocStat;
 import mg.kodoro.utils.blockggen.GenerateurBloc;
-import utilitaire.UtilDB;
 import utils.TimeUtils;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 

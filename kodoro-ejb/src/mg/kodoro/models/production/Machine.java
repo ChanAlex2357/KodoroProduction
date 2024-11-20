@@ -1,12 +1,9 @@
 package mg.kodoro.models.production;
 
 import java.sql.Connection;
-import java.sql.SQLException;
-
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
 import mg.kodoro.models.Bloc;
-import utilitaire.UtilDB;
 
 public class Machine extends MaClassMAPTable{
     protected String idMachine;

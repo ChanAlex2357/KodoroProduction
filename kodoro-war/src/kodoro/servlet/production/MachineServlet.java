@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kodoro.utils.DispatcherUtils;
-import mg.kodoro.models.Bloc;
 import mg.kodoro.models.production.Machine;
 import utilitaire.UtilDB;
 @WebServlet(name = "MachineServlet" , urlPatterns = "/machine")
