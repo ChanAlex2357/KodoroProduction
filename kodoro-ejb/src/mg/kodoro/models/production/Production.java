@@ -49,7 +49,6 @@ public class Production extends MaClassMAPTable{
         controllerFormule(c);
         controllerPrPratique(c);
         calculerPrixDeRevientTheorique(c);
-        System.out.println(this);
         return (Production) super.createObject(c);
     }
     public String getIdProduction() {

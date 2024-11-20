@@ -65,7 +65,6 @@ public class AdminBlocGen {
     public GenerateurBloc getBlocGen() {
         if(this.blocGen == null){
             setBlocGen(new GenerateurBloc(this.getDataBloc()));
-            System.out.println(this.blocGen);
         }
         return blocGen;
     }

@@ -49,7 +49,6 @@ public abstract class MaClassMAPTable extends ClassMAPTable{
         }
     }
     public static void createObjects(MaClassMAPTable[] objects , Connection conn) throws Exception{
-        System.out.println(objects);
         for (MaClassMAPTable maClassMAPTable : objects) {
             maClassMAPTable.createObject(conn);
         }

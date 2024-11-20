@@ -36,7 +36,6 @@ public class MvtStockDimension extends ViewClassMAPTable implements PrixMannagem
 
     @Override
     public void construirePK(Connection c) throws Exception {
-        System.out.println( "ID MVT -- MSD");
         this.preparePk("MSD", "GET_MSD_SEQ");
         this.setIdMvtStockDimension( this.makePK(c) );
     }
@@ -104,8 +103,6 @@ public class MvtStockDimension extends ViewClassMAPTable implements PrixMannagem
             this.construirePK(c);
         }
         
-        System.out.println("-- GENERER MVT STOCK ---");
-        System.out.println(this);
         return super.createObject(c);
     }
     

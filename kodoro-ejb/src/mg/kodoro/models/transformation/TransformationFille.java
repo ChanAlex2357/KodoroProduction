@@ -131,7 +131,6 @@ public class TransformationFille extends MaClassMAPTable implements PrixMannagem
         controlerTransformation();
         controlerPrixRevient();
 
-        System.out.println(this);
         super.createObject(c);
         // generer le mouvement de stock
         this.genererMvtStockDimension(c);
@@ -189,11 +188,7 @@ public class TransformationFille extends MaClassMAPTable implements PrixMannagem
     public static double getSommeVolume(TransformationFille[] filles , Connection conn) throws Exception{
         double somme = 0;
         for(TransformationFille fille : filles){
-            DimensionUsuels dim = fille.getDimensionUsuels(conn);
-            System.out.println(dim);
-            double vd = dim.getVolume(); 
             double v = fille.getVolume(conn);
-            System.out.println( vd+" X "+fille.getQuantite()+" = "+v);
             somme += v;
         }
         return somme;
@@ -243,11 +238,9 @@ public class TransformationFille extends MaClassMAPTable implements PrixMannagem
     @Override
     public void updatePrixDeRevient(double taux, Connection conn) throws Exception {
         setNomTable("TRANSFORMATIONFILLE");
-        double pr = this.getPrixDeRevient();
         // Modifier le prix de revient et le prix de revient unitaire
         updatePrixDeRevient(taux);
 
-        System.out.println(this.getIdTransformationFille()+" : "+pr+" => "+this.getPrixDeRevient());
         
         this.updateToTable(conn);
         // Mettre a jour le mouvement de stock

@@ -43,7 +43,6 @@ public class AffichageTableStock extends HtmlTableObject {
                 EtatStockDimension[] etatStockDimensions = this.getEtatStockDimensions();
                 if (etatStockDimensions != null && etatStockDimensions.length > 0) {
                     for (EtatStockDimension etatStock : etatStockDimensions) {
-                        System.out.println("+>>>> "+etatStock.getIdDimensionUsuels());
                         tbody += "<tr>\r\n";
                         if (originalView) {
                             tbody += "<td>"+ etatStock.getIdOriginalSource()+"</td>\r\n";

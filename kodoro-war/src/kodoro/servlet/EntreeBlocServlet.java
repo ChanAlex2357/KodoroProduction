@@ -88,12 +88,10 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
         try {
             local.close();
             // remote.close();
-            System.out.println("-- Connections Closed on insertion bloc --");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    System.out.println(" ------ MESSAGE ------ \n"+message+"\n ----------------------");
     response.sendRedirect("entreebloc");
 }
 

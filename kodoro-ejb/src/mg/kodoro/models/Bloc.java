@@ -125,7 +125,6 @@ public class Bloc extends ClassDimension implements PrixMannagement{
         if (dateFabrication == null) {
             throw new IllegalArgumentException ("Veuillez saisir une date valide");
         }
-        System.out.println("DATE FABRICATION : "+dateFabrication);
         setDateFabrication(TimeUtils.convertToSqlDate(dateFabrication,"eng"));
     }
     public double getPrixFabrication() {
@@ -135,7 +134,6 @@ public class Bloc extends ClassDimension implements PrixMannagement{
     public static Bloc getById(String idBloc,Connection conn) throws Exception{
         Bloc b = new Bloc();
         b.setIdBloc(idBloc);
-        System.out.println("---- GETTING BLOC : "+idBloc+" ----------");
         Bloc[] blocs =  (Bloc[])CGenUtil.rechercher(b,null,null,conn,"");
         if (blocs.length <=0 ) {
             return null;
@@ -156,11 +154,9 @@ public class Bloc extends ClassDimension implements PrixMannagement{
     }
     public void setIdOriginalSource(Bloc bloc) {
         if (bloc.getIdOriginalSource() != null) {
-            System.out.println("Orignal Existe : "+bloc.getIdOriginalSource());
             setIdOriginalSource(bloc.getIdOriginalSource());
             return ;
         }
-        System.out.println("BLOC ORIGINAL");
         setIdOriginalSource(bloc.getIdBloc());
     }
 
@@ -199,7 +195,6 @@ public class Bloc extends ClassDimension implements PrixMannagement{
         if (desce == null) {
             this.setDesce( "Fabrication du bloc "+this.getIdBloc()+"["+this.getLongueur()+" x "+this.getLargeur()+" x "+this.getEpaisseur()+"]");
         }
-        System.out.println(this);
         return super.createObject(c);
     }
 
@@ -225,11 +220,8 @@ public class Bloc extends ClassDimension implements PrixMannagement{
         return blocs;
     }
     public double getPrixUnitaireVolume(){
-        System.out.println(this);
         double prix = this.getPrixFabrication();
         double v = this.getVolume();
-        System.out.println("PF : "+prix);
-        System.out.println("VV : "+v);
         return prix / v;
     }
 
@@ -249,26 +241,18 @@ public class Bloc extends ClassDimension implements PrixMannagement{
     }
 
     public void estimatePrixFabrication(Bloc blocSource , Connection conn) throws Exception{
-        if (blocSource != null) {
-            System.out.println("BLOC SOURCE ESTIMATION : "+blocSource.getIdBloc());
-        }
         if (blocSource == null || !blocSource.getIdBloc().equals(this.getIdParentSource())) {
             blocSource = getBlocParentSource(conn);
-            System.out.println("RECUPERATION SOURCE VRAIE : "+blocSource.getIdBloc());
         }
 
         double puv = blocSource.getPrixUnitaireVolume();
         double volume = this.getVolume();
-
-        System.out.println("PUV : "+puv);
-        System.out.println("VOLUME RESTE : "+volume);
 
         double prixFab =  puv * volume;
 
         if (blocSource.getPrixFabrication() < prixFab) {
             throw new Exception("Le prix de fabrication d'un bloc estimer ne peut pas surpasser son prix de fabrication de base. ");
         }
-        System.out.println("PRIX FAB : "+prixFab);
         this.setPrixFabrication(prixFab);
     }
 
@@ -353,40 +337,28 @@ public class Bloc extends ClassDimension implements PrixMannagement{
     }
     public void updatePrixFabrication( double tauxChange ){
         double newFab = this.getPrixFabrication() * tauxChange;
-        System.out.println(this.getIdBloc()+" : "+this.getPrixFabrication()+" => "+newFab);
         this.setPrixFabrication( newFab);
     }
     public void updatePrixFabrication(double prixFab , Connection conn) throws Exception {
-        System.out.println( " | UPDATE PRIX DE FABRICATION |"+this.getIdBloc());
         double taux = this.getTauxChangePrixFab(prixFab);
-        System.out.println("TAUX DE CAHNGE : "+taux);
         this.setPrixFabrication(prixFab);
         // Mettre la table a jour
         updateToTable(conn);
         // Mettre a jour les blocs filles
         /// recuperer la liste des filles
         Bloc[] filles = this.getFille(conn);
-        System.out.println("-- UPDATE PRIX DE FABRICATION FILLE----");
         for (Bloc bloc : filles) {
             bloc.updatePrixFabrication(taux);  // Changer le priix selon le taux
             bloc.updateToTable(conn); // update la table
         }
-        System.out.println("--- --- --- --- --- ---");
-
         // Mettre a jour les prix de transformation
         TransformationLib[] trans = this.getTransformations(conn);
-        System.out.println("-- UPDATE PRIX DE REVIENT DE TRANSFORMATION ----");
         for (TransformationLib transformationLib : trans) {
             transformationLib.updatePrixDeRevientTransformation(taux, conn);
         }
-        System.out.println("--- --- --- --- --- ---");
-
-
         /// Mettre a jour la production associe
         Production prod = getProduction(conn);
         prod.updatePrPratique(conn);
-
-
     }
 
     public void updatePrixFabrication(String prixFab , Connection conn) throws Exception {

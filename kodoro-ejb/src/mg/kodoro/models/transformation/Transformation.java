@@ -63,7 +63,6 @@ public class Transformation extends MaClassMAPTable{
         if (dateTransformation == null) {
             throw new IllegalArgumentException ("Veuillez saisir une date valide");
         }
-        System.out.println("DATE FABRICATION : "+dateTransformation);
         setDateTransformation(TimeUtils.convertToSqlDate(dateTransformation,"eng"));
     }
     public void setDateTransformation(Date dateTransformation) {

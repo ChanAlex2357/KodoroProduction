@@ -51,7 +51,6 @@ public class TransformationCPL {
 
                 transF.add(new TransformationFille(idDimensions[i],quantite[i],prixRevientUnitaire[i],prixRevient[i]));
             } catch ( IllegalArgumentException e) {
-                System.out.println("Inutile d'inserer une valeur de 0 .NEXT!");
             }
         }
         this.setDetailsTransformations(transF.toArray(new TransformationFille[0]));
@@ -67,7 +66,6 @@ public class TransformationCPL {
 
     public Bloc[] genererBlocRestante(Transformation trans, Connection conn) throws Exception{
         if (trans == null) {
-            System.out.println("PAS DE RESTES POSSIBLE");
             return null;
         }
         Bloc b = this.getBloc(conn);
@@ -88,7 +86,6 @@ public class TransformationCPL {
         Transformation trans = new Transformation(this.getIdBloc(), this.getMarge(), this.getDateTransformation());
         
         if (detailsTransformations.length <= 0) {
-            System.out.println("PAS DE TRANSFORMATION POSSIBLE");
             return null;
         }
         trans.createObject(conn);
@@ -113,18 +110,14 @@ public class TransformationCPL {
     public void controlerMarge(Connection conn) throws Exception{
         double margeCalculer = getMargeVolume(conn);
         double taux = (this.getBloc(conn).getVolume() * this.getPourcentage());
-        System.out.println("TAUX % : "+taux);
         if (margeCalculer > taux) {
             throw new Exception("La marge de volume ("+margeCalculer+" %) ne respecte pas la marge etablie ("+this.getMarge()+" %)");
         }
-        System.out.println(margeCalculer+" < "+taux );
     }
 
     public double getMargeVolume(Connection conn) throws Exception{
         double vre = this.getVolumeRestanteEstime(conn);
-        System.out.println("VRE : "+vre);
         double vrt = this.getVolumeRestanteTheorique();
-        System.out.println("VRT : "+vrt);
         if ( vrt > vre || vrt > getBloc(conn).getVolume()) {
             throw new IllegalArgumentException("Le volume du reste ne doit pas etre inferieur");
         }
@@ -134,7 +127,6 @@ public class TransformationCPL {
     public double calculerMargeVolume( double vb , double volumeEstime , double volumeTheorique) {
         double eccart =  Math.abs(vb - (Math.abs(volumeEstime + volumeTheorique)));
 
-        System.out.println("ECART : "+eccart);
 
         return  eccart;
     }
@@ -163,12 +155,10 @@ public class TransformationCPL {
     
     public Bloc getBloc(Connection conn){
         if (this.bloc != null ) {
-            System.out.println("BLOC EXIST : "+this.bloc.getIdBloc());
             return bloc;
         }
         try {
             this.bloc = Bloc.getById(idBloc, conn);
-            System.out.println("INIT BLOC");
         } catch (Exception e) {
             e.printStackTrace();
         }

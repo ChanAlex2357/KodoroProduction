@@ -7,7 +7,6 @@ import java.sql.Date;
 import mg.kodoro.helpers.seeds.DateSeeds;
 import mg.kodoro.helpers.seeds.IntegerSeeds;
 import mg.kodoro.helpers.seeds.MargeSeeds;
-import mg.kodoro.models.Bloc;
 import mg.kodoro.models.blockggen.DataBloc;
 
 public class GenerateurBloc {
@@ -58,8 +57,6 @@ public class GenerateurBloc {
         double avgPrixDeRevient = getBlocStat(conn).getPrixDeRevientMoyenne();
         double randMarge = getMargeSeeds().generatePourcentage();
         double taux = avgPrixDeRevient * randMarge;
-        System.out.println("RAND MARGE : "+randMarge);
-        System.out.println("TAUX : "+taux);
         int signe = randomSigne();
         return avgPrixDeRevient + signe * taux;
     }

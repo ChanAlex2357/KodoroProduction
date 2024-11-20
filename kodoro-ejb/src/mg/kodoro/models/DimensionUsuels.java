@@ -92,15 +92,12 @@ public class DimensionUsuels extends ClassDimension {
 
     @Override
     public MaClassMAPTable createObject(Connection c) throws Exception {
-        System.out.println("-/-/-/-/-//-/-/-");
         setNomTable("DIMENSIONUSUELS");
         controlerVolume();
         controlerRapportVolumePrix();
         if (this.getTuppleID() == null || this.getTuppleID().isEmpty() || this.getTuppleID().equals("0")) {
             this.construirePK(c);
         }
-        System.out.println("--- DETAILS ---");
-        System.out.println(this.toString());
         return super.createObject(c);
     }
     private void controlerVolume() {

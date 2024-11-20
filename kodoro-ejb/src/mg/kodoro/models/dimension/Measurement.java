@@ -41,7 +41,6 @@ public class Measurement {
     }
 
     public void setValue(double value) {
-        System.out.println("VALUE : "+value);
         this.value = value;
     }
 
@@ -50,7 +49,6 @@ public class Measurement {
     }
     
     public void setUnit(String unit) {
-        System.out.println("UNIT : "+unit);
         this.unit = unit;
     }
 

@@ -16,9 +16,7 @@ public class Main {
         Connection conn = new UtilDB().GetConn();
         try {
         for (DimensionUsuels dim : dimensionUsuels) {
-            System.out.println(" INSERTION ");
                 conn.setAutoCommit(false);
-                System.out.println(dim);
                 dim.createObject(conn);
                 conn.commit();
             }

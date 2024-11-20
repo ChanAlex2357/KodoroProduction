@@ -17,7 +17,6 @@ public class EstimationPrix {
         return beneficeTheorique;
     }
     public void setBeneficeTheorique(double beneficeTheorique) {
-        System.out.println("BENEF : "+beneficeTheorique);
         this.beneficeTheorique = beneficeTheorique;
     }
     public double getChiffreAffaireTheorique() {
