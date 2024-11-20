@@ -10,7 +10,22 @@ public class DataBloc {
     double aMin;
     double aMax;
     double marge;
+    public  DataBloc(){
+        // LONG
+        setLMin(5);
+        setLMax(7);
+        // LARGE
+        setlMin(20);
+        setlMax(25);
+        // EP
+        seteMin(10);
+        seteMax(15);
+        // ANNEE
+        setaMin(2022);
+        setaMin(2024);
 
+        setMarge(10);
+    }
     public DataBloc( double LMin, double LMax, double lMin, double lMax,
     double eMin, double eMax, double aMin, double aMax, double marge){
         setLMax(lMax);
