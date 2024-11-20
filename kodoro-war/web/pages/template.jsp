@@ -38,6 +38,9 @@
                         <li class="nav-iterm">
                             <a class="nav-link" href="genbloc">Generer Bloc</a>
                         </li>
+                        <li class="nav-iterm">
+                            <a class="nav-link" href="machine">Machine</a>
+                        </li>
                     </ul>
                 </div>
             </div>

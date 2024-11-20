@@ -22,7 +22,7 @@ public class DataBloc {
         seteMax(15);
         // ANNEE
         setaMin(2022);
-        setaMin(2024);
+        setaMax(2024);
 
         setMarge(10);
     }
