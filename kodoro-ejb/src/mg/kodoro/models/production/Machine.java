@@ -22,7 +22,6 @@ public class Machine extends MaClassMAPTable{
         prod.setBlocProduit(blocProduit);
         prod.setMachineProduction(this);
         prod.setFormuleDeProduction(formuleProduction);
-
         return prod.createObject(conn);
     }
     public Production produire(Bloc blocProduit , Connection conn) throws Exception {

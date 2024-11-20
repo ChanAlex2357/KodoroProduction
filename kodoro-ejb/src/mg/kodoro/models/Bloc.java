@@ -48,20 +48,20 @@ public class Bloc extends ClassDimension implements PrixMannagement{
     }
 
     @Override
-public String toString() {
-    return "Bloc{" +
-            "idBloc='" + idBloc + '\'' +
-            ", description='" + desce + '\'' +
-            ", longueur=" + longueur +
-            ", largeur=" + largeur +
-            ", epaisseur=" + epaisseur +
-            ", volume=" + this.getVolume() +
-            ", dateFabrication=" + (dateFabrication != null ? new SimpleDateFormat("yyyy-MM-dd").format(dateFabrication) : "null") +
-            ", prixFabrication=" + prixFabrication +
-            ", idOriginalSource='" + idOriginalSource + '\'' +
-            ", idParentSource='" + idParentSource + '\'' +
-            '}';
-}
+    public String toString() {
+        return "Bloc{" +
+                "idBloc='" + idBloc + '\'' +
+                ", description='" + desce + '\'' +
+                ", longueur=" + longueur +
+                ", largeur=" + largeur +
+                ", epaisseur=" + epaisseur +
+                ", volume=" + this.getVolume() +
+                ", dateFabrication=" + (dateFabrication != null ? new SimpleDateFormat("yyyy-MM-dd").format(dateFabrication) : "null") +
+                ", prixFabrication=" + prixFabrication +
+                ", idOriginalSource='" + idOriginalSource + '\'' +
+                ", idParentSource='" + idParentSource + '\'' +
+                '}';
+    }
 
     public Bloc(){
         setNomTable("BLOC");
@@ -204,7 +204,7 @@ public String toString() {
     @Override
     public MaClassMAPTable createObject(Connection c) throws Exception {
         setNomTable("BLOC");
-        controlerTaille();
+        // controlerTaille();
         controlerVolume();
         if (this.getTuppleID() == null || this.getTuppleID().compareToIgnoreCase("") == 0 || this.getTuppleID().compareToIgnoreCase("0") == 0) {
             this.construirePK(c);

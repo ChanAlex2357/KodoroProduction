@@ -44,13 +44,10 @@ public class blocGenServlet extends HttpServlet {
         Connection conn = new UtilDB().GetConn();
         try {
             conn.setAutoCommit(false);
-
             AdminBlocGen adminBlocGen = new AdminBlocGen(quantite, Lmin, Lmax, lmin, lmax, emin, emax, amin, amax, marge);
             adminBlocGen.generate(conn);
-
             conn.commit();
         } catch (Exception e) {
-            e.printStackTrace();
             try {
                 conn.rollback();
             } catch (SQLException e1) {

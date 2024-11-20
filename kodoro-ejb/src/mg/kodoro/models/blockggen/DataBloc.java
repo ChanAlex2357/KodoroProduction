@@ -28,8 +28,8 @@ public class DataBloc {
     }
     public DataBloc( double LMin, double LMax, double lMin, double lMax,
     double eMin, double eMax, double aMin, double aMax, double marge){
-        setLMax(lMax);
-        setLMin(lMin);
+        setLMin(LMin);
+        setLMax(LMax);
         setlMin(lMin);
         setlMax(lMax);
         seteMin(eMin);
@@ -40,8 +40,8 @@ public class DataBloc {
     }
     public DataBloc( String LMin, String LMax, String lMin, String lMax,
     String eMin, String eMax, String aMin, String aMax, String marge){
-        setLMax(lMax);
-        setLMin(lMin);
+        setLMin(LMin);
+        setLMax(LMax);
         setlMin(lMin);
         setlMax(lMax);
         seteMin(eMin);
