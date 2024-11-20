@@ -4,6 +4,7 @@ import java.sql.Connection;
 
 import mg.kodoro.bean.MaClassMAPTable;
 import mg.kodoro.models.annexe.Ressource;
+import mg.kodoro.utils.ValidationUtils;
 
 public class FromuleProductionFille extends MaClassMAPTable {
     protected String idFormuleProductionFille;
@@ -23,6 +24,15 @@ public class FromuleProductionFille extends MaClassMAPTable {
     }
 
     public FromuleProductionFille(){setNomTable("FromuleProductionFille");}
+    public FromuleProductionFille(String idRessource , String quantite){
+        setIdRessource(idRessource);
+        setQuantite(quantite);
+    }
+    
+
+    public void setQuantite(String quantite) {
+        setQuantite(ValidationUtils.validatePositiveStringInt(quantite));
+    }
 
     @Override
     public MaClassMAPTable createObject(Connection c) throws Exception {
