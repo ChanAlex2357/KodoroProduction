@@ -18,6 +18,7 @@ public class Machine extends MaClassMAPTable{
     }
 
     public Machine(){setNomTable("Machine");}
+    public Machine(String desce){setDesce(desce);}
 
     public Production genererProduction(Bloc blocProduit , Connection conn) throws Exception {
         Production prod = new Production();
@@ -33,6 +34,12 @@ public class Machine extends MaClassMAPTable{
         }
         Production prod = genererProduction(blocProduit,conn);
         return prod;
+    }
+
+    @Override
+    public MaClassMAPTable createObject(Connection c) throws Exception {
+        setNomTable("Machine");
+        return super.createObject(c);
     }
     @Override
     public String getAttributIDName() {
