@@ -39,7 +39,7 @@ public class TransformationCPL {
     }
 
     public void validerTransformation(Connection conn) throws Exception{
-        controllerMarge(conn);
+        controlerMarge(conn);
         Transformation trans = this.genereTransformation(conn);
         this.genererBlocRestante(trans,conn);
     }
@@ -110,7 +110,7 @@ public class TransformationCPL {
     }
 
 
-    public void controllerMarge(Connection conn) throws Exception{
+    public void controlerMarge(Connection conn) throws Exception{
         double margeCalculer = getMargeVolume(conn);
         double taux = (this.getBloc(conn).getVolume() * this.getPourcentage());
         System.out.println("TAUX % : "+taux);

@@ -98,7 +98,7 @@ public class MvtStockDimension extends ViewClassMAPTable implements PrixMannagem
     public MaClassMAPTable createObject(Connection c) throws Exception {
         setNomTable("MvtStockDimension");
         // Contolle de donnee
-        controllerPrixMvt();
+        controlerPrixMvt();
         
         if (this.getTuppleID() == null || this.getTuppleID().compareToIgnoreCase("") == 0 || this.getTuppleID().compareToIgnoreCase("0") == 0) {
             this.construirePK(c);
@@ -109,16 +109,16 @@ public class MvtStockDimension extends ViewClassMAPTable implements PrixMannagem
         return super.createObject(c);
     }
     
-    protected void controllerPrixMvt(){
+    protected void controlerPrixMvt(){
         if (this.getEntree() > 0) {
-            this.controllerPrixRevient();
+            this.controlerPrixRevient();
         }
         else if (this.getSortie() > 0) {
-            this.controllerPrixVente();
+            this.controlerPrixVente();
         }
     }
 
-    protected void controllerPrixRevient() {
+    protected void controlerPrixRevient() {
         if (this.prixDeRevient == 0 && this.prixDeRevientUnitaire > 0) {
             setPrixDeRevient( this.getPrixDeRevientUnitaire() * this.getEntree());
         }
@@ -127,7 +127,7 @@ public class MvtStockDimension extends ViewClassMAPTable implements PrixMannagem
         }
     }
 
-    protected void controllerPrixVente() {
+    protected void controlerPrixVente() {
         if (this.prixDeVente == 0 && this.prixDeVenteUnitaire > 0) {
             setPrixDeVente( this.getPrixDeVenteUnitaire() * this.getSortie());
         }

@@ -118,7 +118,7 @@ public class TransformationFille extends MaClassMAPTable implements PrixMannagem
                 '}';
     }
 
-    public void controllerTransformation() throws Exception{
+    public void controlerTransformation() throws Exception{
         if (this.getIdTransformation() == null || this.getIdTransformation().equals("0")) {
             throw new Exception("La transformation fille ["+this.getIdTransformationFille()+"] doit posseder un transformation mere ");
         }
@@ -127,9 +127,9 @@ public class TransformationFille extends MaClassMAPTable implements PrixMannagem
     @Override
     public MaClassMAPTable createObject(Connection c) throws Exception {
         setNomTable("TRANSFORMATIONFILLE");
-        // Controller la validiter de la transformation mere
-        controllerTransformation();
-        controllerPrixRevient();
+        // Controler la validiter de la transformation mere
+        controlerTransformation();
+        controlerPrixRevient();
 
         System.out.println(this);
         super.createObject(c);
@@ -139,7 +139,7 @@ public class TransformationFille extends MaClassMAPTable implements PrixMannagem
         return this;
     }
 
-    protected void controllerPrixRevient() {
+    protected void controlerPrixRevient() {
         if (this.prixDeRevient == 0 && this.prixDeRevientUnitaire > 0) {
             setPrixDeRevient( this.getPrixDeRevientUnitaire() * this.getQuantite());
         }

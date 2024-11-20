@@ -27,7 +27,15 @@ public class FromuleProductionFille extends MaClassMAPTable {
     @Override
     public MaClassMAPTable createObject(Connection c) throws Exception {
         setNomTable("FromuleProductionFille");
+        // Controle de donnee
+        controlerFormule();
         return super.createObject(c);
+    }
+
+    public void controlerFormule() throws Exception{
+        if (this.getIdFormuleProduction() == null || this.getIdFormuleProduction() == "") {
+            throw new Exception("Formule de production absente pour le detail formule");
+        }
     }
     @Override
     public void construirePK(Connection c) throws Exception {
