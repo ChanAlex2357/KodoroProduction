@@ -5,14 +5,39 @@ import java.sql.SQLException;
 
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.models.Bloc;
 import utilitaire.UtilDB;
 
 public class Machine extends MaClassMAPTable{
     protected String idMachine;
     protected String desce;
+    protected FormuleProduction formuleProduction;
+
+    public FormuleProduction getFormuleProduction(Connection conn) throws Exception {
+        return FormuleProduction.getById(null, conn);
+    }
 
     public Machine(){setNomTable("Machine");}
 
+    public Production genererProduction(Bloc blocProduit , Connection conn) throws Exception {
+        Production prod = new Production();
+        prod.setIdBloc(blocProduit.getIdBloc());
+        prod.setBlocProduit(blocProduit);
+        prod.setIdMachine(this.getIdMachine());
+        prod.setMachineProduction(this);
+        prod.setIdFormuleProduction(formuleProduction.getIdFormuleProduction());
+        prod.setFormuleDeProduction(formuleProduction);
+        prod.setDateProduction(blocProduit.getDateFabrication());
+
+        return prod.createObject(conn);
+    }
+    public Production produire(Bloc blocProduit , Connection conn) throws Exception {
+        if (this.formuleProduction == null) {
+            this.formuleProduction = getFormuleProduction(conn);
+        }
+        Production prod = genererProduction(blocProduit,conn);
+        return prod;
+    }
     @Override
     public String getAttributIDName() {
         return "idMachine";

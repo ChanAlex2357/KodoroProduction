@@ -18,6 +18,15 @@ public class Production extends MaClassMAPTable{
     protected Bloc blocProduit;
     protected Machine machineProduction;
     protected FormuleProduction formuleDeProduction;
+    public Production(){
+        setNomTable("Production");
+    }
+
+    @Override
+    public Production createObject(Connection c) throws Exception {
+        setNomTable("Production");
+        return (Production) super.createObject(c);
+    }
     public String getIdProduction() {
         return idProduction;
     }
