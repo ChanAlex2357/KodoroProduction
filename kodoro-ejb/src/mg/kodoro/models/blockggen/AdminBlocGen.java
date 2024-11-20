@@ -15,7 +15,6 @@ public class AdminBlocGen {
     protected GenerateurBloc blocGen;
     protected Machine[] machines;
     
-    
     public  AdminBlocGen(){
         setQuantite(1);
     }

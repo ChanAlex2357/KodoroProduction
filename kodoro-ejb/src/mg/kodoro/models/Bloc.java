@@ -10,7 +10,6 @@ import mg.kodoro.models.production.Production;
 import mg.kodoro.models.pricing.PrixMannagement;
 import mg.kodoro.models.transformation.TransformationLib;
 import mg.kodoro.utils.ValidationUtils;
-import mg.kodoro.utils.blockggen.BlocStat;
 import mg.kodoro.utils.blockggen.GenerateurBloc;
 import utils.TimeUtils;
 
@@ -30,18 +29,6 @@ public class Bloc extends ClassDimension implements PrixMannagement{
     protected TransformationLib[] transformations;
     protected Bloc[] restes ;
     protected Production production;
-    protected static BlocStat blocStat;
-    
-    public static BlocStat getBlocStat(Connection conn) throws Exception {
-        if (Bloc.blocStat == null) {
-            Bloc.setBlocStat(BlocStat.getBlocStat(conn));
-        }
-        return Bloc.blocStat;
-    }
-
-    protected static void setBlocStat(BlocStat blocStat) {
-        Bloc.blocStat = blocStat;
-    }
 
     public String getDesceVolume(){
         return this.getIdBloc()+" - "+this.getVolume()+" m³";
