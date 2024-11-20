@@ -10,8 +10,6 @@ public class FormuleProduction extends MaClassMAPTable{
     protected String desce;
     protected double prixDeRevient;
     protected FromuleProductionFille[] detailsFormule;
-
-    
     public FormuleProduction(){setNomTable("FormuleProduction");}
     
     public FromuleProductionFille[] getDetailsFormule(Connection conn) throws Exception {

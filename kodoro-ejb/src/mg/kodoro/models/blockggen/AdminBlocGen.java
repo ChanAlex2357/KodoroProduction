@@ -36,7 +36,7 @@ public class AdminBlocGen {
         Machine machine = null;
         for (Bloc bloc : blocs) {
             // Generer le bloc
-            bloc = new Bloc(blocGen, conn);
+            bloc = new Bloc(this.getBlocGen(), conn);
             // Machine aleatoire
             machine = getRandomMachine(conn);
             // Produire le bloc par la machine
@@ -66,6 +66,7 @@ public class AdminBlocGen {
     public GenerateurBloc getBlocGen() {
         if(this.blocGen == null){
             setBlocGen(new GenerateurBloc(this.getDataBloc()));
+            System.out.println(this.blocGen);
         }
         return blocGen;
     }
@@ -80,7 +81,7 @@ public class AdminBlocGen {
         this.machineId = machineId;
     }
     public Machine[] getMachines(Connection conn) throws Exception {
-        if (this.machines != null && this.machines.length > 0) {
+        if (this.machines == null || this.machines.length <= 0) {
             this.machines = Machine.getAllMachines(conn);
         }
         return machines;
