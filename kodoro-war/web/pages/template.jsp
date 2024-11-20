@@ -41,6 +41,12 @@
                         <li class="nav-iterm">
                             <a class="nav-link" href="machine">Machine</a>
                         </li>
+                        <li class="nav-iterm">
+                            <a class="nav-link" href="ressource">Ressource</a>
+                        </li>
+                        <li class="nav-iterm">
+                            <a class="nav-link" href="unite">Unite</a>
+                        </li>
                     </ul>
                 </div>
             </div>
