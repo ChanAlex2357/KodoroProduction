@@ -41,6 +41,14 @@
                     <input type="date" class="form-control" id="daty" name="daty" required>
                     <div class="invalid-feedback">Veuillez sélectionner la date de fabrication du bloc.</div>
                 </div>
+
+                <div class="form-group">
+                    <label for="machine">Machine</label>
+                    <select class="form-select" id="machine"name="machine" required>
+                        <option value="" disabled selected>Choisissez une Machine</option>
+                        <!-- BOUCLE POUR LES CHOIX DE MACHINES -->
+                    </select>
+                </div>
         
                 <button type="submit" class="btn btn-block" style="background-color: #FFC107; color: #FFFFFF;">Insérer le Bloc</button>
             </form>
@@ -50,7 +58,7 @@
             <form action="updatebloc" method="post">
                 <div class="form-group">
                     <label for="blocSelect" >Sélectionnez le Bloc</label>
-                    <select class="form-control" id="blocSelect" name="idBloc" required>
+                    <select class="form-select" id="blocSelect" name="idBloc" required>
                         <option value="" disabled selected>Choisissez un bloc</option>
                         <%
                             if (blocOriginals != null && blocOriginals.length > 0) {

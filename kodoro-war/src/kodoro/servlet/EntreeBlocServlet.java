@@ -19,6 +19,15 @@ import utilitaire.UtilDB;
 public class EntreeBlocServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        /// Recuperer les donnees necessaires
+        Bloc[] blocList = Bloc.getAllBlocs(); // La liste de tous les blocs
+        Bloc[] blocOriginals = Bloc.getAllBlocOriginal(); // La liste des blocs originales
+        // * Machine[] machines = Machine.getAllMachines(); //La liste des machines
+
+
+        req.setAttribute("bloclist", blocList);
+        req.setAttribute("originals", blocOriginals);
+        // * req.setAttribute("machines", machines);
         DispatcherUtils.dispatchToTemplate("entreeBloc.jsp", resp, req);
     }
 
