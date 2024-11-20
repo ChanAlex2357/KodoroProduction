@@ -21,13 +21,9 @@ public class Machine extends MaClassMAPTable{
 
     public Production genererProduction(Bloc blocProduit , Connection conn) throws Exception {
         Production prod = new Production();
-        prod.setIdBloc(blocProduit.getIdBloc());
         prod.setBlocProduit(blocProduit);
-        prod.setIdMachine(this.getIdMachine());
         prod.setMachineProduction(this);
-        prod.setIdFormuleProduction(formuleProduction.getIdFormuleProduction());
         prod.setFormuleDeProduction(formuleProduction);
-        prod.setDateProduction(blocProduit.getDateFabrication());
 
         return prod.createObject(conn);
     }

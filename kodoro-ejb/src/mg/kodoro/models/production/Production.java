@@ -25,6 +25,7 @@ public class Production extends MaClassMAPTable{
     @Override
     public Production createObject(Connection c) throws Exception {
         setNomTable("Production");
+        // Controler les donnees
         return (Production) super.createObject(c);
     }
     public String getIdProduction() {
@@ -78,6 +79,10 @@ public class Production extends MaClassMAPTable{
         return this.blocProduit;
     }
     protected void setBlocProduit(Bloc blocProduit) {
+        if (blocProduit.getIdBloc() != this.getIdBloc()) {
+            setIdBloc(blocProduit.getIdBloc());
+        }
+        setDateProduction(blocProduit.getDateFabrication());
         this.blocProduit = blocProduit;
     }
     public Machine getMachineProduction(Connection conn) throws Exception {
@@ -90,6 +95,9 @@ public class Production extends MaClassMAPTable{
         return this.machineProduction;
     }
     protected void setMachineProduction(Machine machineProduction) {
+        if (machineProduction.getIdMachine() != this.getIdMachine()) {
+            setIdMachine( machineProduction.getIdMachine());
+        }
         this.machineProduction = machineProduction;
     }
     public FormuleProduction getFormuleDeProduction(Connection conn) throws Exception {
@@ -101,6 +109,9 @@ public class Production extends MaClassMAPTable{
         return this.formuleDeProduction;
     }
     protected void setFormuleDeProduction(FormuleProduction formuleDeProduction) {
+        if (formuleDeProduction.getIdFormuleProduction() != this.getIdFormuleProduction()) {
+            setIdFormuleProduction(formuleDeProduction.getIdFormuleProduction());
+        }
         this.formuleDeProduction = formuleDeProduction;
     }
     @Override
