@@ -8,8 +8,15 @@ public class FormuleProduction extends MaClassMAPTable{
     protected String idFormuleProduction;
     protected String desce;
     protected double prixDeRevient;
+    protected FromuleProductionFille[] detailsFormule;
 
     public FormuleProduction(){setNomTable("FormuleProduction");}
+    
+    @Override
+    public MaClassMAPTable createObject(Connection c) throws Exception {
+        setNomTable("FormuleProduction");
+        return super.createObject(c);
+    }
     @Override
     public String getAttributIDName() {
         return "idFormuleProduction";
@@ -22,7 +29,7 @@ public class FormuleProduction extends MaClassMAPTable{
 
     @Override
     public void construirePK(Connection c) throws Exception {
-        preparePk("FPR", "GET_formule_prod_seq");
+        preparePk("FOR", "GET_formule_prod_seq");
         setIdFormuleProduction(makePK(c));
     }
 
