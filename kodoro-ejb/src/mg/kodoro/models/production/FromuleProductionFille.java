@@ -19,6 +19,7 @@ public class FromuleProductionFille extends MaClassMAPTable {
     @Override
     public void construirePK(Connection c) throws Exception {
         preparePk("DFO", "GET_formule_prod_fille_seq");
+        setIdFormuleProductionFille(makePK(c));
     }
     @Override
     public String getAttributIDName() {
