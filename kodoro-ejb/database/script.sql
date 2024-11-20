@@ -121,3 +121,9 @@
     CREATE OR REPLACE VIEW V_PRBLOCORIGINEL as
     SELECT AVG(prixFabrication) as prixDeRevientMoyenne
     FROM v_blocorigine
+
+-- * VIEW POUR PERFORMANCE MACHINE
+    CREATE OR REPLACE VIEW PerformanceMachine as
+    SELECT prod.idMachine ,SUM(prod.prTheorique) as prTheorique , SUM(prod.prPratique) as prPratiques  
+    from Production prod
+    GROUP by idMachine;
