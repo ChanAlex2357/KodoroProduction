@@ -11,8 +11,22 @@ public class FormuleProduction extends MaClassMAPTable{
     protected double prixDeRevient;
     protected FromuleProductionFille[] detailsFormule;
 
+    
     public FormuleProduction(){setNomTable("FormuleProduction");}
     
+    public FromuleProductionFille[] getDetailsFormule(Connection conn) throws Exception {
+        if (detailsFormule != null && detailsFormule.length > 0) {
+            return this.detailsFormule;
+        }
+        FromuleProductionFille ref = new FromuleProductionFille();
+        ref.setIdFormuleProduction(this.getIdFormuleProduction());
+        FromuleProductionFille [] details = (FromuleProductionFille []) CGenUtil.rechercher(ref,null,null,conn,"");
+        setDetailsFormule(details);
+        return this.detailsFormule;
+    }
+    public void setDetailsFormule(FromuleProductionFille[] detailsFormule) {
+        this.detailsFormule = detailsFormule;
+    }
 
     public FormuleProduction getById(Connection conn) throws Exception {
         String id = this.getIdFormuleProduction();
@@ -31,6 +45,15 @@ public class FormuleProduction extends MaClassMAPTable{
     @Override
     public MaClassMAPTable createObject(Connection c) throws Exception {
         setNomTable("FormuleProduction");
+        construirePK(c);
+        // Calculer le prix de revient du formule au moment de la creation du formule
+        double pr = 0;
+        for (FromuleProductionFille fromuleProductionFille : this.getDetailsFormule(c)) {
+            fromuleProductionFille.setIdFormuleProduction(this.getIdFormuleProduction());
+            pr += fromuleProductionFille.getMontantPrixRevient(c); // Sommer le prix de revient du detail
+            fromuleProductionFille.createObject(c); // Save le detail de formule
+        }
+        this.setPrixDeRevient(pr);
         return super.createObject(c);
     }
     @Override
