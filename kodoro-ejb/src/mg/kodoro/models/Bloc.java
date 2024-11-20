@@ -5,6 +5,7 @@ import java.sql.Date;
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
 import mg.kodoro.models.dimension.ClassDimension;
+import mg.kodoro.models.production.Production;
 import mg.kodoro.models.pricing.PrixMannagement;
 import mg.kodoro.models.transformation.TransformationLib;
 import mg.kodoro.utils.ValidationUtils;
@@ -25,11 +26,11 @@ public class Bloc extends ClassDimension implements PrixMannagement{
     private double prixFabrication;
     private String idOriginalSource;
     private String idParentSource;
-
     protected Bloc originalSource;
     protected Bloc parentSource;
     protected TransformationLib[] transformations;
     protected Bloc[] restes ;
+    protected Production production;
     protected static BlocStat blocStat;
     
     public static BlocStat getBlocStat(Connection conn) throws Exception {
@@ -183,13 +184,6 @@ public String toString() {
 
     public void setIdParentSource(String parentSource) {
         this.idParentSource = parentSource;
-    }
-
-    @Override
-    public MaClassMAPTable createObject(Connection localconn, Connection remoteconn) throws Exception {
-        this.createObject(localconn);
-        //! Generer le mouvement de stock dans la base distante
-        return this;
     }
 
     @Override
@@ -428,6 +422,11 @@ public String toString() {
         System.out.println("--- --- --- --- --- ---");
 
 
+        /// Mettre a jour la production associe
+        Production prod = getProduction(conn);
+        prod.updatePrPratique(conn);
+
+
     }
 
     public void updatePrixFabrication(String prixFab , Connection conn) throws Exception {
@@ -440,8 +439,23 @@ public String toString() {
     }
 
     @Override
-    public void updatePrixDeRevient(double tauxDeChange, Connection conn) throws Exception {
-        this.updatePrixFabrication(tauxDeChange, conn);
+    public void updatePrixDeRevient(double newPrix, Connection conn) throws Exception {
+        this.updatePrixFabrication(newPrix, conn);
+    }
+
+    public Production getProduction(Connection conn) throws Exception {
+        if (this.production != null) {
+            return this.production;
+        }
+
+        Production ref = new Production();
+        ref.setIdBloc(this.getIdBloc());
+        Production [] prod = (Production[]) CGenUtil.rechercher(ref,null,null,conn,"");
+        if (prod.length > 0) {
+            prod[0].setBlocProduit(this);
+            return prod[0];
+        }
+        return null;
     }
 
 }

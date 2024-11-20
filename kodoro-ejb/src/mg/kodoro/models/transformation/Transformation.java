@@ -75,11 +75,7 @@ public class Transformation extends MaClassMAPTable{
         super.createObject(c);
         return this;
     }
-    @Override
-    public MaClassMAPTable createObject(Connection localconn, Connection remoteconn) throws Exception {
-        this.createObject(localconn);
-        return this;
-    }
+    
     @Override
     public String getAttributIDName() {
         return "idTransformation";
