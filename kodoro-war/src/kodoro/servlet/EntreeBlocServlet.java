@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import kodoro.utils.DispatcherUtils;
 import mg.kodoro.models.Bloc;
 import utilitaire.UtilDB;
+import mg.kodoro.models.production.Machine;
 
 
 @WebServlet(name = "EntreeBlocServlet" , urlPatterns = "/entreebloc")
@@ -22,12 +23,12 @@ public class EntreeBlocServlet extends HttpServlet {
         /// Recuperer les donnees necessaires
         Bloc[] blocList = Bloc.getAllBlocs(); // La liste de tous les blocs
         Bloc[] blocOriginals = Bloc.getAllBlocOriginal(); // La liste des blocs originales
-        // * Machine[] machines = Machine.getAllMachines(); //La liste des machines
+        Machine[] machines = Machine.getAllMachines(); //La liste des machines
 
 
         req.setAttribute("bloclist", blocList);
         req.setAttribute("originals", blocOriginals);
-        // * req.setAttribute("machines", machines);
+        req.setAttribute("machines", machines);
         DispatcherUtils.dispatchToTemplate("entreeBloc.jsp", resp, req);
     }
 
@@ -42,19 +43,22 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     String epaisseurStr = request.getParameter("epaisseur");
     String prixFabricationStr = request.getParameter("prixFabrication");
     String dateFabricationStr = request.getParameter("daty");
+    String idMachine = request.getParameter("machine");
 
     // Prepare response to show success or failure
     String message = null;
     Connection local = new UtilDB().GetConn();
     // Connection remote = DbUtils.getRemoteConn();
     try {
+
         Bloc bloc = new Bloc(longueurStr, largeurStr, epaisseurStr, dateFabricationStr, prixFabricationStr);
+        Machine machine = Machine.getById(idMachine, local);
+
+        machine.produire(bloc, local);
         // Desactiver l'autocommit
         local.setAutoCommit(false);
         // remote.setAutoCommit(false);
-
-        bloc.createObject(local);
-
+        // bloc.createObject(local);
         // Commiter les changements
         local.commit();
         // remote.commit();
