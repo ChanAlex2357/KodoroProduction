@@ -6,7 +6,7 @@ import java.sql.Date;
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
 import mg.kodoro.bean.ViewClassMAPTable;
-import mg.kodoro.models.PrixMannagement;
+import mg.kodoro.models.pricing.PrixMannagement;
 
 public class MvtStockDimension extends ViewClassMAPTable implements PrixMannagement{
     

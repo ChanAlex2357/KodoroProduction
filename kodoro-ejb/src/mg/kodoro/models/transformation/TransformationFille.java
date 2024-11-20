@@ -5,7 +5,7 @@ import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
 import mg.kodoro.models.Bloc;
 import mg.kodoro.models.DimensionUsuels;
-import mg.kodoro.models.PrixMannagement;
+import mg.kodoro.models.pricing.PrixMannagement;
 import mg.kodoro.models.stock.MvtStockDimension;
 import mg.kodoro.utils.ValidationUtils;
 
