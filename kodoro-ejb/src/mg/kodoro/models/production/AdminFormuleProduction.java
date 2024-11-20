@@ -13,14 +13,13 @@ public class AdminFormuleProduction {
         setQuantites(quantites);
     }
     public FormuleProduction genererFormule(Connection conn) throws Exception{
-        FromuleProductionFille[] detailsFormule = new FromuleProductionFille[getIdRessources().length];
+        FormuleProductionFille[] detailsFormule = new FormuleProductionFille[getIdRessources().length];
         for (int i = 0; i < idRessources.length; i++) {
-            detailsFormule[i] = new FromuleProductionFille(getIdRessources()[i],getQuantites()[i]); 
+            detailsFormule[i] = new FormuleProductionFille(getIdRessources()[i],getQuantites()[i]); 
         }
         FormuleProduction formuleProduction = new FormuleProduction();
         formuleProduction.setDesce(this.getDesceFormule());
         formuleProduction.setDetailsFormule(detailsFormule);
-
         formuleProduction.createObject(conn);
         return formuleProduction;
     }

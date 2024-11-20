@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="mg.kodoro.models.annexe.Ressource, mg.kodoro.models.production.FormuleProduction, mg.kodoro.models.production.FromuleProductionFille" %>
+<%@ page import="mg.kodoro.models.annexe.Ressource, mg.kodoro.models.production.FormuleProduction, mg.kodoro.models.production.FormuleProductionFille" %>
 <%
     // Liste des ressources disponibles (à récupérer depuis le contrôleur)
     Ressource[] ressourceList = (Ressource[]) request.getAttribute("ressourceList");
@@ -9,7 +9,7 @@
     <div class="row justify-content-center">
         <div class="col-8 bg-light p-4 rounded">
             <h2 class="text-center mb-4" style="color: #FFC107;">Création d'une Formule de Production</h2>
-            <form action="formuleProduction" method="post" class="needs-validation" novalidate>
+            <form action="formule" method="post" class="needs-validation" novalidate>
                 
                 <!-- Description de la formule -->
                 <div class="form-group">

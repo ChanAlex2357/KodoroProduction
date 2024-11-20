@@ -49,11 +49,19 @@ public class FormuleProductionServlet extends HttpServlet {
         Connection conn = new UtilDB().GetConn();
         FormuleProduction formule = null;
         try {
+            conn.setAutoCommit(false);
             AdminFormuleProduction adminFormuleProduction = new AdminFormuleProduction(description, idRessources, quantites);
             formule = adminFormuleProduction.genererFormule(conn);
+            
+            conn.commit();
+            request.setAttribute("message", "La formule a été créée avec succès !");
+            request.setAttribute("formule", formule);
+            DispatcherUtils.dispatchToTemplate("formuleConfirmation.jsp",response,request);
         } 
         catch (Exception e) {
-            e.printStackTrace();
+            try {
+                conn.rollback();
+            } catch (Exception e1) {e1.printStackTrace();}
             DispatcherUtils.dispatchToError(e.getMessage(),"formule", response, request);
         }
         finally {
@@ -62,9 +70,8 @@ public class FormuleProductionServlet extends HttpServlet {
             } catch (Exception e) {e.printStackTrace();}
         }
         // Affiche une confirmation
-        request.setAttribute("message", "La formule a été créée avec succès !");
-        request.setAttribute("formule", formule);
+        
         // Redirige vers une page de confirmation ou un récapitulatif
-        DispatcherUtils.dispatchToTemplate("formuleConfirmation.jsp",response,request);
+        response.sendRedirect("formule");
     }
 }
