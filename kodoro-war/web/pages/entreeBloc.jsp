@@ -1,12 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <%@ page import="mg.kodoro.models.Bloc" %>
 <%@ page import="mg.kodoro.models.production.Machine" %>
 <%
     // Retrieve the list of blocs directly in JSP
-    Bloc[] blocList = (Bloc[]) request.getAttribut("bloclist");
-    Bloc[] blocOriginals = (Bloc[]) request.getAttribut("originals");
-    Machine [] machines = (Machine[]) request.getAttribut("machines");
+    Bloc[] blocList = (Bloc[]) request.getAttribute("bloclist");
+    Bloc[] blocOriginals = (Bloc[]) request.getAttribute("originals");
+    Machine [] machines = (Machine[]) request.getAttribute("machines");
 %>
 
 <section class="container mt-5">

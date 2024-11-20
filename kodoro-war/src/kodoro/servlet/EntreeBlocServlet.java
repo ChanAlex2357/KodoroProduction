@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import kodoro.utils.DispatcherUtils;
 import mg.kodoro.models.Bloc;
 import utilitaire.UtilDB;
+import mg.kodoro.models.production.AdminProduction;
 import mg.kodoro.models.production.Machine;
 
 
@@ -50,18 +51,14 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     Connection local = new UtilDB().GetConn();
     // Connection remote = DbUtils.getRemoteConn();
     try {
-
-        Bloc bloc = new Bloc(longueurStr, largeurStr, epaisseurStr, dateFabricationStr, prixFabricationStr);
-        Machine machine = Machine.getById(idMachine, local);
-
-        machine.produire(bloc, local);
         // Desactiver l'autocommit
         local.setAutoCommit(false);
-        // remote.setAutoCommit(false);
-        // bloc.createObject(local);
+
+        AdminProduction adminProduction = new AdminProduction(longueurStr, largeurStr, epaisseurStr, dateFabricationStr, prixFabricationStr, idMachine);
+        adminProduction.produire(local);
         // Commiter les changements
         local.commit();
-        // remote.commit();
+       
     } catch (Exception e) {
         try {
             local.rollback();

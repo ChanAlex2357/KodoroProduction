@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.models.blockggen.DataBloc;
 import mg.kodoro.models.dimension.ClassDimension;
 import mg.kodoro.models.production.Production;
 import mg.kodoro.models.pricing.PrixMannagement;
@@ -456,6 +457,13 @@ public String toString() {
             return prod[0];
         }
         return null;
+    }
+
+    public static Bloc randomBLoc(Connection conn) throws Exception{
+        DataBloc dataBloc = new DataBloc();
+        GenerateurBloc gen = new GenerateurBloc(dataBloc);
+        Bloc bloc = new Bloc(gen, conn);
+        return bloc;
     }
 
 }
