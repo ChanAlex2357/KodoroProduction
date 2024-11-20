@@ -29,12 +29,9 @@ public class Production extends MaClassMAPTable{
         controllerRelations(c);
         controllerFormule(c);
         controllerPrPratique(c);
-        calculerPrixDeRevientTheorique(c);
-    
+        calculerPrixDeRevientTheorique(c);    
         // Si le bloc n'a pas encore d'ID, le persister d'abord
-        if (this.getBlocProduit(c).getIdBloc() == null) {
-            this.getBlocProduit(c).createObject(c);
-        }
+        this.getBlocProduit(c).createObject(c);
         return (Production) super.createObject(c);
     }
     public String getIdProduction() {
