@@ -10,29 +10,52 @@ public class DataBloc {
     double aMin;
     double aMax;
     double marge;
+    public  DataBloc(){
+        // LONG
+        setLMin(5);
+        setLMax(7);
+        // LARGE
+        setlMin(20);
+        setlMax(25);
+        // EP
+        seteMin(10);
+        seteMax(15);
+        // ANNEE
+        setaMin(2022);
+        setaMax(2024);
 
+        setMarge(10);
+    }
     public DataBloc( double LMin, double LMax, double lMin, double lMax,
     double eMin, double eMax, double aMin, double aMax, double marge){
-        setLMax(lMax);
-        setLMin(lMin);
+        setLMin(LMin);
+        setLMax(LMax);
+        
         setlMin(lMin);
         setlMax(lMax);
+        
         seteMin(eMin);
         seteMax(eMax);
+        
         setaMin(aMin);
         setaMax(aMax);
+        
         setMarge(marge);
     }
     public DataBloc( String LMin, String LMax, String lMin, String lMax,
     String eMin, String eMax, String aMin, String aMax, String marge){
-        setLMax(lMax);
-        setLMin(lMin);
+        setLMin(LMin);
+        setLMax(LMax);
+
         setlMin(lMin);
         setlMax(lMax);
+        
         seteMin(eMin);
         seteMax(eMax);
+        
         setaMin(aMin);
         setaMax(aMax);
+        
         setMarge(marge);
     }
 

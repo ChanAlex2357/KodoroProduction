@@ -1,12 +1,9 @@
 package mg.kodoro.models.production;
 
 import java.sql.Connection;
-import java.sql.SQLException;
-
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
 import mg.kodoro.models.Bloc;
-import utilitaire.UtilDB;
 
 public class Machine extends MaClassMAPTable{
     protected String idMachine;
@@ -18,13 +15,13 @@ public class Machine extends MaClassMAPTable{
     }
 
     public Machine(){setNomTable("Machine");}
+    public Machine(String desce){setDesce(desce);}
 
     public Production genererProduction(Bloc blocProduit , Connection conn) throws Exception {
         Production prod = new Production();
         prod.setBlocProduit(blocProduit);
         prod.setMachineProduction(this);
         prod.setFormuleDeProduction(formuleProduction);
-
         return prod.createObject(conn);
     }
     public Production produire(Bloc blocProduit , Connection conn) throws Exception {
@@ -33,6 +30,12 @@ public class Machine extends MaClassMAPTable{
         }
         Production prod = genererProduction(blocProduit,conn);
         return prod;
+    }
+
+    @Override
+    public MaClassMAPTable createObject(Connection c) throws Exception {
+        setNomTable("Machine");
+        return super.createObject(c);
     }
     @Override
     public String getAttributIDName() {
@@ -65,22 +68,9 @@ public class Machine extends MaClassMAPTable{
         this.desce = desce;
     }
 
-    public static Machine[] getAllMachines(){
-        Machine[] blocs = new Machine[0];
-        Connection conn = new UtilDB().GetConn();
-        try {
-            blocs = (Machine[]) CGenUtil.rechercher(new Machine() , null , null , conn , "");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } 
-        finally {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return blocs;
+    public static Machine[] getAllMachines(Connection conn) throws Exception{
+        Machine[] machines = (Machine[]) CGenUtil.rechercher(new Machine() , null , null , conn , "");
+        return machines;
     }
 
     public static Machine getById(String idMachine, Connection conn) throws Exception {

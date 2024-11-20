@@ -18,7 +18,7 @@ public class AdminEstimation {
         this.estimations = estimations;
     }
     public static AdminEstimation getEstimations(Connection conn) throws Exception{
-        Bloc[] blocs = Bloc.getAllBlocOriginal();
+        Bloc[] blocs = Bloc.getAllBlocOriginal(conn);
         AdminEstimation adminEstimation =  new AdminEstimation();
         for (Bloc bloc : blocs) {
             EstimationVente estimationVente =  new EstimationVente(bloc,conn);

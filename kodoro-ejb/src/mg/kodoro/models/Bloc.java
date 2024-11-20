@@ -4,18 +4,16 @@ import java.sql.Date;
 
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.models.blockggen.DataBloc;
 import mg.kodoro.models.dimension.ClassDimension;
 import mg.kodoro.models.production.Production;
 import mg.kodoro.models.pricing.PrixMannagement;
 import mg.kodoro.models.transformation.TransformationLib;
 import mg.kodoro.utils.ValidationUtils;
-import mg.kodoro.utils.blockggen.BlocStat;
 import mg.kodoro.utils.blockggen.GenerateurBloc;
-import utilitaire.UtilDB;
 import utils.TimeUtils;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -31,38 +29,26 @@ public class Bloc extends ClassDimension implements PrixMannagement{
     protected TransformationLib[] transformations;
     protected Bloc[] restes ;
     protected Production production;
-    protected static BlocStat blocStat;
-    
-    public static BlocStat getBlocStat(Connection conn) throws Exception {
-        if (Bloc.blocStat == null) {
-            Bloc.setBlocStat(BlocStat.getBlocStat(conn));
-        }
-        return Bloc.blocStat;
-    }
-
-    protected static void setBlocStat(BlocStat blocStat) {
-        Bloc.blocStat = blocStat;
-    }
 
     public String getDesceVolume(){
         return this.getIdBloc()+" - "+this.getVolume()+" m³";
     }
 
     @Override
-public String toString() {
-    return "Bloc{" +
-            "idBloc='" + idBloc + '\'' +
-            ", description='" + desce + '\'' +
-            ", longueur=" + longueur +
-            ", largeur=" + largeur +
-            ", epaisseur=" + epaisseur +
-            ", volume=" + this.getVolume() +
-            ", dateFabrication=" + (dateFabrication != null ? new SimpleDateFormat("yyyy-MM-dd").format(dateFabrication) : "null") +
-            ", prixFabrication=" + prixFabrication +
-            ", idOriginalSource='" + idOriginalSource + '\'' +
-            ", idParentSource='" + idParentSource + '\'' +
-            '}';
-}
+    public String toString() {
+        return "Bloc{" +
+                "idBloc='" + idBloc + '\'' +
+                ", description='" + desce + '\'' +
+                ", longueur=" + longueur +
+                ", largeur=" + largeur +
+                ", epaisseur=" + epaisseur +
+                ", volume=" + this.getVolume() +
+                ", dateFabrication=" + (dateFabrication != null ? new SimpleDateFormat("yyyy-MM-dd").format(dateFabrication) : "null") +
+                ", prixFabrication=" + prixFabrication +
+                ", idOriginalSource='" + idOriginalSource + '\'' +
+                ", idParentSource='" + idParentSource + '\'' +
+                '}';
+    }
 
     public Bloc(){
         setNomTable("BLOC");
@@ -205,7 +191,7 @@ public String toString() {
     @Override
     public MaClassMAPTable createObject(Connection c) throws Exception {
         setNomTable("BLOC");
-        controlerTaille();
+        // controlerTaille();
         controlerVolume();
         if (this.getTuppleID() == null || this.getTuppleID().compareToIgnoreCase("") == 0 || this.getTuppleID().compareToIgnoreCase("0") == 0) {
             this.construirePK(c);
@@ -230,38 +216,12 @@ public String toString() {
     }
     
 
-    static public Bloc[] getAllBlocs(){
-        Bloc[] blocs = new Bloc[0];
-        Connection conn = new UtilDB().GetConn();
-        try {
-            blocs = (Bloc[]) CGenUtil.rechercher(new Bloc() , null , null , conn , "");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } 
-        finally {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    static public Bloc[] getAllBlocs(Connection conn) throws Exception{
+        Bloc[] blocs = (Bloc[]) CGenUtil.rechercher(new Bloc() , null , null , conn , "");
         return blocs;
     }
-    static public Bloc[] getAllBlocOriginal(){
-        Bloc[] blocs = new Bloc[0];
-        Connection conn = new UtilDB().GetConn();
-        try {
-            blocs = (Bloc[]) CGenUtil.rechercher(new Bloc() , null , null , conn , " and (idparentsource is null and idoriginalsource is null) ");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } 
-        finally {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    static public Bloc[] getAllBlocOriginal(Connection conn)throws Exception{
+        Bloc[] blocs =(Bloc[]) CGenUtil.rechercher(new Bloc() , null , null , conn , " and (idparentsource is null and idoriginalsource is null) ");
         return blocs;
     }
     public double getPrixUnitaireVolume(){
@@ -456,6 +416,13 @@ public String toString() {
             return prod[0];
         }
         return null;
+    }
+
+    public static Bloc randomBLoc(Connection conn) throws Exception{
+        DataBloc dataBloc = new DataBloc();
+        GenerateurBloc gen = new GenerateurBloc(dataBloc);
+        Bloc bloc = new Bloc(gen, conn);
+        return bloc;
     }
 
 }

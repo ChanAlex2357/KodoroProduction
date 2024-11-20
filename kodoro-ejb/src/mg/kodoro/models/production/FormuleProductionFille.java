@@ -4,8 +4,9 @@ import java.sql.Connection;
 
 import mg.kodoro.bean.MaClassMAPTable;
 import mg.kodoro.models.annexe.Ressource;
+import mg.kodoro.utils.ValidationUtils;
 
-public class FromuleProductionFille extends MaClassMAPTable {
+public class FormuleProductionFille extends MaClassMAPTable {
     protected String idFormuleProductionFille;
     protected String idFormuleProduction;
     protected String idRessource;
@@ -22,11 +23,20 @@ public class FromuleProductionFille extends MaClassMAPTable {
         return this.ressource;
     }
 
-    public FromuleProductionFille(){setNomTable("FromuleProductionFille");}
+    public FormuleProductionFille(){setNomTable("FormuleProductionFille");}
+    public FormuleProductionFille(String idRessource , String quantite){
+        setIdRessource(idRessource);
+        setQuantite(quantite);
+    }
+    
+
+    public void setQuantite(String quantite) {
+        setQuantite(ValidationUtils.validatePositiveStringInt(quantite));
+    }
 
     @Override
     public MaClassMAPTable createObject(Connection c) throws Exception {
-        setNomTable("FromuleProductionFille");
+        setNomTable("FormuleProductionFille");
         // Controle de donnee
         controlerFormule();
         return super.createObject(c);
@@ -39,7 +49,7 @@ public class FromuleProductionFille extends MaClassMAPTable {
     }
     @Override
     public void construirePK(Connection c) throws Exception {
-        preparePk("DFO", "GET_formule_prod_fille_seq");
+        preparePk("DFO", "GET_FORMULE_PROD_FILLE_SEQ");
         setIdFormuleProductionFille(makePK(c));
     }
     @Override

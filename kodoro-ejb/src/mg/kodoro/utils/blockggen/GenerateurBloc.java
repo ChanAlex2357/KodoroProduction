@@ -19,6 +19,18 @@ public class GenerateurBloc {
     private IntegerSeeds intervalleEpaisseur;
     private MargeSeeds   margeSeeds;
     private DateSeeds intervalleAnnee;
+    protected  BlocStat blocStat;
+    
+    public  BlocStat getBlocStat(Connection conn) throws Exception {
+        if (blocStat == null) {
+            setBlocStat(BlocStat.getBlocStat(conn));
+        }
+        return blocStat;
+    }
+
+    protected  void setBlocStat(BlocStat blocStat) {
+        this.blocStat = blocStat;
+    }
 
     public GenerateurBloc(DataBloc dataBloc) {
         setDataBloc(dataBloc);
@@ -43,7 +55,7 @@ public class GenerateurBloc {
     }
     public double genererPrixDeRevient(Connection conn) throws Exception {
         // ! Recupere la moyenne des prix de revients des blocs originels actuelles
-        double avgPrixDeRevient = Bloc.getBlocStat(conn).getPrixDeRevientMoyenne();
+        double avgPrixDeRevient = getBlocStat(conn).getPrixDeRevientMoyenne();
         double randMarge = getMargeSeeds().generatePourcentage();
         double taux = avgPrixDeRevient * randMarge;
         System.out.println("RAND MARGE : "+randMarge);

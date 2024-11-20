@@ -4,27 +4,39 @@ import java.sql.Connection;
 
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
+import utilitaire.UtilDB;
 
 public class FormuleProduction extends MaClassMAPTable{
     protected String idFormuleProduction;
     protected String desce;
     protected double prixDeRevient;
-    protected FromuleProductionFille[] detailsFormule;
-
-    
+    protected FormuleProductionFille[] detailsFormule;
     public FormuleProduction(){setNomTable("FormuleProduction");}
     
-    public FromuleProductionFille[] getDetailsFormule(Connection conn) throws Exception {
+
+    public FormuleProductionFille[] getDetailsFormule() {
+        Connection conn = new UtilDB().GetConn();
+        try {
+            return getDetailsFormule(conn);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {conn.close();}catch(Exception e) {}
+        }
+        return null;
+    }
+    public FormuleProductionFille[] getDetailsFormule(Connection conn) throws Exception {
         if (detailsFormule != null && detailsFormule.length > 0) {
             return this.detailsFormule;
         }
-        FromuleProductionFille ref = new FromuleProductionFille();
+        FormuleProductionFille ref = new FormuleProductionFille();
         ref.setIdFormuleProduction(this.getIdFormuleProduction());
-        FromuleProductionFille [] details = (FromuleProductionFille []) CGenUtil.rechercher(ref,null,null,conn,"");
+        FormuleProductionFille [] details = (FormuleProductionFille []) CGenUtil.rechercher(ref,null,null,conn,"");
         setDetailsFormule(details);
         return this.detailsFormule;
     }
-    public void setDetailsFormule(FromuleProductionFille[] detailsFormule) {
+    public void setDetailsFormule(FormuleProductionFille[] detailsFormule) {
         this.detailsFormule = detailsFormule;
     }
 
@@ -46,15 +58,17 @@ public class FormuleProduction extends MaClassMAPTable{
     public MaClassMAPTable createObject(Connection c) throws Exception {
         setNomTable("FormuleProduction");
         construirePK(c);
+        super.createObject(c);
         // Calculer le prix de revient du formule au moment de la creation du formule
         double pr = 0;
-        for (FromuleProductionFille fromuleProductionFille : this.getDetailsFormule(c)) {
-            fromuleProductionFille.setIdFormuleProduction(this.getIdFormuleProduction());
-            pr += fromuleProductionFille.getMontantPrixRevient(c); // Sommer le prix de revient du detail
-            fromuleProductionFille.createObject(c); // Save le detail de formule
+        for (FormuleProductionFille formuleFille : this.getDetailsFormule(c)) {
+            formuleFille.setIdFormuleProduction(this.getIdFormuleProduction());
+            pr += formuleFille.getMontantPrixRevient(c); // Sommer le prix de revient du detail
+            formuleFille.createObject(c); // Save le detail de formule
         }
         this.setPrixDeRevient(pr);
-        return super.createObject(c);
+        updateToTable(c);
+        return this;
     }
     @Override
     public String getAttributIDName() {

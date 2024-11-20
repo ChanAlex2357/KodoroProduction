@@ -2,8 +2,10 @@ package mg.kodoro.models.annexe;
 
 import java.sql.Connection;
 
+
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.utils.ValidationUtils;
 
 public class Ressource extends MaClassMAPTable{
     protected String idRessource;
@@ -11,6 +13,16 @@ public class Ressource extends MaClassMAPTable{
     protected String idUnite;
     protected double puAchat;
     protected Unite unite;
+    public Ressource () {setNomTable("Ressource");}
+    public Ressource(String desce , String puAchat , String idUnite) {
+        setDesce(desce);
+        setPuAchat(puAchat);
+        setIdUnite(idUnite);
+    }
+
+    private void setPuAchat(String puAchat) {
+        setPuAchat( ValidationUtils.validatePositiveStringDouble(puAchat));
+    }
 
     public static Ressource getById(String idRessource, Connection conn) throws Exception {
         Ressource ref = new Ressource();
@@ -22,6 +34,11 @@ public class Ressource extends MaClassMAPTable{
         return ressources[0];
     }
     
+    @Override
+    public MaClassMAPTable createObject(Connection c) throws Exception {
+        setNomTable("Ressource");
+        return super.createObject(c);
+    }
     @Override
     public void construirePK(Connection c) throws Exception {
         preparePk("RES", "GET_RESSOURCE_SEQ");
@@ -67,5 +84,9 @@ public class Ressource extends MaClassMAPTable{
 
     public void setPuAchat(double puAchat) {
         this.puAchat = puAchat;
+    }
+    public static Ressource[] getAllRessources(Connection conn) throws Exception {
+        Ressource[] ressources = (Ressource[]) CGenUtil.rechercher(new Ressource() ,null , null , conn , "");
+        return ressources.length<=0 ?  null:ressources;
     }
 }

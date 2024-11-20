@@ -1,10 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <%@ page import="mg.kodoro.models.Bloc" %>
+<%@ page import="mg.kodoro.models.production.Machine" %>
 <%
     // Retrieve the list of blocs directly in JSP
-    Bloc[] blocList = Bloc.getAllBlocs();
-    Bloc[] blocOriginals = Bloc.getAllBlocOriginal();
+    Bloc[] blocList = (Bloc[]) request.getAttribute("bloclist");
+    Bloc[] blocOriginals = (Bloc[]) request.getAttribute("originals");
+    Machine [] machines = (Machine[]) request.getAttribute("machines");
 %>
 
 <section class="container mt-5">
@@ -47,6 +48,19 @@
                     <select class="form-select" id="machine"name="machine" required>
                         <option value="" disabled selected>Choisissez une Machine</option>
                         <!-- BOUCLE POUR LES CHOIX DE MACHINES -->
+                        <%
+                            if (machines != null && machines.length > 0) {
+                                for (Machine mac : machines) {
+                        %>
+                                    <option value="<%= mac.getIdMachine() %>"><%= mac.getIdMachine() %> - <%= mac.getDesce() %></option>
+                        <%
+                                }
+                            } else {
+                        %>
+                                <option value="" disabled>Aucune mac disponible</option>
+                        <%
+                            }
+                        %>
                     </select>
                 </div>
         

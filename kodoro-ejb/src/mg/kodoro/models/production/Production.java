@@ -20,18 +20,36 @@ public class Production extends MaClassMAPTable{
     public Production(){
         setNomTable("Production");
     }
+    @Override
+    public String toString() {
+        return "Production {" +
+            "idProduction='" + idProduction + '\'' +
+            ", idBloc='" + idBloc + '\'' +
+            ", idMachine='" + idMachine + '\'' +
+            ", idFormuleProduction='" + idFormuleProduction + '\'' +
+            ", dateProduction=" + dateProduction +
+            ", prTheorique=" + prTheorique +
+            ", prPratique=" + prPratique +
+            ", blocProduit=" + (blocProduit != null ? blocProduit.toString() : "null") +
+            ", machineProduction=" + (machineProduction != null ? machineProduction.toString() : "null") +
+            ", formuleDeProduction=" + (formuleDeProduction != null ? formuleDeProduction.toString() : "null") +
+        '}';
+    }
 
     @Override
     public Production createObject(Connection c) throws Exception {
         setNomTable("Production");
+        // Si le bloc n'a pas encore d'ID, le persister d'abord
+        if (this.getBlocProduit(c).getIdBloc() == null) {
+            this.getBlocProduit(c).createObject(c);
+        }
         // Controler les donnees
-        controllerDateProduction();
+        controllerDateProduction(c);
         controllerRelations(c);
         controllerFormule(c);
         controllerPrPratique(c);
-        calculerPrixDeRevientTheorique(c);    
-        // Si le bloc n'a pas encore d'ID, le persister d'abord
-        this.getBlocProduit(c).createObject(c);
+        calculerPrixDeRevientTheorique(c);
+        System.out.println(this);
         return (Production) super.createObject(c);
     }
     public String getIdProduction() {
@@ -128,12 +146,17 @@ public class Production extends MaClassMAPTable{
     public String getTuppleID() {
         return this.getIdProduction();
     }
+    @Override
+    public void construirePK(Connection c) throws Exception {
+        preparePk("PRD", "GET_PRODUCTION_SEQ");
+        setIdProduction( makePK(c));
+    }
     // ------------------------------------------------------------
         
     
-        private void controllerDateProduction() throws Exception {
+        private void controllerDateProduction(Connection conn) throws Exception {
             if (this.dateProduction == null) {
-                this.dateProduction = this.getBlocProduit(null).getDateFabrication();
+                this.dateProduction = this.getBlocProduit(conn).getDateFabrication();
             }
         }
     
