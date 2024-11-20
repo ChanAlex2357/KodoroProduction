@@ -5,7 +5,6 @@ import java.sql.Date;
 
 import mg.kodoro.bean.MaClassMAPTable;
 import mg.kodoro.models.Bloc;
-
 public class Production extends MaClassMAPTable{
     protected String idProduction;
     protected String idBloc;
@@ -26,6 +25,16 @@ public class Production extends MaClassMAPTable{
     public Production createObject(Connection c) throws Exception {
         setNomTable("Production");
         // Controler les donnees
+        controllerDateProduction();
+        controllerRelations(c);
+        controllerFormule(c);
+        controllerPrPratique(c);
+        calculerPrixDeRevientTheorique(c);
+    
+        // Si le bloc n'a pas encore d'ID, le persister d'abord
+        if (this.getBlocProduit(c).getIdBloc() == null) {
+            this.getBlocProduit(c).createObject(c);
+        }
         return (Production) super.createObject(c);
     }
     public String getIdProduction() {
@@ -78,7 +87,7 @@ public class Production extends MaClassMAPTable{
         setBlocProduit(b);
         return this.blocProduit;
     }
-    protected void setBlocProduit(Bloc blocProduit) {
+    public void setBlocProduit(Bloc blocProduit) {
         if (blocProduit.getIdBloc() != this.getIdBloc()) {
             setIdBloc(blocProduit.getIdBloc());
         }
@@ -122,5 +131,53 @@ public class Production extends MaClassMAPTable{
     public String getTuppleID() {
         return this.getIdProduction();
     }
+    // ------------------------------------------------------------
+        
     
+        private void controllerDateProduction() throws Exception {
+            if (this.dateProduction == null) {
+                this.dateProduction = this.getBlocProduit(null).getDateFabrication();
+            }
+        }
+    
+        private void controllerRelations(Connection conn) throws Exception {
+            if (this.idBloc == null) {
+                this.idBloc = this.getBlocProduit(conn).getIdBloc();
+            }
+            if (this.idMachine == null) {
+                this.idMachine = this.getMachineProduction(conn).getIdMachine();
+            }
+        }
+    
+        private void controllerFormule(Connection conn) throws Exception {
+            if (this.idFormuleProduction == null) {
+                // Récupérer la première formule de production dans la base
+                FormuleProduction formule = FormuleProduction.getById(null, conn);
+                if (formule != null) {
+                    this.idFormuleProduction = formule.getIdFormuleProduction();
+                } else {
+                    throw new Exception("Aucune formule de production trouvée.");
+                }
+            }
+        }
+    
+        private void controllerPrPratique(Connection conn) throws Exception {
+            if (this.prPratique == 0) {
+                Bloc bloc = this.getBlocProduit(conn);
+                this.prPratique = bloc.getPrixFabrication();
+            }
+        }
+    
+        private void calculerPrixDeRevientTheorique(Connection conn) throws Exception {
+            FormuleProduction formule = this.getFormuleDeProduction(null);
+            double pruFormule = formule.getPrixDeRevient();
+            Bloc bloc = this.getBlocProduit(conn);
+            this.prTheorique = bloc.getVolume() * pruFormule;
+        }
+    
+        public void updatePrPratique(Connection conn) throws Exception {
+            Bloc bloc = this.getBlocProduit(conn);
+            this.prPratique = bloc.getPrixFabrication();
+            this.updateToTable(conn); // Mettre à jour dans la base
+        }
 }
