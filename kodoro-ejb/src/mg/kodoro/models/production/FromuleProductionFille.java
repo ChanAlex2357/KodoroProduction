@@ -3,12 +3,25 @@ package mg.kodoro.models.production;
 import java.sql.Connection;
 
 import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.models.annexe.Ressource;
 
 public class FromuleProductionFille extends MaClassMAPTable {
     protected String idFormuleProductionFille;
     protected String idFormuleProduction;
+    protected String idRessource;
     protected double quantite;
     
+    protected Ressource ressource;
+    
+    public Ressource getRessource(Connection conn) throws Exception {
+        if (this.ressource !=  null) {
+            return this.ressource;
+        }
+        Ressource res = Ressource.getById(this.getIdRessource(), conn);
+        setRessource(res);
+        return this.ressource;
+    }
+
     public FromuleProductionFille(){setNomTable("FromuleProductionFille");}
 
     @Override
@@ -54,5 +67,19 @@ public class FromuleProductionFille extends MaClassMAPTable {
     public void setQuantite(double quantite) {
         this.quantite = quantite;
     }
-    
+    public String getIdRessource() {
+        return idRessource;
+    }
+    public void setIdRessource(String idRessource) {
+        this.idRessource = idRessource;
+    }
+
+    public void setRessource(Ressource ressource) {
+        this.ressource = ressource;
+    }
+    public double  getMontantPrixRevient(Connection conn) throws Exception{
+        double rpa = this.getRessource(conn).getPuAchat();
+        double pr = rpa * this.getQuantite();
+        return pr;
+    }
 }

@@ -2,6 +2,7 @@ package mg.kodoro.models.annexe;
 
 import java.sql.Connection;
 
+import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
 
 public class Ressource extends MaClassMAPTable{
@@ -11,6 +12,15 @@ public class Ressource extends MaClassMAPTable{
     protected double puAchat;
     protected Unite unite;
 
+    public static Ressource getById(String idRessource, Connection conn) throws Exception {
+        Ressource ref = new Ressource();
+        ref.setIdRessource(idRessource);
+        Ressource[] ressources = (Ressource[])CGenUtil.rechercher(ref,null,null,conn,"");
+        if (ressources.length < 0) {
+            ressources = (Ressource[])CGenUtil.rechercher(new Ressource(),null,null,conn,"");
+        }
+        return ressources[0];
+    }
     
     @Override
     public void construirePK(Connection c) throws Exception {

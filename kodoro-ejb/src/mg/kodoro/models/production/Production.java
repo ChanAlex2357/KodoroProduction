@@ -3,7 +3,6 @@ package mg.kodoro.models.production;
 import java.sql.Connection;
 import java.sql.Date;
 
-import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
 import mg.kodoro.models.Bloc;
 
