@@ -3,9 +3,9 @@ package mg.kodoro.utils.blockggen;
 import java.sql.Connection;
 
 import bean.CGenUtil;
-import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.bean.ViewClassMAPTable;
 
-public class BlocStat extends MaClassMAPTable{
+public class BlocStat extends ViewClassMAPTable{
     private double prixDeRevientMoyenne;
     public BlocStat(){
         setNomTable("v_prblocoriginel");
@@ -20,21 +20,5 @@ public class BlocStat extends MaClassMAPTable{
 
     public void setPrixDeRevientMoyenne(double prixDeRevientMoyenne) {
         this.prixDeRevientMoyenne = prixDeRevientMoyenne;
-    }
-
-    @Override
-    public MaClassMAPTable createObject(Connection localconn, Connection remoteconn) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createObject'");
-    }
-    @Override
-    public String getAttributIDName() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAttributIDName'");
-    }
-    @Override
-    public String getTuppleID() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTuppleID'");
     }
 }
