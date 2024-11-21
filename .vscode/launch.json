@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Data",
+            "request": "launch",
+            "mainClass": "mg.kodoro.Data",
+            "projectName": "KodoroProduction_20ac2798"
+        },
+        {
+            "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "Main",

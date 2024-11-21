@@ -133,3 +133,59 @@ CREATE TABLE Production(
    FOREIGN KEY(idBloc) REFERENCES Bloc(idBloc),
    FOREIGN KEY(idMachine) REFERENCES Machine(idMachine)
 );
+
+
+CREATE TABLE TypeMvt(
+   IdTypeMvt VARCHAR2(255) ,
+   val VARCHAR2(255) ,
+   desce VARCHAR2(255)  NOT NULL,
+   PRIMARY KEY(IdTypeMvt)
+);
+
+CREATE TABLE TypeProduit(
+   idTypeProduit VARCHAR2(255) ,
+   val VARCHAR2(255) ,
+   desce VARCHAR2(255) ,
+   PRIMARY KEY(idTypeProduit)
+);
+
+CREATE TABLE Produit(
+   idProduit VARCHAR2(255) ,
+   desce VARCHAR2(255)  NOT NULL,
+   puAchat NUMBER(15,2)  ,
+   puVente NUMBER(15,2)  ,
+   estAchat NUMBER(1),
+   estVente NUMBER(1),
+   idUnite VARCHAR2(255)  NOT NULL,
+   idTypeProduit VARCHAR2(255)  NOT NULL,
+   PRIMARY KEY(idProduit),
+   FOREIGN KEY(idUnite) REFERENCES Unite(idUnite),
+   FOREIGN KEY(idTypeProduit) REFERENCES TypeProduit(idTypeProduit)
+);
+
+CREATE TABLE Achat(
+   idAchat VARCHAR2(255) ,
+   quantite VARCHAR2(255)  NOT NULL,
+   dateAchat DATE NOT NULL,
+   idProduit VARCHAR2(255)  NOT NULL,
+   PRIMARY KEY(idAchat),
+   FOREIGN KEY(idProduit) REFERENCES Produit(idProduit)
+);
+
+CREATE TABLE MvtStock(
+   idMvtStock VARCHAR2(255) ,
+   entree NUMBER(15,2)  ,
+   sortie NUMBER(15,2)  ,
+   dateMvtStock DATE NOT NULL,
+   idVente VARCHAR2(255) ,
+   idAchat VARCHAR2(255) ,
+   idTransfert VARCHAR2(255) ,
+   motif VARCHAR2(255) ,
+   puVente NUMBER(15,2)  ,
+   puAchat NUMBER(15,2)  ,
+   idProduit VARCHAR2(255)  NOT NULL,
+   IdTypeMvt VARCHAR2(255)  NOT NULL,
+   PRIMARY KEY(idMvtStock),
+   FOREIGN KEY(idProduit) REFERENCES Produit(idProduit),
+   FOREIGN KEY(IdTypeMvt) REFERENCES TypeMvt(IdTypeMvt)
+);

@@ -168,3 +168,77 @@ BEGIN
    RETURN retour;
 END;
 /
+
+
+-- ! DROP SEQUENCE type_mvt_seq;
+CREATE SEQUENCE type_mvt_seq START WITH 1 INCREMENT BY 1;
+
+-- Fonction pour récupérer le prochain numéro de séquence pour Production
+CREATE OR REPLACE FUNCTION GET_TYPE_MVT_SEQ
+   RETURN NUMBER
+IS
+   retour NUMBER;
+BEGIN
+   SELECT type_mvt_seq.NEXTVAL INTO retour FROM DUAL;
+   RETURN retour;
+END;
+/
+
+
+-- ! DROP SEQUENCE type_produit_seq;
+CREATE SEQUENCE type_produit_seq START WITH 1 INCREMENT BY 1;
+
+-- Fonction pour récupérer le prochain numéro de séquence pour Production
+CREATE OR REPLACE FUNCTION GET_TYPE_PRODUIT_SEQ
+   RETURN NUMBER
+IS
+   retour NUMBER;
+BEGIN
+   SELECT type_produit_seq.NEXTVAL INTO retour FROM DUAL;
+   RETURN retour;
+END;
+/
+
+-- ! DROP SEQUENCE produit_seq;
+CREATE SEQUENCE produit_seq START WITH 1 INCREMENT BY 1;
+
+-- Fonction pour récupérer le prochain numéro de séquence pour Production
+CREATE OR REPLACE FUNCTION GET_PRODUIT_SEQ
+   RETURN NUMBER
+IS
+   retour NUMBER;
+BEGIN
+   SELECT produit_seq.NEXTVAL INTO retour FROM DUAL;
+   RETURN retour;
+END;
+/
+
+-- ! DROP SEQUENCE mvt_stock_seq;
+CREATE SEQUENCE mvt_stock_seq START WITH 1 INCREMENT BY 1;
+
+-- Fonction pour récupérer le prochain numéro de séquence pour Production
+CREATE OR REPLACE FUNCTION GET_MVT_STOCK_SEQ
+   RETURN NUMBER
+IS
+   retour NUMBER;
+BEGIN
+   SELECT mvt_stock_seq.NEXTVAL INTO retour FROM DUAL;
+   RETURN retour;
+END;
+/
+
+
+
+-- ! DROP SEQUENCE achat_seq;
+CREATE SEQUENCE achat_seq START WITH 1 INCREMENT BY 1;
+
+-- Fonction pour récupérer le prochain numéro de séquence pour Production
+CREATE OR REPLACE FUNCTION GET_ACHAT_SEQ
+   RETURN NUMBER
+IS
+   retour NUMBER;
+BEGIN
+   SELECT achat_seq.NEXTVAL INTO retour FROM DUAL;
+   RETURN retour;
+END;
+/
