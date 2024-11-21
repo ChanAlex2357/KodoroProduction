@@ -5,23 +5,21 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kodoro.utils.DispatcherUtils;
-import mg.kodoro.models.Bloc;
 import mg.kodoro.models.achat.Achat;
 import mg.kodoro.models.annexe.Produit;
-import mg.kodoro.models.production.AdminProduction;
-import mg.kodoro.models.production.Machine;
 import utilitaire.UtilDB;
 
+@WebServlet(name = "AchatServlet" , urlPatterns = "/achat")
 public class AchatServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Produit[] produits = null;
-
         Connection conn = new UtilDB().GetConn();
         try {
             produits = Produit.getAllProduits(conn);
@@ -35,7 +33,6 @@ public class AchatServlet extends HttpServlet{
                 e.printStackTrace();
             }
         }
-
         req.setAttribute("produits", produits);
         DispatcherUtils.dispatchToTemplate("achat.jsp", resp, req);
     }

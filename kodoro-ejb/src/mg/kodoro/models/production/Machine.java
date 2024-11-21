@@ -17,6 +17,23 @@ public class Machine extends MaClassMAPTable{
     public Machine(){setNomTable("Machine");}
     public Machine(String desce){setDesce(desce);}
 
+    public static Machine findMachine(Machine[] machines , String desce){
+        for (Machine machine : machines) {
+            if (machine.getDesce().equals(desce)) {
+                return machine;
+            }
+        }
+        return null;
+    }
+    public Machine getMachineByDesce(String desce , Connection conn) throws Exception{
+        Machine ref = new Machine();
+        ref.setDesce(desce);
+        Machine[] machines = (Machine[])CGenUtil.rechercher(ref,null,null,conn,"");
+        if (machines.length < 0) {
+            machines = (Machine[])CGenUtil.rechercher(new Machine(),null,null,conn,"");
+        }
+        return machines[0];
+    }
     public Production genererProduction(Bloc blocProduit , Connection conn) throws Exception {
         Production prod = new Production();
         prod.setBlocProduit(blocProduit);
