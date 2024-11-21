@@ -18,7 +18,7 @@ public class PerformanceMachine extends ViewClassMAPTable{
         setNomTable("PerformanceMachine");
     }
     public double getEcart(){
-        return this.getPerfPratique() - this.getPerfTheorique();
+        return Math.abs(this.getPerfPratique() - this.getPerfTheorique());
     }
     // Getters et Setters
     public String getIdMachine() {

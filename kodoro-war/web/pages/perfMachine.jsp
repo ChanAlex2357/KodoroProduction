@@ -1,10 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="mg.kodoro.models.perf.PerformanceMachine" %>
-<%@ page import="java.util.List" %>
 
 <%
     PerformanceMachine[] performances = (PerformanceMachine[]) request.getAttribute("performances");
-    if (performances == null || performances.isEmpty()) {
+    if (performances == null) {
 %>
     <h1 class="text-center mt-5" style="color: #FF6F61;">Aucune performance trouvée</h1>
 <%
