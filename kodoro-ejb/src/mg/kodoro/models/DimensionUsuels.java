@@ -132,7 +132,6 @@ public class DimensionUsuels extends ClassDimension {
         preparePk("DIMUS", "GET_DIMUS_SEQ");
         this.setIdDimensionUsuels(makePK(c));
     }
-
     public static DimensionUsuels[] getAllDimensionsUsuelles(){
         DimensionUsuels[] dimensions = new DimensionUsuels[0];
         Connection conn = new UtilDB().GetConn();
@@ -148,6 +147,12 @@ public class DimensionUsuels extends ClassDimension {
                 e.printStackTrace();
             }
         }
+        return dimensions;
+    }
+    
+    public static DimensionUsuels[] getAllDimensionsUsuelles(Connection conn) throws Exception{
+        DimensionUsuels[] dimensions = new DimensionUsuels[0];
+        dimensions = (DimensionUsuels[]) CGenUtil.rechercher(new DimensionUsuels() , null , null , conn , "");
         return dimensions;
     }
 

@@ -3,8 +3,8 @@
 
 <%
     // Récupérer la liste des blocs et des dimensions usuelles
-    Bloc[] blocList = Bloc.getAllBlocs();
-    DimensionUsuels[] dimensionUsuelsList = DimensionUsuels.getAllDimensionsUsuelles();
+    Bloc[] blocList = (Bloc[]) request.getAttribute("bloclist");
+    DimensionUsuels[] dimensionUsuelsList = (DimensionUsuels[]) request.getAttribute("dimensions");
 %>
 
 <div class="container mt-5">

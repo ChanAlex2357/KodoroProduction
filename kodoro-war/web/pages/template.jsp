@@ -47,6 +47,9 @@
                         <li class="nav-iterm">
                             <a class="nav-link" href="unite">Unite</a>
                         </li>
+                        <li class="nav-iterm">
+                            <a class="nav-link" href="performanceMachine">Performance Machine</a>
+                        </li>
                     </ul>
                 </div>
             </div>

@@ -5,8 +5,6 @@ import utilitaire.UtilDB;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,12 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import kodoro.utils.DispatcherUtils;
 
 
-@WebServlet("/performanceMachine")
+@WebServlet(name = "PerformanceMachineServlet",urlPatterns = "/performanceMachine")
 public class PerformanceMachineServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
         Connection conn = new UtilDB().GetConn();
         try {
             // Récupération des performances

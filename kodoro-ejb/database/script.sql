@@ -124,6 +124,6 @@
 
 -- * VIEW POUR PERFORMANCE MACHINE
     CREATE OR REPLACE VIEW PerformanceMachine as
-    SELECT prod.idMachine ,SUM(prod.prTheorique) as prTheorique , SUM(prod.prPratique) as prPratiques  
+    SELECT prod.idMachine ,AVG(prod.prTheorique) as perfTheorique , AVG(prod.prPratique) as perfPratique  
     from Production prod
     GROUP by idMachine;
