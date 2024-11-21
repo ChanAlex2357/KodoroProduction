@@ -3,7 +3,6 @@ package mg.kodoro.models.annexe;
 import mg.kodoro.bean.MaClassMAPTable;
 import mg.kodoro.models.stock.Inventaire;
 import mg.kodoro.utils.ValidationUtils;
-import oracle.net.aso.l;
 import utilitaire.Utilitaire;
 
 import java.sql.Connection;
@@ -73,7 +72,7 @@ public class Produit extends MaClassMAPTable {
     }
 
     public void setPuAchat(double puAchat) {
-        this.puAchat = ValidationUtils.validatePositiveDouble(puAchat);
+        this.puAchat = puAchat;
     }
 
     public double getPuVente() {
@@ -81,7 +80,7 @@ public class Produit extends MaClassMAPTable {
     }
 
     public void setPuVente(double puVente) {
-        this.puVente = ValidationUtils.validatePositiveDouble(puVente);
+        this.puVente = puVente;
     }
 
     public int getEstAchat() {
@@ -161,6 +160,13 @@ public class Produit extends MaClassMAPTable {
         inventaire.setDateInventaire(datehier);
         inventaire.createObject(conn);
         return inventaire;
+    }
+    public static Produit[] getAllProduits(Connection conn) throws Exception {
+        Produit[] produits = (Produit[]) CGenUtil.rechercher(new Produit(),null , null , conn ,"");
+        if (produits.length > 0) {
+            return produits;
+        }
+        return null;
     }       
 }
 

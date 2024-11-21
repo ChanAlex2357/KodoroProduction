@@ -50,6 +50,9 @@
                         <li class="nav-iterm">
                             <a class="nav-link" href="performanceMachine">Performance Machine</a>
                         </li>
+                        <li class="nav-iterm">
+                            <a class="nav-link" href="achat">Achat</a>
+                        </li>
                     </ul>
                 </div>
             </div>
