@@ -18,7 +18,6 @@ public abstract class MaClassMAPTable extends ClassMAPTable{
         }
         return this;
     }
-    
     public MaClassMAPTable createObject() throws SQLException{
         Connection conn = new UtilDB().GetConn();
         MaClassMAPTable result = null;

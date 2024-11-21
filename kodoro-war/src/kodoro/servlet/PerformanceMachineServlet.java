@@ -20,10 +20,11 @@ public class PerformanceMachineServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
+        String year = request.getParameter("year");
         Connection conn = new UtilDB().GetConn();
         try {
             // Récupération des performances
-            PerformanceMachine[] performances = PerformanceMachine.getAllPerformanceMachines(conn);
+            PerformanceMachine[] performances = PerformanceMachine.getAllPerformanceMachines(year,conn);
             // Attachement des données à la requête
             request.setAttribute("performances", performances);
             // Redirection vers la JSP

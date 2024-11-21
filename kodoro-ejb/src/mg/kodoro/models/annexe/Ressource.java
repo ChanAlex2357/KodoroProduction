@@ -5,6 +5,7 @@ import java.sql.Connection;
 
 import bean.CGenUtil;
 import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.constant.KodoroConstantes;
 import mg.kodoro.utils.ValidationUtils;
 
 public class Ressource extends MaClassMAPTable{
@@ -37,6 +38,7 @@ public class Ressource extends MaClassMAPTable{
     @Override
     public MaClassMAPTable createObject(Connection c) throws Exception {
         setNomTable("Ressource");
+        genererProduit(c);
         return super.createObject(c);
     }
     @Override
@@ -88,5 +90,23 @@ public class Ressource extends MaClassMAPTable{
     public static Ressource[] getAllRessources(Connection conn) throws Exception {
         Ressource[] ressources = (Ressource[]) CGenUtil.rechercher(new Ressource() ,null , null , conn , "");
         return ressources.length<=0 ?  null:ressources;
+    }
+
+    public Produit genererProduit(Connection conn) throws Exception{
+        Produit produit = getAsProduit();
+        produit.createObject(conn);
+        return produit;
+    }
+    public Produit getAsProduit() {
+        Produit produit = new Produit();
+        produit.setIdProduit(this.getIdRessource());
+        produit.setPuAchat(this.getPuAchat());
+        produit.setEstAchat(1);
+        produit.setDesce("Ressource - "+this.getDesce());
+        produit.setIdTypeProduit(KodoroConstantes.TYPE_PRODUIT_RESSOURCE);
+        produit.setIdUnite(this.getIdUnite());
+
+        System.out.println(produit.getIdProduit());
+        return produit;
     }
 }

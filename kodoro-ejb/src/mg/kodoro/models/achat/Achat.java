@@ -2,11 +2,15 @@ package mg.kodoro.models.achat;
 
 import java.sql.Date;
 import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.constant.KodoroConstantes;
+import mg.kodoro.models.stock.MvtStock;
+
 import java.sql.Connection;
 
 public class Achat extends MaClassMAPTable {
     private String idAchat;
     private double quantite;
+    private double puAchat;
     private Date dateAchat;
     private String idProduit;
 
@@ -70,7 +74,28 @@ public class Achat extends MaClassMAPTable {
     @Override
     public MaClassMAPTable createObject(Connection c) throws Exception {
         setNomTable("Achat");
+        genererMvtStock(c);
         return super.createObject(c);
+    }
+
+    public MvtStock genererMvtStock(Connection conn) throws Exception{
+        MvtStock mvt = new MvtStock();
+        mvt.setIdAchat(idAchat);
+        mvt.setIdProduit(idProduit);
+        mvt.setDateMvtStock(dateAchat);
+        mvt.setEntree(quantite);
+        mvt.setSortie(0);
+        mvt.setIdTypeMvt(KodoroConstantes.TYPE_MVT_ENTREE);
+        mvt.setPuAchat(puAchat);
+
+        mvt.createObject(conn);
+        return mvt;
+    }
+    public double getPuAchat() {
+        return puAchat;
+    }
+    public void setPuAchat(double puAchat) {
+        this.puAchat = puAchat;
     }
 }
 

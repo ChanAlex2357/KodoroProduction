@@ -1,8 +1,16 @@
 package mg.kodoro.models.annexe;
 
 import mg.kodoro.bean.MaClassMAPTable;
+import mg.kodoro.models.stock.Inventaire;
 import mg.kodoro.utils.ValidationUtils;
+import oracle.net.aso.l;
+import utilitaire.Utilitaire;
+
 import java.sql.Connection;
+import java.sql.Date;
+import java.time.LocalDateTime;
+
+import bean.CGenUtil;
 
 public class Produit extends MaClassMAPTable {
     private String idProduit;
@@ -21,6 +29,16 @@ public class Produit extends MaClassMAPTable {
     public void construirePK(Connection c) throws Exception {
         preparePk("PRD", "GET_PRODUIT_SEQ");
         setIdProduit(makePK(c));
+    }
+
+    @Override
+    public String toString() {
+        return "Produit{" +
+                "idProduit='" + getIdProduit() + '\'' +
+                ", desce =" + desce +
+                ", type =" + idTypeProduit +
+                ", unite ='" + idUnite + '\'' +
+                '}';
     }
 
     public Produit(String idProduit, String desce, double puAchat, double puVente, int estAchat, int estVente, String idUnite, String idTypeProduit) {
@@ -108,10 +126,41 @@ public class Produit extends MaClassMAPTable {
         return this.getIdProduit();
     }
 
-    @Override
-    public MaClassMAPTable createObject(Connection c) throws Exception {
-        setNomTable("Produit");
-        return super.createObject(c);
+    public void controllerDuplication(Connection conn) throws Exception {
+        Produit p = Produit.getById(this.getIdProduit(), conn);
+        if (p != null) {
+            throw new Exception("Produit existant et ne peut pas etre dupliquer. ");
+        }
     }
+    @Override
+    public Produit createObject(Connection c) throws Exception {
+        setNomTable("Produit");
+        controllerDuplication(c);
+        super.createObject(c);
+        System.out.println(this);
+        genererInventaireInitiale(c);
+        return this;
+    }
+
+    static public Produit getById(String idProduit,Connection conn) throws Exception {
+        Produit ref = new Produit();
+        ref.setIdProduit(idProduit);
+        Produit[] produits = (Produit[]) CGenUtil.rechercher(ref,null , null , conn ,"");
+        if (produits.length > 0 ) {
+            return produits[0];
+        }
+        return null;
+    }
+    public Inventaire genererInventaireInitiale( Connection conn) throws Exception{
+        Date datedujour = Utilitaire.dateDuJourSql();
+        LocalDateTime localDateTime = datedujour.toLocalDate().atStartOfDay().minusDays(1L);
+        Date datehier = Date.valueOf(localDateTime.toLocalDate());
+        Inventaire inventaire = new Inventaire();
+        inventaire.setIdProduit(this.getIdProduit());
+        inventaire.setQuantite(0);
+        inventaire.setDateInventaire(datehier);
+        inventaire.createObject(conn);
+        return inventaire;
+    }       
 }
 

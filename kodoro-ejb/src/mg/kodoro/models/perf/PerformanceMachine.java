@@ -68,11 +68,42 @@ public class PerformanceMachine extends ViewClassMAPTable{
      * Récupère toutes les machines avec leurs performances.
      */
     public static PerformanceMachine[] getAllPerformanceMachines(Connection conn) throws Exception {
-        PerformanceMachine[] performanceMachines = (PerformanceMachine[]) CGenUtil.rechercher(new PerformanceMachine(), null,null,conn,"");
+        return getAllPerformanceMachines(null, conn);
+    }
+
+    /**
+     * Récupère toutes les machines avec leurs performances.
+     */
+    public static PerformanceMachine[] getAllPerformanceMachines(String yearStr,Connection conn) throws Exception {
+        String where = "";
+        if (yearStr != null || yearStr != "") {
+            where += "WHERE EXTRACT(YEAR FROM prod.dateProduction) = '"+yearStr+"'";
+        }
+        String requete = "SELECT \r\n" + //
+                        "        prod.idMachine,\r\n" + //
+                        "        AVG(prod.prTheorique) AS perfTheorique,\r\n" + //
+                        "        AVG(prod.prPratique) AS perfPratique,\r\n" + //
+                        "        COUNT(*) AS qteProduit\r\n" + //
+                        "    FROM \r\n" + //
+                        "        Production prod\r\n" + where + //
+                        "    GROUP BY \r\n" + //
+                        "        prod.idMachine";
+        System.out.println("REQ : "+requete);
+        PerformanceMachine[] performanceMachines = (PerformanceMachine[]) CGenUtil.rechercher(new PerformanceMachine(),requete,conn);
         if (performanceMachines.length > 0 ) {
             return performanceMachines;
         }
         return null;
+    }
+
+    /**
+     * Récupère toutes les machines avec leurs performances.
+     */
+    public static PerformanceMachine[] getAllPerformanceMachines(int yearInt,Connection conn) throws Exception {
+        if (yearInt == 0) {
+            return getAllPerformanceMachines(conn);
+        }
+        return getAllPerformanceMachines(""+yearInt, conn);
     }
 
     /**
