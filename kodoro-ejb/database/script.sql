@@ -124,6 +124,13 @@
 
 -- * VIEW POUR PERFORMANCE MACHINE
     CREATE OR REPLACE VIEW PerformanceMachine as
-    SELECT prod.idMachine ,AVG(prod.prTheorique) as perfTheorique , AVG(prod.prPratique) as perfPratique  
-    from Production prod
-    GROUP by idMachine;
+    SELECT 
+        prod.idMachine,
+        AVG(prod.prTheorique) AS perfTheorique,
+        AVG(prod.prPratique) AS perfPratique,
+        COUNT(*) AS qteProduit
+    FROM 
+        Production prod
+    GROUP BY 
+        prod.idMachine;
+

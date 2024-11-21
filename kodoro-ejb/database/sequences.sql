@@ -242,3 +242,18 @@ BEGIN
    RETURN retour;
 END;
 /
+
+
+-- ! DROP SEQUENCE inventaire_seq;
+CREATE SEQUENCE inventaire_seq START WITH 1 INCREMENT BY 1;
+
+-- Fonction pour récupérer le prochain numéro de séquence pour Production
+CREATE OR REPLACE FUNCTION GET_INVENTAIRE_SEQ
+   RETURN NUMBER
+IS
+   retour NUMBER;
+BEGIN
+   SELECT inventaire_seq.NEXTVAL INTO retour FROM DUAL;
+   RETURN retour;
+END;
+/

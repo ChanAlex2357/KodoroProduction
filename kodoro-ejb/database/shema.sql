@@ -165,7 +165,8 @@ CREATE TABLE Produit(
 
 CREATE TABLE Achat(
    idAchat VARCHAR2(255) ,
-   quantite VARCHAR2(255)  NOT NULL,
+   quantite NUMBER(15,2)  NOT NULL,
+   puAchat  NUMBER(15,2)  NOT NULL,
    dateAchat DATE NOT NULL,
    idProduit VARCHAR2(255)  NOT NULL,
    PRIMARY KEY(idAchat),
@@ -188,4 +189,13 @@ CREATE TABLE MvtStock(
    PRIMARY KEY(idMvtStock),
    FOREIGN KEY(idProduit) REFERENCES Produit(idProduit),
    FOREIGN KEY(IdTypeMvt) REFERENCES TypeMvt(IdTypeMvt)
+);
+
+CREATE TABLE Inventaire(
+   idInventaire VARCHAR2(255) ,
+   quantite NUMBER(15,2)   NOT NULL,
+   dateInventaire DATE NOT NULL,
+   idProduit VARCHAR2(255)  NOT NULL,
+   PRIMARY KEY(idInventaire),
+   FOREIGN KEY(idProduit) REFERENCES Produit(idProduit)
 );

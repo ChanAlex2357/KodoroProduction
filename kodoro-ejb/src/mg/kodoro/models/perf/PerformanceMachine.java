@@ -9,6 +9,7 @@ import mg.kodoro.models.production.Production;
 
 public class PerformanceMachine extends ViewClassMAPTable{
     private String idMachine;
+    private double qteProduit;
     private double perfTheorique;
     private double perfPratique;
     private Production[] productions;
@@ -102,5 +103,11 @@ public class PerformanceMachine extends ViewClassMAPTable{
 
     public void setMachine(Machine machine) {
         this.machine = machine;
+    }
+    public double getQteProduit() {
+        return qteProduit;
+    }
+    public void setQteProduit(double qteProduit) {
+        this.qteProduit = qteProduit;
     }
 }
