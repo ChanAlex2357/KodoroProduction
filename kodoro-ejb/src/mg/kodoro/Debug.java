@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import mg.kodoro.models.perf.PerformanceMachine;
-import mg.kodoro.models.transformation.TransformationFille;
-import mg.kodoro.models.transformation.TransformationFilleLib;
 import utilitaire.UtilDB;
 
 public class Debug {

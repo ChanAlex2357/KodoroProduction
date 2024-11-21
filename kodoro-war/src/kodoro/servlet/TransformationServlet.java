@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import kodoro.utils.DispatcherUtils;
 import mg.kodoro.models.Bloc;
 import mg.kodoro.models.DimensionUsuels;
-import mg.kodoro.models.production.Machine;
 import mg.kodoro.models.transformation.TransformationCPL;
 import utilitaire.UtilDB;
 
