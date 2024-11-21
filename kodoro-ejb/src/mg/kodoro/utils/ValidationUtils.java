@@ -3,9 +3,15 @@ package mg.kodoro.utils;
 public class ValidationUtils {
     // Helper to validate positive double values
     public static double validatePositiveStringDouble(String value) {
-        double val = Double.parseDouble(value);
+        if (value == null || value.isEmpty()) {
+            throw new IllegalArgumentException("La valeur fournie est nulle ou vide");
+        }
+        // Supprimer tous les espaces dans la chaîne
+        String cleanedValue = value.replaceAll("\\s+", "");
+        double val = Double.parseDouble(cleanedValue);
         return validatePositiveDouble(val);
     }
+    
 
     public static double validatePositiveDouble(double d) {
         if (d <= 0) {

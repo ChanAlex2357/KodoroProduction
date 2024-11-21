@@ -1,9 +1,13 @@
 package mg.kodoro.models.achat;
 
 import java.sql.Date;
+import java.text.ParseException;
+
 import mg.kodoro.bean.MaClassMAPTable;
 import mg.kodoro.constant.KodoroConstantes;
 import mg.kodoro.models.stock.MvtStock;
+import mg.kodoro.utils.ValidationUtils;
+import utils.TimeUtils;
 
 import java.sql.Connection;
 
@@ -22,13 +26,21 @@ public class Achat extends MaClassMAPTable {
         preparePk("ACH", "GET_ACHAT_SEQ");
         setIdAchat(makePK(c));
     }
-    public Achat(String idAchat, double quantite, Date dateAchat, String idProduit) {
-        this.idAchat = idAchat;
-        this.quantite = quantite;
-        this.dateAchat = dateAchat;
-        this.idProduit = idProduit;
+    public Achat (String idProduit , String quantite,String puAchat, String dateAchat) throws Exception{
+        setIdProduit(idProduit);
+        setDateAchat(dateAchat);
+        setQuantite(quantite);
+        setPuAchat(puAchat);
     }
-
+    private void setPuAchat(String puAchat2) {
+        setPuAchat( ValidationUtils.validatePositiveStringDouble(puAchat2));
+    }
+    private void setQuantite(String quantitee) {
+        setQuantite( ValidationUtils.validatePositiveStringDouble(quantitee));
+    }
+    private void setDateAchat(String dateAchate) throws ParseException {
+        setDateAchat( TimeUtils.convertToSqlDate(dateAchate, "eng"));
+    }
     public String getIdAchat() {
         return idAchat;
     }

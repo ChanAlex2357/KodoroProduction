@@ -2,7 +2,6 @@ package mg.kodoro.models.annexe;
 
 import mg.kodoro.bean.MaClassMAPTable;
 import mg.kodoro.models.stock.Inventaire;
-import mg.kodoro.utils.ValidationUtils;
 import utilitaire.Utilitaire;
 
 import java.sql.Connection;
